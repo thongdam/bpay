@@ -15,7 +15,8 @@ export default new Vuetify({
         info: "#2196F3",
         success: "#4CAF50",
         warning: "#FFC107",
-        danger:"#eb2f06"
+        danger:"#c0392b",
+        green: "#00a65a"
       },
     },
   },

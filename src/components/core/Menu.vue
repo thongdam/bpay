@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer app permanent>
+  <v-navigation-drawer app permanent dark src="@/assets/background_menu.jpg">
     <router-link to="/about">
       <v-img src="@/assets/vue_displays.jpg" alt="" width="100%"></v-img>
     </router-link>
@@ -7,7 +7,7 @@
       <v-subheader>MENUS</v-subheader>
       <v-list-item-group v-model="selectedMenu" mandatory color="primary">
         <v-list-item
-          class="tile"
+          class="tile white--text"
           v-for="([icon, text, route], i) in menus"
           :key="i"
           link
@@ -38,6 +38,7 @@
       return {
         selectedMenu:0,
         menus: [
+          ['mdi-view-dashboard', 'ພາບລວມລະບົບ', '/dashboard'],
         ['mdi-account', 'ຈັດການຂໍ້ມູນຜູ້ໃຊ້', '/manageuser'],
         ['mdi-domain', 'ຈັດການຂໍ້ມູນບໍລິສັດ', '/manageprovider'],
         ['mdi-account-plus', 'ຈັດການລົງທະບຽນ', '/about'],

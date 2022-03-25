@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-app-bar app color="danger" dense dark>
+    <v-app-bar app color="green" dense dark>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-toolbar-title>B-pay</v-toolbar-title>
+      <v-toolbar-title>AUTO DEBIT FOR ADMIN</v-toolbar-title>
       <v-spacer></v-spacer>
-      <span>Username </span>
-      <v-btn icon>
+      <span>{{$store.getters["username"] | uppercase }}</span>
+      <v-btn icon @click="onClickLogOff">
           <v-icon>mdi-export</v-icon>
       </v-btn>
     </v-app-bar>
@@ -18,10 +18,12 @@ export default {
   data() {
     return {};
   },
-
-  mounted() {},
-
-  methods: {},
+   methods: {
+      onClickLogOff(){
+        this.$router.push("/");
+        this.$store.dispatch('doLogout')
+      }
+    }
 };
 </script>
 

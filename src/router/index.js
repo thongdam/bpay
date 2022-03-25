@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import login from "../views/Login.vue";
-import About from "../views/About.vue";
-import ManageUser from "../views/ManageUser";
-import ManageProvider from "../views/ManageProvider"
+import login from "@/views/Login.vue";
+import ManageUser from "@/views/ManageUser";
+import ManageProvider from "@/views/ManageProvider"
+import Dashboard from "@/views/Dashboard.vue";
 Vue.use(VueRouter);
 const routes = [
   {
@@ -12,9 +12,10 @@ const routes = [
     component: login,
   },
   {
-    path: "/about",
-    name: "about",
-    component: About,
+    path: "/dashboard",
+    name: "dashboard",
+    meta: { isSecured: false },
+    component: Dashboard,
   },
   {
     path: "/manageuser",
