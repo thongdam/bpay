@@ -146,129 +146,115 @@
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-credit-card-marker</v-icon>ເລືອກຮູບແບບການຊຳລະ:
                 </v-toolbar-title>
-                <v-col cols="12">
-                  <v-select
-                    v-model="create_users.provider_chanel"
-                    :items="items01"
-                    item-text="state"
-                    :rules="provider_chanel_Rul"
-                    item-value="abbr"
-                    label="ເລືອກຊ່ອງທາງການຊຳລະ"
-                    persistent-hint
-                    multiple
-                    filled
-                  ></v-select>
-                </v-col>
+                <v-select
+                  v-model="create_users.provider_chanel"
+                  :items="items01"
+                  item-text="state"
+                  :rules="provider_chanel_Rul"
+                  item-value="abbr"
+                  label="ເລືອກຊ່ອງທາງການຊຳລະ"
+                  persistent-hint
+                  multiple
+                  filled
+                ></v-select>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-send</v-icon>ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ:
                 </v-toolbar-title>
-                <v-col cols="12">
-                  <v-select
-                    v-model="create_users.provider_send_data"
-                    :items="items02"
-                    item-text="state"
-                    :rules="provider_send_data_Rul"
-                    item-value="abbr"
-                    label="ເລືອກຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
-                    persistent-hint
-                    single-line
-                    filled
-                  ></v-select>
-                </v-col>
+                <v-select
+                  v-model="create_users.provider_send_data"
+                  :items="items02"
+                  item-text="state"
+                  :rules="provider_send_data_Rul"
+                  item-value="abbr"
+                  label="ເລືອກຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
+                  persistent-hint
+                  single-line
+                  filled
+                ></v-select>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-currency-usd-off</v-icon>ສະກຸນເງິນທີ່ຮັບຊຳລະ:
                 </v-toolbar-title>
-                <v-col cols="12">
-                  <v-select
-                    v-model="create_users.provider_currency"
-                    :items="items03"
-                    item-text="abbr"
-                    :rules="provider_currency_Rul"
-                    label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
-                    multiple
-                    chips
-                    filled
-                  ></v-select>
-                </v-col>
+                <v-select
+                  v-model="create_users.provider_currency"
+                  :items="items03"
+                  item-text="abbr"
+                  :rules="provider_currency_Rul"
+                  label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
+                  multiple
+                  chips
+                  filled
+                ></v-select>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-cash-multiple</v-icon>ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Leasing):
                 </v-toolbar-title>
-                <v-col cols="12">
-                  <v-select
-                    v-model="create_users.bill_charge_fee"
-                    :items="items04"
-                    item-text="state"
-                    :rules="bill_charge_fee_Rul"
-                    item-value="abbr"
-                    label="ເລືອກຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
-                    persistent-hint
-                    single-line
-                    filled
-                  ></v-select>
-                </v-col>
+                <v-select
+                  v-model="create_users.bill_charge_fee"
+                  :items="items04"
+                  item-text="state"
+                  :rules="bill_charge_fee_Rul"
+                  item-value="abbr"
+                  label="ເລືອກຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
+                  persistent-hint
+                  single-line
+                  filled
+                ></v-select>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-archive-refresh</v-icon>ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing):
                 </v-toolbar-title>
-                <v-col cols="12">
-                  <v-select
-                    v-model="create_users.bill_charge_type"
-                    :items="items05"
-                    item-text="state"
-                    :rules="bill_charge_type_Rul"
-                    item-value="abbr"
-                    label="ເລືອກຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing)"
-                    persistent-hint
-                    single-line
-                    filled
-                  ></v-select>
-                </v-col>
+                <v-select
+                  v-model="create_users.bill_charge_type"
+                  :items="items05"
+                  item-text="state"
+                  :rules="bill_charge_type_Rul"
+                  item-value="abbr"
+                  label="ເລືອກຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing)"
+                  persistent-hint
+                  single-line
+                  filled
+                ></v-select>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-cash-multiple</v-icon>ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Auto Debit):
                 </v-toolbar-title>
-                <v-col cols="12">
-                  <v-select
-                    v-model="create_users.auto_charge_fee"
-                    :items="items06"
-                    item-text="state"
-                    :rules="auto_charge_fee_Rul"
-                    item-value="abbr"
-                    label="ເລືອກຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Auto Debit)"
-                    persistent-hint
-                    single-line
-                    filled
-                  ></v-select>
-                </v-col>
+                <v-select
+                  v-model="create_users.auto_charge_fee"
+                  :items="items06"
+                  item-text="state"
+                  :rules="auto_charge_fee_Rul"
+                  item-value="abbr"
+                  label="ເລືອກຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Auto Debit)"
+                  persistent-hint
+                  single-line
+                  filled
+                ></v-select>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-archive-refresh</v-icon>ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit):
                 </v-toolbar-title>
-                <v-col cols="12">
-                  <v-select
-                    v-model="create_users.auto_charge_type"
-                    :items="items07"
-                    item-text="state"
-                    :rules="auto_charge_type_Rul"
-                    item-value="abbr"
-                    label="ເລືອກຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit)"
-                    persistent-hint
-                    single-line
-                    filled
-                  ></v-select>
-                </v-col>
+                <v-select
+                  v-model="create_users.auto_charge_type"
+                  :items="items07"
+                  item-text="state"
+                  :rules="auto_charge_type_Rul"
+                  item-value="abbr"
+                  label="ເລືອກຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit)"
+                  persistent-hint
+                  single-line
+                  filled
+                ></v-select>
               </v-col>
               <v-col cols="12" sm="4" md="4">
-                <v-toolbar-title class="mb-5">
+                <v-toolbar-title class="mb-3">
                   <v-icon color="success">mdi-calendar-plus</v-icon>ຈຳນວນເງິນທີ່ຕັດແຕ່ລະຄັ້ງແລະຮູບແບບໃນການຕັດ (Auto Debit):
                 </v-toolbar-title>
                 <v-row>
@@ -301,7 +287,7 @@
                 </v-row>
               </v-col>
               <v-col cols="12" sm="4" md="4">
-                <v-toolbar-title class="mb-5">
+                <v-toolbar-title class="mb-3">
                   <v-icon color="success">mdi-calendar-plus</v-icon>ຮູບແບບການ(Loop):
                 </v-toolbar-title>
                 <v-row>
@@ -415,8 +401,8 @@ export default {
         auto_charge_type: "",
         auto_condition_type: "",
         auto_cut_type: "",
-        auto_data_cut_type:"",
-        day_amount:"",
+        auto_data_cut_type: "",
+        day_amount: "",
       },
       full_name: "",
       full_name_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ ຊື່ ແລະ ນາມສະກຸນ"],
@@ -465,31 +451,31 @@ export default {
       auto_charge_type: "",
       auto_charge_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit)"],
       auto_condition_type: "",
-      auto_condition_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຈຳນວນເງິນທີ່ຕັດແຕ່ລະຄັ້ງແລະຮູບແບບໃນການຕັດ (Auto Debit)"],
+      auto_condition_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ການປ່ຽນແປງຍອດເງິນ"],
       auto_cut_typetype: "",
       auto_cut_typetype_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດ"],
-      auto_data_cut_type:"",
+      auto_data_cut_type: "",
       auto_data_cut_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບການສົ່ງຂໍ້ມູນເຂົ້າຕັດ"],
-      day_amount:"",
+      day_amount: "",
       day_amount_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ເລືອກຈຳນວນວັນວົນລູບ"],
     };
   },
   methods: {
     async submit() {
       console.log(this.create_users)
-      //if (this.$refs.form.validate()) {
-      //   let formData = new FormData();
-      //   const { provider_code, provider_name, provider_auto, provider_bill } =
-      //     this.create_users;
-      //   formData.append("provider_code", provider_code);
-      //   formData.append("provider_name", provider_name);
-      //   formData.append("provider_auto", provider_auto);
-      //   formData.append("provider_bill", provider_bill);
-      //   let result = await api.addProvider(formData);
-      //   if (result.status == 200) {
-      //     this.$router.back();
-      //   }
-      //}
+      if (this.$refs.form.validate()) {
+        //   let formData = new FormData();
+        //   const { provider_code, provider_name, provider_auto, provider_bill } =
+        //     this.create_users;
+        //   formData.append("provider_code", provider_code);
+        //   formData.append("provider_name", provider_name);
+        //   formData.append("provider_auto", provider_auto);
+        //   formData.append("provider_bill", provider_bill);
+        //   let result = await api.addProvider(formData);
+        //   if (result.status == 200) {
+        //     this.$router.back();
+        //   }
+      }
     },
     clear() {
       this.$refs.form.reset();
