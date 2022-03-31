@@ -171,7 +171,7 @@
                     item-text="state"
                     :rules="provider_send_data_Rul"
                     item-value="abbr"
-                    label="ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
+                    label="ເລືອກຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
                     persistent-hint
                     single-line
                     filled
@@ -188,7 +188,7 @@
                     :items="items03"
                     item-text="abbr"
                     :rules="provider_currency_Rul"
-                    label="ສະກຸນເງິນທີ່ຮັບຊຳລະ"
+                    label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                     multiple
                     chips
                     filled
@@ -206,7 +206,7 @@
                     item-text="state"
                     :rules="bill_charge_fee_Rul"
                     item-value="abbr"
-                    label="ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
+                    label="ເລືອກຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
                     persistent-hint
                     single-line
                     filled
@@ -217,119 +217,86 @@
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-archive-refresh</v-icon>ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing):
                 </v-toolbar-title>
-                <v-checkbox
-                  v-model="create_users.bill_day_chg"
-                  label="ເທື່ອລະລາຍການ"
-                  value
-                  required
-                  color="success"
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="create_users.bill_week_chg"
-                  label="ລວມຍອດທ້າຍທິດ"
-                  value
-                  required
-                  color="success"
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="create_users.bill_month_chg"
-                  label="ລວມຍອດທ້າຍເດືອນ"
-                  value
-                  required
-                  color="success"
-                ></v-checkbox>
+                <v-col cols="12">
+                  <v-select
+                    v-model="create_users.bill_charge_type"
+                    :items="items05"
+                    item-text="state"
+                    :rules="bill_charge_type_Rul"
+                    item-value="abbr"
+                    label="ເລືອກຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing)"
+                    persistent-hint
+                    single-line
+                    filled
+                  ></v-select>
+                </v-col>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-cash-multiple</v-icon>ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Auto Debit):
                 </v-toolbar-title>
-                <v-checkbox
-                  v-model="create_users.auto_chg_provider"
-                  label="ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ"
-                  value="A"
-                  required
-                  color="success"
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="create_users.auto_chg_provider"
-                  label="ຄ່າທຳນຽມການດຳເນິດທູລະກຳຕັດຈາກບັນຊີລູກຄ້າ"
-                  value
-                  required
-                  color="success"
-                ></v-checkbox>
+                <v-col cols="12">
+                  <v-select
+                    v-model="create_users.auto_charge_fee"
+                    :items="items06"
+                    item-text="state"
+                    :rules="auto_charge_fee_Rul"
+                    item-value="abbr"
+                    label="ເລືອກຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Auto Debit)"
+                    persistent-hint
+                    single-line
+                    filled
+                  ></v-select>
+                </v-col>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-archive-refresh</v-icon>ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit):
                 </v-toolbar-title>
-                <v-checkbox
-                  v-model="create_users.auto_day_chg"
-                  label="ເທື່ອລະລາຍການ"
-                  value
-                  required
-                  color="success"
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="create_users.bill_week_chg"
-                  label="ລວມຍອດທ້າຍທິດ"
-                  value
-                  required
-                  color="success"
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="create_users.bill_month_chg"
-                  label="ລວມຍອດທ້າຍເດືອນ"
-                  value
-                  required
-                  color="success"
-                ></v-checkbox>
+                <v-col cols="12">
+                  <v-select
+                    v-model="create_users.auto_charge_type"
+                    :items="items07"
+                    item-text="state"
+                    :rules="auto_charge_type_Rul"
+                    item-value="abbr"
+                    label="ເລືອກຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit)"
+                    persistent-hint
+                    single-line
+                    filled
+                  ></v-select>
+                </v-col>
               </v-col>
               <v-col cols="12" sm="4" md="4">
-                <v-toolbar-title class="mb-2">
-                  <v-icon color="success">mdi-calendar-plus</v-icon>ຈຳນວນເງິນທີ່ຕັດແຕ່ລະຄັ້ງແລະຮູບແບບໃນການຕັດ (Auto
-                  Debit):
+                <v-toolbar-title class="mb-5">
+                  <v-icon color="success">mdi-calendar-plus</v-icon>ຈຳນວນເງິນທີ່ຕັດແຕ່ລະຄັ້ງແລະຮູບແບບໃນການຕັດ (Auto Debit):
                 </v-toolbar-title>
                 <v-row>
-                  <v-col cols="6" sm="4" md="4">
-                    <strong class>ຈຳນວນເງິນເດິມ:</strong>
-                    <v-checkbox
-                      v-model="create_users.tt_one_day"
-                      label="1 ເດືອນ"
-                      value="A"
-                      required
-                      color="success"
-                    ></v-checkbox>
-                    <v-checkbox
-                      v-model="create_users.tt_three_month"
-                      label="3 ເດືອນ"
-                      value
-                      required
-                      color="success"
-                    ></v-checkbox>
-                    <v-checkbox
-                      v-model="create_users.tt_six_month"
-                      label="6 ເດືອນ"
-                      value
-                      required
-                      color="success"
-                    ></v-checkbox>
+                  <v-col cols="6">
+                    <v-select
+                      v-model="create_users.auto_condition_type"
+                      :items="items08"
+                      item-text="state"
+                      :rules="auto_condition_type_Rul"
+                      item-value="abbr"
+                      label="ເລືອກການປ່ຽນແປງຍອດເງິນ"
+                      persistent-hint
+                      single-line
+                      filled
+                    ></v-select>
                   </v-col>
-                  <v-col cols="6" sm="4" md="4">
-                    <strong class>ປ່ຽນແປງຈຳນວນເງິນ:</strong>
-                    <v-checkbox
-                      v-model="create_users.to_one_day"
-                      label="ວັນ"
-                      value="A"
-                      required
-                      color="success"
-                    ></v-checkbox>
-                    <v-checkbox
-                      v-model="create_users.to_one_month"
-                      label="ເດືອນ"
-                      value
-                      required
-                      color="success"
-                    ></v-checkbox>
+                  <v-col cols="6">
+                    <v-select
+                      v-model="create_users.auto_cut_type"
+                      :items="items09"
+                      item-text="state"
+                      :rules="auto_cut_typetype_Rul"
+                      item-value="abbr"
+                      label="ເລືອກຮູບແບບໃນການຕັດ"
+                      persistent-hint
+                      single-line
+                      filled
+                    ></v-select>
                   </v-col>
                 </v-row>
               </v-col>
@@ -396,8 +363,32 @@ export default {
         { state: 'ສະກຸນເງິນບາດ', abbr: 'BATH' },
       ],
       items04: [
-        { state: "ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ", abbr: 'charge_provider' },
-        { state: "ຄ່າທຳນຽມການດຳເນິດທູລະກຳຕັດຈາກບັນຊີລູກຄ້າ", abbr: 'charge_customer' }
+        { state: "ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ", abbr: 'biil_charge_provider' },
+        { state: "ຄ່າທຳນຽມການດຳເນິດທູລະກຳຕັດຈາກບັນຊີລູກຄ້າ", abbr: 'bill_charge_customer' }
+      ],
+      items05: [
+        { state: "ຕັດເທື່ອລະລາຍການ", abbr: 'charge_day' },
+        { state: "ລວມຍອດທ້າຍທິດ", abbr: 'charge_week' },
+        { state: "ລວມຍອດທ້າຍເດືອນ", abbr: 'charge_month' }
+      ],
+      items06: [
+        { state: "ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ", abbr: 'auto_charge_provider' },
+        { state: "ຄ່າທຳນຽມການດຳເນິດທູລະກຳຕັດຈາກບັນຊີລູກຄ້າ", abbr: 'auto_charge_customer' },
+      ],
+      items07: [
+        { state: "ຕັດເທື່ອລະລາຍການ", abbr: 'charge_day' },
+        { state: "ລວມຍອດທ້າຍທິດ", abbr: 'charge_week' },
+        { state: "ລວມຍອດທ້າຍເດືອນ", abbr: 'charge_month' }
+      ],
+      items08: [
+        { state: "ຈຳນວນເງິນເດິມ", abbr: 'constant_amount' },
+        { state: "ປ່ຽນແປງຈຳນວນເງິນ", abbr: 'change_amount' },
+      ],
+      items09: [
+        { state: "ໃນມື້", abbr: 'onday' },
+        { state: "ໃນເດືອນ", abbr: 'onmonth' },
+        { state: "3 ເດືອນ ຕໍ່ ຄັ້ງ", abbr: 'threemonth' },
+        { state: "6 ເດືອນ ຕໍ່ ຄັ້ງ", abbr: 'sixmonth' },
       ],
       create_users: {
         full_name: "",
@@ -415,13 +406,11 @@ export default {
         provider_send_data: "",
         provider_currency: "",
         bill_charge_fee: "",
-        bill_day_chg: "",
-        bill_week_chg: "",
-        bill_month_chg: "",
-        auto_chg_provider: "",
-        auto_day_chg: "",
-        auto_week_chg: "",
-        auto_month_chg: "",
+        bill_charge_type: "",
+        auto_charge_fee: "",
+        auto_charge_type: "",
+        auto_condition_type: "",
+        auto_cut_typetype: "",
         tt_one_day: "",
         tt_three_month: "",
         tt_six_month: "",
@@ -471,13 +460,16 @@ export default {
       provider_currency_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ສະກຸນເງິນທີ່ຮັບຊຳລະ"],
       bill_charge_fee: "",
       bill_charge_fee_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Leasing)"],
-
-      provider_chanel_auto_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      provider_data_offline_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      provider_data_online_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      bill_chg_provider_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      bill_chg_customer_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      bill_day_chg_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
+      bill_charge_type: "",
+      bill_charge_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing)"],
+      auto_charge_fee: "",
+      auto_charge_fee_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Auto Debit)"],
+      auto_charge_type: "",
+      auto_charge_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit)"],
+      auto_condition_type: "",
+      auto_condition_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຈຳນວນເງິນທີ່ຕັດແຕ່ລະຄັ້ງແລະຮູບແບບໃນການຕັດ (Auto Debit)"],
+      auto_cut_typetype:"",
+      auto_cut_typetype_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດ"],
       bill_week_chg_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
       bill_month_chg_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
       auto_chg_provider_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
