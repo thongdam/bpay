@@ -10,7 +10,7 @@
         </v-img>
         <v-card-text>
           <h1 class="mb-10 mt-5 text-center">AUTO DEBIT FOR ADMIN</h1>
-          <v-form @submit.prevent="submit">
+          <v-form @submit.prevent="submit"  ref="form">
             <!-- Username -->
             <v-text-field
               name="username"
@@ -19,6 +19,8 @@
               v-model="account.username"
               filled
               dense
+              required
+              :rules="username_Rul"
             />
 
             <!-- Password -->
@@ -33,6 +35,8 @@
               counter
               filled
               dense
+              required
+              :rules="password_Rul"
             />
 
             <v-row class="justify-space-between px-3 pt-5 pb-5">
@@ -52,6 +56,7 @@
 import api from "@/services/api";
 
 export default {
+  name:"Login",
   mounted() {
     if (api.isLoggedIn()) {
       this.$router.push("/dashboard");
@@ -64,16 +69,22 @@ export default {
         username: "",
         password: "",
       },
+      username: "",
+      username_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ ຊື່ ແລະ ນາມສະກຸນ"],
+      password: "",
+      password_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ ເບີໂທລະສັບມືຖື"],
     };
   },
   methods: {
-    submit() {
-      this.$router.push("/dashboard");
-      this.$store.dispatch({
-        type: "doLogin",
-        username: this.account.username,
-        password: this.account.password,
-      });
+    async submit() {
+      if (this.$refs.form.validate()) {
+        this.$router.push("/dashboard");
+        this.$store.dispatch({
+          type: "doLogin",
+          username: this.account.username,
+          password: this.account.password,
+        });
+      }
     },
   },
 };

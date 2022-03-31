@@ -1,6 +1,7 @@
 import httpClient from "@/services/httpClient";
 import { server } from "@/services/constants";
-import * as productApis from "@/services/api_product";
+import * as providerApis from "@/services/api_provider";
+import * as usersApis from "@/services/api_users";
 import router from "@/router";
 
 const isLoggedIn = () => {
@@ -43,5 +44,6 @@ export default {
   login,
   register,
   isLoggedIn,
-  ...productApis
+  ...providerApis,
+  ...usersApis
 };

@@ -39,8 +39,8 @@
         selectedMenu:0,
         menus: [
           ['mdi-view-dashboard', 'ພາບລວມລະບົບ', '/dashboard'],
-        ['mdi-account', 'ຈັດການຂໍ້ມູນຜູ້ໃຊ້', '/manageuser'],
-        ['mdi-domain', 'ຈັດການຂໍ້ມູນບໍລິສັດ', '/manageprovider'],
+        ['mdi-account', 'ຈັດການຂໍ້ມູນຜູ້ໃຊ້', '/ManageUser'],
+        ['mdi-domain', 'ຈັດການຂໍ້ມູນບໍລິສັດ', '/ManageProvider'],
         ['mdi-account-plus', 'ຈັດການລົງທະບຽນ', '/about'],
         ['mdi-key','ຈັດການບົດບາດນຳໃຊ້ລະບົບ','/about'],
         ['mdi-package','ຈັດການຜະລິດຕະພັນ','/about'],
