@@ -1,9 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import login from "../views/Login.vue";
-import About from "../views/About.vue";
-import ManageUser from "../views/ManageUser";
-import ManageProvider from "../views/ManageProvider"
+import login from "@/views/Login.vue";
+import ManageUser from "@/views/ManageUser";
+import ManageProvider from "@/views/ManageProvider";
+import Dashboard from "@/views/Dashboard.vue";
+import ManageUserCreate from "@/views/ManageUserCreate";
+import ManageProviderCreate from "@/views/ManageProviderCreate";
 Vue.use(VueRouter);
 const routes = [
   {
@@ -12,19 +14,30 @@ const routes = [
     component: login,
   },
   {
-    path: "/about",
-    name: "about",
-    component: About,
+    path: "/dashboard",
+    name: "dashboard",
+    meta: { isSecured: false },
+    component: Dashboard,
   },
   {
-    path: "/manageuser",
-    name: "manageuser",
+    path: "/ManageUser",
+    name: "ManageUser",
     component: ManageUser,
   },
   {
-    path: "/manageprovider",
-    name: "manageprovider",
+    path: "/ManageUserCreate",
+    name: "ManageUserCreate",
+    component: ManageUserCreate,
+  },
+  {
+    path: "/ManageProvider",
+    name: "ManageProvider",
     component: ManageProvider,
+  },
+  {
+    path: "/ManageProviderCrate",
+    name: "ManageProviderCrate",
+    component: ManageProviderCreate,
   },
   {
     path: "/",
