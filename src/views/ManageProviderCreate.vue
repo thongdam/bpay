@@ -149,7 +149,7 @@
                 <v-col cols="12">
                   <v-select
                     v-model="create_users.provider_chanel"
-                    :items="items"
+                    :items="items01"
                     item-text="state"
                     :rules="provider_chanel_Rul"
                     item-value="abbr"
@@ -164,71 +164,54 @@
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-send</v-icon>ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ:
                 </v-toolbar-title>
-                <v-col cols="6">
-                  <v-checkbox
-                    v-model="create_users.provider_data_offline"
-                    label="ຮັບສົ່ງຂໍ້ມູນຜ່ານລະບົບຂອງທະນາຄານສະໜອງໃຫ້(Offline)"
-                    value="A"
-                    required
-                    color="success"
-                  ></v-checkbox>
-                </v-col>
-                <v-col cols="6">
-                  <v-checkbox
-                    v-model="create_users.provider_data_online"
-                    label="ຮັບສົ່ງຂໍ້ມູນຜ່ານລະບົບຂອງບໍລິສັດ(API)"
-                    value
-                    required
-                    color="success"
-                  ></v-checkbox>
+                <v-col cols="12">
+                  <v-select
+                    v-model="create_users.provider_send_data"
+                    :items="items02"
+                    item-text="state"
+                    :rules="provider_send_data_Rul"
+                    item-value="abbr"
+                    label="ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
+                    persistent-hint
+                    single-line
+                    filled
+                  ></v-select>
                 </v-col>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-currency-usd-off</v-icon>ສະກຸນເງິນທີ່ຮັບຊຳລະ:
                 </v-toolbar-title>
-                <v-col cols="12" sm="4" md="4">
-                  <v-checkbox
-                    v-model="create_users.provider_lak"
-                    label="ສະກຸນເງິນກີບ"
-                    value="A"
-                    required
-                    color="success"
-                  ></v-checkbox>
-                  <v-checkbox
-                    v-model="create_users.provider_bath"
-                    label="ສະກຸນເງິນບາດ"
-                    value
-                    required
-                    color="success"
-                  ></v-checkbox>
-                  <v-checkbox
-                    v-model="create_users.provider_usd"
-                    label="ສະກຸນໂດລາ"
-                    value
-                    required
-                    color="success"
-                  ></v-checkbox>
+                <v-col cols="12">
+                  <v-select
+                    v-model="create_users.provider_currency"
+                    :items="items03"
+                    item-text="abbr"
+                    :rules="provider_currency_Rul"
+                    label="ສະກຸນເງິນທີ່ຮັບຊຳລະ"
+                    multiple
+                    chips
+                    filled
+                  ></v-select>
                 </v-col>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
                   <v-icon color="success">mdi-cash-multiple</v-icon>ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Leasing):
                 </v-toolbar-title>
-                <v-checkbox
-                  v-model="create_users.bill_chg_provider"
-                  label="ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ"
-                  value="A"
-                  required
-                  color="success"
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="create_users.bill_chg_customer"
-                  label="ຄ່າທຳນຽມການດຳເນິດທູລະກຳຕັດຈາກບັນຊີລູກຄ້າ"
-                  value
-                  required
-                  color="success"
-                ></v-checkbox>
+                <v-col cols="12">
+                  <v-select
+                    v-model="create_users.bill_charge_fee"
+                    :items="items04"
+                    item-text="state"
+                    :rules="bill_charge_fee_Rul"
+                    item-value="abbr"
+                    label="ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
+                    persistent-hint
+                    single-line
+                    filled
+                  ></v-select>
+                </v-col>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
@@ -399,9 +382,22 @@ export default {
   name: "ManageUserCreate",
   data() {
     return {
-      items: [
+      items01: [
         { state: 'ຊຳລະເອງ(B-Pay)ຜ່ານຊ່ອງທາງ Bcel One,Bcel i-Bank,Counter', abbr: 'bill' },
         { state: 'ຕັດບັນຊີແບບໂອໂຕ(Auto Debit)', abbr: 'auto' },
+      ],
+      items02: [
+        { state: 'ຮັບສົ່ງຂໍ້ມູນຜ່ານລະບົບຂອງທະນາຄານສະໜອງໃຫ້(Offline)', abbr: 'offline' },
+        { state: 'ຮັບສົ່ງຂໍ້ມູນຜ່ານລະບົບຂອງບໍລິສັດ(API)', abbr: 'online' },
+      ],
+      items03: [
+        { state: 'ສະກຸນເງິນກີບ', abbr: 'LAK' },
+        { state: 'ສະກຸນເງິນໂດລາ', abbr: 'USD' },
+        { state: 'ສະກຸນເງິນບາດ', abbr: 'BATH' },
+      ],
+      items04: [
+        { state: "ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ", abbr: 'charge_provider' },
+        { state: "ຄ່າທຳນຽມການດຳເນິດທູລະກຳຕັດຈາກບັນຊີລູກຄ້າ", abbr: 'charge_customer' }
       ],
       create_users: {
         full_name: "",
@@ -416,14 +412,9 @@ export default {
         account_cr: "",
         account_name_cr: "",
         provider_chanel: "",
-        provider_chanel_auto: "",
-        provider_data_offline: "",
-        provider_data_online: "",
-        provider_lak: "",
-        provider_bath: "",
-        provider_usd: "",
-        bill_chg_provider: "",
-        bill_chg_customer: "",
+        provider_send_data: "",
+        provider_currency: "",
+        bill_charge_fee: "",
         bill_day_chg: "",
         bill_week_chg: "",
         bill_month_chg: "",
@@ -473,14 +464,17 @@ export default {
       account_name_cr: "",
       account_name_cr_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ ຊື່ ບັນຊີຮອງຮັບ"],
       provider_chanel: "",
-      provider_chanel_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຊ່ອງທາງການຊຳລະ"],
+      provider_chanel_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບການຊຳລະ"],
+      provider_send_data: "",
+      provider_send_data_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"],
+      provider_currency: "",
+      provider_currency_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ສະກຸນເງິນທີ່ຮັບຊຳລະ"],
+      bill_charge_fee: "",
+      bill_charge_fee_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Leasing)"],
 
       provider_chanel_auto_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
       provider_data_offline_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
       provider_data_online_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      provider_lak_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      provider_bath_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      provider_usd_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
       bill_chg_provider_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
       bill_chg_customer_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
       bill_day_chg_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
@@ -502,17 +496,17 @@ export default {
     async submit() {
       console.log(this.create_users)
       //if (this.$refs.form.validate()) {
-        //   let formData = new FormData();
-        //   const { provider_code, provider_name, provider_auto, provider_bill } =
-        //     this.create_users;
-        //   formData.append("provider_code", provider_code);
-        //   formData.append("provider_name", provider_name);
-        //   formData.append("provider_auto", provider_auto);
-        //   formData.append("provider_bill", provider_bill);
-        //   let result = await api.addProvider(formData);
-        //   if (result.status == 200) {
-        //     this.$router.back();
-        //   }
+      //   let formData = new FormData();
+      //   const { provider_code, provider_name, provider_auto, provider_bill } =
+      //     this.create_users;
+      //   formData.append("provider_code", provider_code);
+      //   formData.append("provider_name", provider_name);
+      //   formData.append("provider_auto", provider_auto);
+      //   formData.append("provider_bill", provider_bill);
+      //   let result = await api.addProvider(formData);
+      //   if (result.status == 200) {
+      //     this.$router.back();
+      //   }
       //}
     },
     clear() {
