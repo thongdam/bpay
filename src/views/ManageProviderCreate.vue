@@ -301,30 +301,33 @@
                 </v-row>
               </v-col>
               <v-col cols="12" sm="4" md="4">
-                <v-toolbar-title class="mb-2">
-                  <v-icon color="success">mdi-refresh-auto</v-icon>ຮູບແບບການ(Loop):
+                <v-toolbar-title class="mb-5">
+                  <v-icon color="success">mdi-calendar-plus</v-icon>ຮູບແບບການ(Loop):
                 </v-toolbar-title>
-                <v-checkbox
-                  v-model="create_users.data_daily"
-                  label="ສົ່ງຂໍ້ມູນທຸກມື້"
-                  value="A"
-                  required
-                  color="success"
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="create_users.end_of_month"
-                  label="ຕັດສິນສຸດເດືອນ"
-                  value
-                  required
-                  color="success"
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="create_users.cut_back"
-                  label="ຕັດຄືນ"
-                  hide-details
-                  class="shrink mr-2 mt-0"
-                ></v-checkbox>
-                <v-text-field label="ຈຳນວນວັນທີ່ຕ້ອງການຕັດຄືນ"></v-text-field>
+                <v-row>
+                  <v-col cols="6">
+                    <v-select
+                      v-model="create_users.auto_data_cut_type"
+                      :items="items08"
+                      item-text="state"
+                      :rules="auto_data_cut_type_Rul"
+                      item-value="abbr"
+                      label="ຮູບແບບສົ່ງຂໍ້ມູນເຂົ້າຕັດ"
+                      persistent-hint
+                      single-line
+                      filled
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="6">
+                    <v-select
+                      v-model="create_users.day_amount"
+                      :rules="day_amount_Rul"
+                      :items="items"
+                      filled
+                      label="ເລືອກຈຳນວນວັນວົນລູບ"
+                    ></v-select>
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
             <v-layout row>
@@ -349,6 +352,7 @@ export default {
   name: "ManageUserCreate",
   data() {
     return {
+      items: ['5', '10', '15', '20', '30', '31',],
       items01: [
         { state: 'ຊຳລະເອງ(B-Pay)ຜ່ານຊ່ອງທາງ Bcel One,Bcel i-Bank,Counter', abbr: 'bill' },
         { state: 'ຕັດບັນຊີແບບໂອໂຕ(Auto Debit)', abbr: 'auto' },
@@ -410,15 +414,9 @@ export default {
         auto_charge_fee: "",
         auto_charge_type: "",
         auto_condition_type: "",
-        auto_cut_typetype: "",
-        tt_one_day: "",
-        tt_three_month: "",
-        tt_six_month: "",
-        to_one_day: "",
-        to_one_month: "",
-        data_daily: "",
-        end_of_month: "",
-        cut_back: "",
+        auto_cut_type: "",
+        auto_data_cut_type:"",
+        day_amount:"",
       },
       full_name: "",
       full_name_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ ຊື່ ແລະ ນາມສະກຸນ"],
@@ -468,20 +466,12 @@ export default {
       auto_charge_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit)"],
       auto_condition_type: "",
       auto_condition_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຈຳນວນເງິນທີ່ຕັດແຕ່ລະຄັ້ງແລະຮູບແບບໃນການຕັດ (Auto Debit)"],
-      auto_cut_typetype:"",
+      auto_cut_typetype: "",
       auto_cut_typetype_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດ"],
-      bill_week_chg_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      bill_month_chg_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      auto_chg_provider_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      auto_day_chg_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      tt_one_day_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      tt_three_month_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      tt_six_month_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      to_one_day_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      to_one_month_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      data_daily_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      end_of_month_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
-      cut_back_Rul: [(v) => !!v || "ກະລຸນາປ້ອນຊື້ຫຍໍ້ບໍລິສັດ"],
+      auto_data_cut_type:"",
+      auto_data_cut_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບການສົ່ງຂໍ້ມູນເຂົ້າຕັດ"],
+      day_amount:"",
+      day_amount_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ເລືອກຈຳນວນວັນວົນລູບ"],
     };
   },
   methods: {
