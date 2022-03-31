@@ -155,7 +155,7 @@
                     item-value="abbr"
                     label="ເລືອກຊ່ອງທາງການຊຳລະ"
                     persistent-hint
-                    single-line
+                    multiple
                     filled
                   ></v-select>
                 </v-col>
@@ -501,7 +501,7 @@ export default {
   methods: {
     async submit() {
       console.log(this.create_users)
-      if (this.$refs.form.validate()) {
+      //if (this.$refs.form.validate()) {
         //   let formData = new FormData();
         //   const { provider_code, provider_name, provider_auto, provider_bill } =
         //     this.create_users;
@@ -513,7 +513,7 @@ export default {
         //   if (result.status == 200) {
         //     this.$router.back();
         //   }
-      }
+      //}
     },
     clear() {
       this.$refs.form.reset();
