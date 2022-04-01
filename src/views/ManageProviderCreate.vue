@@ -4,14 +4,15 @@
       <v-col cols="12">
         <v-card class="mx-auto pa-5" outlined>
           <v-toolbar-title class="mb-5 text-center">
-            <v-icon color="success">mdi-database-plus</v-icon>ຕັ້ງຄ່າໃຫ້ກັບບໍລິສັດເພື່ອເປິດນຳໃຊ້ບໍລິການ B-Pay
+            <v-icon color="success">mdi-database-plus</v-icon
+            >ຕັ້ງຄ່າໃຫ້ກັບບໍລິສັດເພື່ອເປິດນຳໃຊ້ບໍລິການ B-Pay
           </v-toolbar-title>
           <v-form @submit.prevent="submit" ref="form">
             <v-toolbar-title class="mb-2">
               <v-icon color="success">mdi-domain</v-icon>ຂໍ້ມູນບໍລິສັດ:
             </v-toolbar-title>
             <v-row>
-              <v-col cols="4">
+              <v-col cols="3">
                 <v-text-field
                   v-model="create_users.full_name"
                   label="ຊື່ ແລະ ນາມສະກຸນ"
@@ -21,7 +22,7 @@
                   :rules="full_name_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="3">
                 <v-text-field
                   v-model="create_users.phone_no"
                   label="ໂທລະສັບມືຖື"
@@ -31,7 +32,7 @@
                   :rules="phone_no_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="3">
                 <v-text-field
                   v-model="create_users.line_phone"
                   label="ໂທລະສັບຕັ້ງໂຕະ"
@@ -41,7 +42,7 @@
                   :rules="line_phone_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="3">
                 <v-text-field
                   v-model="create_users.provider_name"
                   label="ຊື່ ບໍລິສັດ"
@@ -51,7 +52,7 @@
                   :rules="provider_name_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="3">
                 <v-text-field
                   v-model="create_users.provider_code"
                   label="ຊື່ຫຍໍ້"
@@ -61,7 +62,91 @@
                   :rules="provider_code_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="3">
+                <v-menu
+                  ref="menu"
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  :return-value.sync="date"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="create_users.contract_startdate"
+                      label="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                      filled
+                      dense
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="create_users.contract_startdate"
+                    no-title
+                    scrollable
+                    color="green lighten-1"
+                    header-color="primary"
+                  >
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="menu = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="$refs.menu.save(create_users.contract_startdate)"
+                    >
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col cols="3">
+                <v-menu
+                  ref="menu2"
+                  v-model="menu2"
+                  :close-on-content-click="false"
+                  :return-value.sync="date"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="create_users.contract_stopdate"
+                      label="ເລືອກວັນທີສິນສຸດສັນຍາ"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                      filled
+                      dense
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="create_users.contract_stopdate"
+                    no-title
+                    scrollable
+                    color="green lighten-1"
+                    header-color="primary"
+                  >
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="menu2 = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="$refs.menu2.save(create_users.contract_stopdate)"
+                    >
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col cols="3">
                 <v-text-field
                   v-model="create_users.product_type"
                   label="ປະເພດທຸລະກິດ"
@@ -73,7 +158,8 @@
               </v-col>
             </v-row>
             <v-toolbar-title class="mb-2">
-              <v-icon color="success">mdi-bank</v-icon>ຂໍ້ມູນບັນຊີທີ່ໃຊ້ຊຳລະສະສາງ ແລະ ຕັດຄ່າທຳນຽມ:
+              <v-icon color="success">mdi-bank</v-icon
+              >ຂໍ້ມູນບັນຊີທີ່ໃຊ້ຊຳລະສະສາງ ແລະ ຕັດຄ່າທຳນຽມ:
             </v-toolbar-title>
             <v-row>
               <v-col cols="3">
@@ -122,7 +208,7 @@
               <v-col cols="6">
                 <v-text-field
                   v-model="create_users.account_cr"
-                  label="ຊື່ ບັນຊີຮອງຮັບ"
+                  label="ເລກ ບັນຊີຮອງຮັບ"
                   required
                   filled
                   dense
@@ -144,7 +230,8 @@
             <v-row>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
-                  <v-icon color="success">mdi-credit-card-marker</v-icon>ເລືອກຮູບແບບການຊຳລະ:
+                  <v-icon color="success">mdi-credit-card-marker</v-icon
+                  >ເລືອກຮູບແບບການຊຳລະ:
                 </v-toolbar-title>
                 <v-select
                   v-model="create_users.provider_chanel"
@@ -160,7 +247,8 @@
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
-                  <v-icon color="success">mdi-send</v-icon>ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ:
+                  <v-icon color="success">mdi-send</v-icon
+                  >ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ:
                 </v-toolbar-title>
                 <v-select
                   v-model="create_users.provider_send_data"
@@ -176,7 +264,8 @@
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
-                  <v-icon color="success">mdi-currency-usd-off</v-icon>ສະກຸນເງິນທີ່ຮັບຊຳລະ:
+                  <v-icon color="success">mdi-currency-usd-off</v-icon
+                  >ສະກຸນເງິນທີ່ຮັບຊຳລະ:
                 </v-toolbar-title>
                 <v-select
                   v-model="create_users.provider_currency"
@@ -185,13 +274,13 @@
                   :rules="provider_currency_Rul"
                   label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                   multiple
-                  chips
                   filled
                 ></v-select>
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
-                  <v-icon color="success">mdi-cash-multiple</v-icon>ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Leasing):
+                  <v-icon color="success">mdi-cash-multiple</v-icon
+                  >ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Leasing):
                 </v-toolbar-title>
                 <v-select
                   v-model="create_users.bill_charge_fee"
@@ -207,7 +296,8 @@
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
-                  <v-icon color="success">mdi-archive-refresh</v-icon>ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing):
+                  <v-icon color="success">mdi-archive-refresh</v-icon
+                  >ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing):
                 </v-toolbar-title>
                 <v-select
                   v-model="create_users.bill_charge_type"
@@ -223,7 +313,8 @@
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
-                  <v-icon color="success">mdi-cash-multiple</v-icon>ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Auto Debit):
+                  <v-icon color="success">mdi-cash-multiple</v-icon
+                  >ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Auto Debit):
                 </v-toolbar-title>
                 <v-select
                   v-model="create_users.auto_charge_fee"
@@ -239,7 +330,8 @@
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-2">
-                  <v-icon color="success">mdi-archive-refresh</v-icon>ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit):
+                  <v-icon color="success">mdi-archive-refresh</v-icon
+                  >ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit):
                 </v-toolbar-title>
                 <v-select
                   v-model="create_users.auto_charge_type"
@@ -255,7 +347,8 @@
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-3">
-                  <v-icon color="success">mdi-calendar-plus</v-icon>ຈຳນວນເງິນທີ່ຕັດແຕ່ລະຄັ້ງແລະຮູບແບບໃນການຕັດ (Auto Debit):
+                  <v-icon color="success">mdi-calendar-plus</v-icon
+                  >ຈຳນວນເງິນທີ່ຕັດແຕ່ລະຄັ້ງແລະຮູບແບບໃນການຕັດ (Auto Debit):
                 </v-toolbar-title>
                 <v-row>
                   <v-col cols="6">
@@ -288,7 +381,8 @@
               </v-col>
               <v-col cols="12" sm="4" md="4">
                 <v-toolbar-title class="mb-3">
-                  <v-icon color="success">mdi-calendar-plus</v-icon>ຮູບແບບການ(Loop):
+                  <v-icon color="success">mdi-calendar-plus</v-icon
+                  >ຮູບແບບການ(Loop):
                 </v-toolbar-title>
                 <v-row>
                   <v-col cols="6">
@@ -338,47 +432,68 @@ export default {
   name: "ManageUserCreate",
   data() {
     return {
-      items: ['5', '10', '15', '20', '30', '31',],
+      menu: false,
+      modal: false,
+      menu2: false,
+      items: ["5", "10", "15", "20", "30", "31"],
       items01: [
-        { state: 'ຊຳລະເອງ(B-Pay)ຜ່ານຊ່ອງທາງ Bcel One,Bcel i-Bank,Counter', abbr: 'bill' },
-        { state: 'ຕັດບັນຊີແບບໂອໂຕ(Auto Debit)', abbr: 'auto' },
+        {
+          state: "ຊຳລະເອງ(B-Pay)ຜ່ານຊ່ອງທາງ Bcel One,Bcel i-Bank,Counter",
+          abbr: "bill",
+        },
+        { state: "ຕັດບັນຊີແບບໂອໂຕ(Auto Debit)", abbr: "auto" },
       ],
       items02: [
-        { state: 'ຮັບສົ່ງຂໍ້ມູນຜ່ານລະບົບຂອງທະນາຄານສະໜອງໃຫ້(Offline)', abbr: 'offline' },
-        { state: 'ຮັບສົ່ງຂໍ້ມູນຜ່ານລະບົບຂອງບໍລິສັດ(API)', abbr: 'online' },
+        {
+          state: "ຮັບສົ່ງຂໍ້ມູນຜ່ານລະບົບຂອງທະນາຄານສະໜອງໃຫ້(Offline)",
+          abbr: "offline",
+        },
+        { state: "ຮັບສົ່ງຂໍ້ມູນຜ່ານລະບົບຂອງບໍລິສັດ(API)", abbr: "online" },
       ],
       items03: [
-        { state: 'ສະກຸນເງິນກີບ', abbr: 'LAK' },
-        { state: 'ສະກຸນເງິນໂດລາ', abbr: 'USD' },
-        { state: 'ສະກຸນເງິນບາດ', abbr: 'BATH' },
+        { state: "ສະກຸນເງິນກີບ", abbr: "LAK" },
+        { state: "ສະກຸນເງິນໂດລາ", abbr: "USD" },
+        { state: "ສະກຸນເງິນບາດ", abbr: "BATH" },
       ],
       items04: [
-        { state: "ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ", abbr: 'biil_charge_provider' },
-        { state: "ຄ່າທຳນຽມການດຳເນິດທູລະກຳຕັດຈາກບັນຊີລູກຄ້າ", abbr: 'bill_charge_customer' }
+        {
+          state: "ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ",
+          abbr: "biil_charge_provider",
+        },
+        {
+          state: "ຄ່າທຳນຽມການດຳເນິດທູລະກຳຕັດຈາກບັນຊີລູກຄ້າ",
+          abbr: "bill_charge_customer",
+        },
       ],
       items05: [
-        { state: "ຕັດເທື່ອລະລາຍການ", abbr: 'charge_day' },
-        { state: "ລວມຍອດທ້າຍທິດ", abbr: 'charge_week' },
-        { state: "ລວມຍອດທ້າຍເດືອນ", abbr: 'charge_month' }
+        { state: "ຕັດເທື່ອລະລາຍການ", abbr: "charge_day" },
+        { state: "ລວມຍອດທ້າຍທິດ", abbr: "charge_week" },
+        { state: "ລວມຍອດທ້າຍເດືອນ", abbr: "charge_month" },
       ],
       items06: [
-        { state: "ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ", abbr: 'auto_charge_provider' },
-        { state: "ຄ່າທຳນຽມການດຳເນິດທູລະກຳຕັດຈາກບັນຊີລູກຄ້າ", abbr: 'auto_charge_customer' },
+        {
+          state: "ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ",
+          abbr: "auto_charge_provider",
+        },
+        {
+          state: "ຄ່າທຳນຽມການດຳເນິດທູລະກຳຕັດຈາກບັນຊີລູກຄ້າ",
+          abbr: "auto_charge_customer",
+        },
       ],
       items07: [
-        { state: "ຕັດເທື່ອລະລາຍການ", abbr: 'charge_day' },
-        { state: "ລວມຍອດທ້າຍທິດ", abbr: 'charge_week' },
-        { state: "ລວມຍອດທ້າຍເດືອນ", abbr: 'charge_month' }
+        { state: "ຕັດເທື່ອລະລາຍການ", abbr: "charge_day" },
+        { state: "ລວມຍອດທ້າຍທິດ", abbr: "charge_week" },
+        { state: "ລວມຍອດທ້າຍເດືອນ", abbr: "charge_month" },
       ],
       items08: [
-        { state: "ຈຳນວນເງິນເດິມ", abbr: 'constant_amount' },
-        { state: "ປ່ຽນແປງຈຳນວນເງິນ", abbr: 'change_amount' },
+        { state: "ຈຳນວນເງິນເດິມ", abbr: "constant_amount" },
+        { state: "ປ່ຽນແປງຈຳນວນເງິນ", abbr: "change_amount" },
       ],
       items09: [
-        { state: "ໃນມື້", abbr: 'onday' },
-        { state: "ໃນເດືອນ", abbr: 'onmonth' },
-        { state: "3 ເດືອນ ຕໍ່ ຄັ້ງ", abbr: 'threemonth' },
-        { state: "6 ເດືອນ ຕໍ່ ຄັ້ງ", abbr: 'sixmonth' },
+        { state: "ໃນມື້", abbr: "onday" },
+        { state: "ໃນເດືອນ", abbr: "onmonth" },
+        { state: "3 ເດືອນ ຕໍ່ ຄັ້ງ", abbr: "threemonth" },
+        { state: "6 ເດືອນ ຕໍ່ ຄັ້ງ", abbr: "sixmonth" },
       ],
       create_users: {
         full_name: "",
@@ -403,6 +518,16 @@ export default {
         auto_cut_type: "",
         auto_data_cut_type: "",
         day_amount: "",
+        contract_startdate: new Date(
+          Date.now() - new Date().getTimezoneOffset() * 60000
+        )
+          .toISOString()
+          .substr(0, 10),
+        contract_stopdate: new Date(
+          Date.now() - new Date().getTimezoneOffset() * 60000
+        )
+          .toISOString()
+          .substr(0, 10),
       },
       full_name: "",
       full_name_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ ຊື່ ແລະ ນາມສະກຸນ"],
@@ -439,42 +564,101 @@ export default {
       provider_chanel: "",
       provider_chanel_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບການຊຳລະ"],
       provider_send_data: "",
-      provider_send_data_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"],
+      provider_send_data_Rul: [
+        (v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ",
+      ],
       provider_currency: "",
       provider_currency_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ສະກຸນເງິນທີ່ຮັບຊຳລະ"],
       bill_charge_fee: "",
-      bill_charge_fee_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Leasing)"],
+      bill_charge_fee_Rul: [
+        (v) => !!v || "ກະລຸນາ ເລືອກ ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Leasing)",
+      ],
       bill_charge_type: "",
-      bill_charge_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing)"],
+      bill_charge_type_Rul: [
+        (v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing)",
+      ],
       auto_charge_fee: "",
-      auto_charge_fee_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Auto Debit)"],
+      auto_charge_fee_Rul: [
+        (v) =>
+          !!v || "ກະລຸນາ ເລືອກ ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Auto Debit)",
+      ],
       auto_charge_type: "",
-      auto_charge_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit)"],
+      auto_charge_type_Rul: [
+        (v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Auto Debit)",
+      ],
       auto_condition_type: "",
       auto_condition_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ການປ່ຽນແປງຍອດເງິນ"],
       auto_cut_typetype: "",
       auto_cut_typetype_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບໃນການຕັດ"],
       auto_data_cut_type: "",
-      auto_data_cut_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບການສົ່ງຂໍ້ມູນເຂົ້າຕັດ"],
+      auto_data_cut_type_Rul: [
+        (v) => !!v || "ກະລຸນາ ເລືອກ ຮູບແບບການສົ່ງຂໍ້ມູນເຂົ້າຕັດ",
+      ],
       day_amount: "",
       day_amount_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ເລືອກຈຳນວນວັນວົນລູບ"],
+      contract_startdate: "",
+      contract_startdate_Rul: [
+        (v) => !!v || "ກະລຸນາ ເລືອກ ວັນທີເລີ່ມຕົ້ນສັນຍາ",
+      ],
+      contract_stopdate: "",
+      contract_stopdate_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກ ວັນທີສິ້ນສຸດສັນຍາ"],
     };
   },
   methods: {
     async submit() {
-      console.log(this.create_users)
+      console.log(this.create_users);
       if (this.$refs.form.validate()) {
-        //   let formData = new FormData();
-        //   const { provider_code, provider_name, provider_auto, provider_bill } =
-        //     this.create_users;
-        //   formData.append("provider_code", provider_code);
-        //   formData.append("provider_name", provider_name);
-        //   formData.append("provider_auto", provider_auto);
-        //   formData.append("provider_bill", provider_bill);
-        //   let result = await api.addProvider(formData);
-        //   if (result.status == 200) {
-        //     this.$router.back();
-        //   }
+        let formData = new FormData();
+        const {
+          full_name,
+          phone_no,
+          line_phone,
+          provider_name,
+          provider_code,
+          product_type,
+          account_year_fee,
+          account_name_year_fee,
+          account_name_drfee,
+          account_cr,
+          account_name_cr,
+          provider_chanel,
+          provider_send_data,
+          provider_currency,
+          bill_charge_fee,
+          bill_charge_type,
+          auto_charge_fee,
+          auto_charge_type,
+          auto_condition_type,
+          auto_cut_type,
+          auto_data_cut_type,
+          day_amount,
+        } = this.create_users;
+        formData.append("full_name", full_name);
+        formData.append("phone_no", phone_no);
+        formData.append("line_phone", line_phone);
+        formData.append("product_type", product_type);
+        formData.append("provider_code", provider_code);
+        formData.append("account_year_fee", account_year_fee);
+        formData.append("account_name_year_fee", account_name_year_fee);
+        formData.append("account_name_drfee", account_name_drfee);
+        formData.append("account_cr", account_cr);
+        formData.append("account_name_cr", account_name_cr);
+        formData.append("provider_chanel", provider_chanel);
+        formData.append("provider_send_data", provider_send_data);
+        formData.append("provider_currency", provider_currency);
+        formData.append("bill_charge_fee", bill_charge_fee);
+        formData.append("bill_charge_type", bill_charge_type);
+        formData.append("auto_charge_fee", auto_charge_fee);
+        formData.append("auto_charge_type", auto_charge_type);
+        formData.append("auto_condition_type", auto_condition_type);
+        formData.append("auto_cut_type", auto_cut_type);
+        formData.append("auto_data_cut_type", auto_data_cut_type);
+        formData.append("day_amount", day_amount);
+        formData.append("provider_name", provider_name);
+        let result = await api.addProvider(formData);
+        if (result.status == 200) {
+          this.$router.back();
+        }
       }
     },
     clear() {
