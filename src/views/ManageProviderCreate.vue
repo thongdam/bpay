@@ -185,7 +185,6 @@
                   :rules="provider_currency_Rul"
                   label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                   multiple
-                  chips
                   filled
                 ></v-select>
               </v-col>
