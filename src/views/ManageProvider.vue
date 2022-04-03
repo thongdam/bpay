@@ -75,7 +75,7 @@ export default {
     };
   },
     async mounted() {
-    //this.loadProduct();
+    this.loadProduct();
   },
   methods: {
     async loadProduct() {
