@@ -40,9 +40,9 @@
             <td>{{ item.login_attem}}</td>
             <td>{{ item.login_time}}</td>
             <td>
-              <v-icon class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+              <v-icon class="mr-2"> mdi-pencil </v-icon>
               <span class="ma-1"></span>
-              <v-icon @click="deleteItem(item)"> mdi-delete-empty </v-icon>
+              <v-icon> mdi-delete-empty </v-icon>
             </td>
           </tr>
         </template>
