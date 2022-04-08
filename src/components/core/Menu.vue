@@ -43,10 +43,7 @@
         ['mdi-domain', 'ຈັດການຂໍ້ມູນບໍລິສັດ', '/ManageProvider'],
         ['mdi-account-plus', 'ຈັດການລົງທະບຽນ', '/about'],
         ['mdi-key','ຈັດການບົດບາດນຳໃຊ້ລະບົບ','/about'],
-        ['mdi-package','ຈັດການຜະລິດຕະພັນ','/about'],
-        ['mdi-cash-multiple','ຈັດການຄ່າທຳນຽມການເຮັດທຸລະກຳ','/about'],
-        ['mdi-bank','ຈັດການບັນຊີຮອງຮັບຄ່າທຳນຽມ','/about'],
-        ['mdi-gate-and','ຈັດການເງື່ອນໄຂນຳໃຊ້ຜະລິດຕະພັນ','/about'],
+        ['mdi-cash-multiple','ຈັດການຂັ້ນບັນໃດຄ່າທຳນຽມ','/about'],
         ['mdi-alert-circle','ຈັດການປິດລະບົບສະຫຼຸບປີ','/about'],
       ],
       }

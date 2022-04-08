@@ -11,15 +11,13 @@ export const addProvider = data => {
   return httpClient.post(server.PROVIDER_URL, data);
 };
 
-// export const getProductById = id => {
-//   return httpClient.get(server.PROVIDER_URL + `/id/${id}`);
-// };
+export const getPrviderById = id => {
+  return httpClient.get(server.PROVIDER_URL + `/${id}`);
+};
 
-
-
-// export const deleteProduct = id => {
-//   return httpClient.delete(server.PROVIDER_URL + `/id/${id}`);
-// };
+export const deleteprovider = id => {
+  return httpClient.delete(server.PROVIDER_URL + `/${id}`);
+};
 
 // export const updateProduct = data => {
 //   return httpClient.put(server.PROVIDER_URL, data);

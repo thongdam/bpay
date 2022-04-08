@@ -1,9 +1,7 @@
 import axios from "axios";
 import { server, apiUrl, NOT_CONNECT_NETWORK, NETWORK_CONNECTION_MESSAGE } from "@/services/constants";
 import router from "@/router";
-
 const isAbsoluteURLRegex = /^(?:\w+:)\/\//;
-
 axios.interceptors.request.use(async config => {
   if (!isAbsoluteURLRegex.test(config.url)) {
     const userToken = localStorage.getItem(server.TOKEN_KEY);

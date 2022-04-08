@@ -6,6 +6,7 @@ import ManageProvider from "@/views/ManageProvider";
 import Dashboard from "@/views/Dashboard.vue";
 import ManageUserCreate from "@/views/ManageUserCreate";
 import ManageProviderCreate from "@/views/ManageProviderCreate";
+import ManageProviderEdit from "@/views/ManageProviderEdit";
 Vue.use(VueRouter);
 const routes = [
   {
@@ -38,6 +39,12 @@ const routes = [
     path: "/ManageProviderCrate",
     name: "ManageProviderCrate",
     component: ManageProviderCreate,
+  },
+  {
+    path: "/ManageProviderEdit/:id",
+    meta: { isSecured: true },
+    name: "ManageProviderEdit",
+    component: ManageProviderEdit
   },
   {
     path: "/",
