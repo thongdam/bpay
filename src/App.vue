@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <Header v-if="$store.state.isLogged" />
-    <Menu v-if="$store.state.isLogged" />
-    <Content />
+      <Header v-if="$store.state.isLogged" />
+      <Menu v-if="$store.state.isLogged" />
+      <Content />
   </v-app>
 </template>
 
@@ -15,10 +15,12 @@ export default {
   components: {
     Header,
     Menu,
-    Content
+    Content,
   },
   data() {
-    return {};
+    return {
+      drawer: false,
+    };
   },
 
   mounted() {

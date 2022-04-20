@@ -7,7 +7,7 @@
         <template v-slot:top>
           <v-col cols="12" sm="6" md="12" xs="12">
             <v-toolbar flat color="white">
-              <v-toolbar-title>ຈັດການຂໍ້ມູນຜູ້ໃຊ້ງານ</v-toolbar-title>
+              <v-toolbar-title>ຈັດການລົງທະບຽນບັນຊີລູກຄ້າ</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-text-field
                 v-model="search"
@@ -18,7 +18,7 @@
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-btn
-                @click="$router.push('/manageuserCreate')"
+                @click="$router.push('/ManageFeeCreate')"
                 class="mx-1"
                 fab
                 dark
@@ -34,13 +34,26 @@
         <template v-slot:item="{ item }">
           <tr>
             <td>{{ item.id }}</td>
-            <td>{{ item.username }}</td>
-            <td>{{ item.status }}</td>
-            <td>{{ item.provider_code }}</td>
+            <td>{{ item.agreement_no }}</td>
+            <td>{{ item.provider_acc }}</td>
+            <td>{{ item.provider_acc_name }}</td>
             <td>{{ item.create_date }}</td>
-            <td>{{ item.active_date }}</td>
-            <td>{{ item.login_attem }}</td>
-            <td>{{ item.login_time }}</td>
+            <td>
+              <v-chip
+                :color="
+                  item.provider_auto_status == 'A'
+                    ? 'success'
+                    : item.provider_auto_status == 'C'
+                    ? 'danger'
+                    : 'warning'
+                "
+                outlined
+                pill
+              >
+                {{ item.provider_auto_status }}
+              </v-chip>
+            </td>
+            <td>{{ item.provider_code }}</td>
             <td>
               <v-icon class="mr-2"> mdi-pencil </v-icon>
               <span class="ma-1"></span>
@@ -69,23 +82,22 @@ export default {
           sortable: true,
           value: "id",
         },
-        { text: "ຊື່ເຂົ້າໃຊ້ງານ", value: "username" },
-        { text: "ສະຖານະ", value: "status" },
+        { text: "ເລກທີສັນຍາ", value: "agreement_no" },
+        { text: "ເລກບັນຊີ", value: "account_number" },
+        { text: "ຊື່ບັນຊີ", value: "account_name" },
+        { text: "ມື້ລົງທະບຽນ", value: "register_date" },
+        { text: "ສະຖານະ", value: "account_status" },
         { text: "ບໍລິສັດ", value: "provider_code" },
-        { text: "ວັນທີສ້າງ", value: "create_date" },
-        { text: "ມື້ເປິດນຳໃຊ້", value: "active_date" },
-        { text: "ເຂົ້າລະບົບຜິດ", value: "login_attem" },
-        { text: "ເຂົ້າໃຊ້ງານລະບົບລ່າສຸດ", value: "login_time" },
-        { text: "ຕົວເລືອກ", value: "action" },
+        { text: "ຕົວເລືອກ", value: "register_by" },
       ],
     };
   },
   async mounted() {
-    this.loadUsers();
+    this.loadAcc();
   },
   methods: {
-    async loadUsers() {
-      let result = await api.getUsers();
+    async loadAcc() {
+      let result = await api.getacc();
       this.BDataArray = result.data.body;
     },
   },

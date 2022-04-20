@@ -1,7 +1,15 @@
 <template>
-  <v-navigation-drawer app permanent dark src="@/assets/background_menu.jpg">
+  <v-navigation-drawer
+    app
+    permanent
+    dark
+    src="@/assets/background_menu.jpg"
+    mini-variant
+    expand-on-hover
+    fixed
+  >
     <router-link to="/about">
-      <v-img src="@/assets/vue_displays.jpg" alt="" width="100%"></v-img>
+      <v-img src="@/assets/vue_displays.jpg" alt=""></v-img>
     </router-link>
     <v-list>
       <v-subheader>MENUS</v-subheader>
@@ -41,9 +49,11 @@
           ['mdi-view-dashboard', 'ພາບລວມລະບົບ', '/dashboard'],
         ['mdi-account', 'ຈັດການຂໍ້ມູນຜູ້ໃຊ້', '/ManageUser'],
         ['mdi-domain', 'ຈັດການຂໍ້ມູນບໍລິສັດ', '/ManageProvider'],
-        ['mdi-account-plus', 'ຈັດການລົງທະບຽນ', '/about'],
-        ['mdi-key','ຈັດການບົດບາດນຳໃຊ້ລະບົບ','/about'],
-        ['mdi-cash-multiple','ຈັດການຂັ້ນບັນໃດຄ່າທຳນຽມ','/about'],
+        ['mdi-account-plus', 'ຈັດການລົງທະບຽນ', '/ManageRegister'],
+        ['mdi-refresh-auto', 'ກວດສອບລາຍການ(Auto)', '/ManageAutodebit'],
+        ['mdi-order-bool-ascending-variant', 'ກວດສອບລາຍການ(Bill)', '/ManageBill'],
+        ['mdi-key','ຈັດການບົດບາດນຳໃຊ້ລະບົບ','/ManagePermission'],
+        ['mdi-cash-multiple','ຈັດການຂັ້ນບັນໃດຄ່າທຳນຽມ','/ManageFee'],
         ['mdi-alert-circle','ຈັດການປິດລະບົບສະຫຼຸບປີ','/about'],
       ],
       }
@@ -63,5 +73,3 @@
     }
 }
 </script>
-
-<style lang="scss" scoped></style>

@@ -7,6 +7,12 @@ import Dashboard from "@/views/Dashboard.vue";
 import ManageUserCreate from "@/views/ManageUserCreate";
 import ManageProviderCreate from "@/views/ManageProviderCreate";
 import ManageProviderEdit from "@/views/ManageProviderEdit";
+import ManageFee from "@/views/ManageFee";
+import  ManageRegister from "@/views/ManageRegister";
+import  ManagePermission from "@/views/ManagePermission";
+import ManageFeeCreate from "@/views/ManageFeeCreate";
+import ManageAutodebit from "@/views/ManageAutodebit";
+import ManageBill from "@/views/ManageBill";
 Vue.use(VueRouter);
 const routes = [
   {
@@ -45,6 +51,36 @@ const routes = [
     meta: { isSecured: true },
     name: "ManageProviderEdit",
     component: ManageProviderEdit
+  },
+  {
+    path: "/ManageFee",
+    name: "ManageFee",
+    component: ManageFee
+  },
+  {
+    path: "/ManageRegister",
+    name: "ManageRegister",
+    component: ManageRegister
+  },
+  {
+    path: "/ManagePermission",
+    name: "ManagePermission",
+    component: ManagePermission
+  },
+  {
+    path: "/ManageFeeCreate",
+    name: "ManageFeeCreate",
+    component: ManageFeeCreate
+  },
+  {
+    path: "/ManageAutodebit",
+    name: "ManageAutodebit",
+    component: ManageAutodebit
+  },
+  {
+    path: "/ManageBill",
+    name: "ManageBill",
+    component: ManageBill
   },
   {
     path: "/",

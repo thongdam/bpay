@@ -1,7 +1,6 @@
 <template>
   <v-container>
-    <!-- Summary section -->
-    <v-row>
+    <v-row dense>
       <v-col lg="3" md="6" sm="12" cols="12">
         <StockCard
           title="ບໍລິສັດນຳໃຊ້ທັງໝົດ"
@@ -37,7 +36,7 @@
           subtitle="101"
         />
       </v-col>
-      
+
       <v-col lg="3" md="6" sm="12" cols="12">
         <StockCard
           title="ລາຍການຄ້າງໃນມື້"
@@ -66,18 +65,18 @@ export default {
           text: "Id",
           align: "left",
           sortable: false,
-          value: "id"
+          value: "id",
         },
         { text: "Image", value: "image" },
         { text: "Name", value: "name" },
         { text: "Price", value: "price" },
         { text: "Stock", value: "stock" },
-        { text: "Action", value: "action" }
-      ]
+        { text: "Action", value: "action" },
+      ],
     };
   },
   components: {
-    StockCard
+    StockCard,
   },
   async mounted() {
     //this.loadProducts();
@@ -99,8 +98,8 @@ export default {
     //   let result = await api.getProducts();
     //   this.mDataArray = result.data;
     // }
-  }
+  },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>

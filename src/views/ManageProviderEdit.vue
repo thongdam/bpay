@@ -810,3 +810,4 @@ async mounted() {
   },
 };
 </script>
+<style lang="scss" scoped></style>

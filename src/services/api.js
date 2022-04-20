@@ -15,7 +15,7 @@ const logoff = () => {
   router.push("/login");
 };
 
-const login = async values => {
+const login = async (values) => {
   // let result = await httpClient.post(server.LOGIN_URL, values);
   // if (result.data.result == "ok") {
   //   localStorage.setItem(server.USERNAME, values.username);
@@ -30,7 +30,7 @@ const login = async values => {
   return true;
 };
 
-const register = async values => {
+const register = async (values) => {
   let result = await httpClient.post(server.REGISTER_URL, values);
   if (result.data.result == "ok") {
     router.go(-1);
@@ -45,5 +45,5 @@ export default {
   register,
   isLoggedIn,
   ...providerApis,
-  ...usersApis
+  ...usersApis,
 };

@@ -3,7 +3,7 @@ export const NETWORK_CONNECTION_MESSAGE = "Cannot connect to server, Please try 
 export const NETWORK_TIMEOUT_MESSAGE = "A network timeout has occurred, Please try again.";
 export const UPLOAD_PHOTO_FAIL_MESSAGE = "An error has occurred. The photo was unable to upload.";
 export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK";
-export const apiUrl = "http://localhost:9999/Bpay";
+export const apiUrl = "http://localhost:9991/Bpay";
 
 export const server = {
   LOGIN_URL: `login`,
@@ -11,5 +11,9 @@ export const server = {
   TOKEN_KEY: `token`,
   USERNAME: `username`,
   PROVIDER_URL: `getproviders`,
-  GETUSERS_URL:`getusers`
+  GETUSERS_URL:`getusers`,
+  GETFEE_URL:`getfee`,
+  GETACC_URL:`getaccount`,
+  GETAUTO_URL:`getauto`,
+  GETBILL_URL:`getbill`,
 };

@@ -1,20 +1,16 @@
 <template>
-  <div>
-    <v-app-bar app color="green" dense dark>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-toolbar-title>ADMIN FOR AUTO DEBIT</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <span>{{ $store.getters["username"] | uppercase }}</span>
-      <v-btn icon @click="onClickLogOff">
-        <v-icon>mdi-export</v-icon>
-      </v-btn>
-    </v-app-bar>
-  </div>
+  <v-app-bar app color="green" dense dark>
+    <v-toolbar-title>AUTO DEBIT FOR ADMIN</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <span>{{ $store.getters["username"] | uppercase }}</span>
+    <v-btn icon @click="onClickLogOff">
+      <v-icon>mdi-export</v-icon>
+    </v-btn>
+  </v-app-bar>
 </template>
 <script>
 export default {
   name: "BpayHeader",
-
   data() {
     return {};
   },
@@ -26,5 +22,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>
