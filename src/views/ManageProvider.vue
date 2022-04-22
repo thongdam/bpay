@@ -49,18 +49,14 @@
                 class="ml-0 mr-2 white--text"
                 color="success"
                 outlined
-                >{{
-                  item.provider_auto_status == "A" ? "AUTO" : ""
-                }}</v-chip
+                >{{ item.provider_auto_status == "A" ? "AUTO" : "" }}</v-chip
               >
               <v-chip
                 v-if="item.provider_bill_status != null"
                 class="ml-0 mr-2 white--text"
                 color="success"
                 outlined
-                >{{
-                  item.provider_bill_status == "A" ? "BILL" : ""
-                }}</v-chip
+                >{{ item.provider_bill_status == "A" ? "BILL" : "" }}</v-chip
               >
             </td>
             <td>

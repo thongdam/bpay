@@ -16,4 +16,6 @@ export const server = {
   GETACC_URL:`getaccount`,
   GETAUTO_URL:`getauto`,
   GETBILL_URL:`getbill`,
+  GETADDFEEPROVIDER_URL:`addfeeprovider`,
+  GETADDFEE_URL:`addfee`,
 };

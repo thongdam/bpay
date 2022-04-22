@@ -17,13 +17,16 @@ export const getPrviderById = id => {
 export const deleteprovider = id => {
   return httpClient.delete(server.PROVIDER_URL + `/${id}`);
 };
-//get all fee
-export const getfee = () => {
+//get all provider for fee
+export const getFee = () => {
   return httpClient.get(server.GETFEE_URL);
 };
+export const getViewFee = data => {
+  return httpClient.post(server.GETFEE_URL,data);
+};
 //get all account
-export const getacc = () => {
-  return httpClient.get(server.GETACC_URL);
+export const getAcc = data => {
+  return httpClient.post(server.GETACC_URL,data);
 };
 //get check auto data
 export const getAuto = data => {
@@ -33,4 +36,7 @@ export const getAuto = data => {
 export const getBill = data => {
   return httpClient.post(server.GETBILL_URL,data);
 };
-
+//get provider add fee 
+export const addFeeProvider = () => {
+  return httpClient.post(server.GETBILL_URL);
+};

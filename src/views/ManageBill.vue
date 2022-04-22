@@ -37,7 +37,7 @@
           </v-col>
           <v-col cols="12" sm="6" md="1">
             <v-btn @click="search_bill()" class="mx-1" fab dark color="success">
-              <v-icon dark size="40"> mdi-search-web </v-icon>
+              <v-icon dark size="35"> mdi-search-web </v-icon>
             </v-btn>
           </v-col>
         </v-row>

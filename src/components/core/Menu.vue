@@ -54,6 +54,7 @@
         ['mdi-order-bool-ascending-variant', 'ກວດສອບລາຍການ(Bill)', '/ManageBill'],
         ['mdi-key','ຈັດການບົດບາດນຳໃຊ້ລະບົບ','/ManagePermission'],
         ['mdi-cash-multiple','ຈັດການຂັ້ນບັນໃດຄ່າທຳນຽມ','/ManageFee'],
+        ['mdi-currency-usd','ຈັດການຕັດຄ່າທຳນຽມ','/ManageFeeTransaction'],
         ['mdi-alert-circle','ຈັດການປິດລະບົບສະຫຼຸບປີ','/about'],
       ],
       }
