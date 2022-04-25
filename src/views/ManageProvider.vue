@@ -85,13 +85,27 @@
               }}</v-chip>
             </td>
             <td>
-              <v-icon class="mr-2" @click="editItem(item)" color="warning">
-                mdi-pencil
-              </v-icon>
-              <span class="ma-1"></span>
-              <v-icon @click="deleteItem(item)" color="danger">
-                mdi-delete-empty
-              </v-icon>
+              <v-btn
+                disabled
+                class="mr-2"
+                @click="editItem(item)"
+                color="warning"
+                fab
+                dark
+                small
+              >
+                <v-icon dark> mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn
+                class="mr-2"
+                @click="deleteItem(item)"
+                color="danger"
+                fab
+                small
+                dark
+              >
+                <v-icon dark> mdi-delete-empty</v-icon>
+              </v-btn>
             </td>
           </tr>
         </template>

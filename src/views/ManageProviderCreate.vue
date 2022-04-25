@@ -156,10 +156,10 @@
               <v-col cols="3">
                 <v-select
                   v-model="create_privider.product_type"
-                  :items="items10"
-                  item-text="abbr"
+                  :items="product_type"
+                  item-text="provider_group"
                   :rules="product_type_Rul"
-                  label="ປະເພດທຸລະກິດ"
+                  label="ຮູບແບບການຊຳລະ"
                   single-line
                   persistent-hint
                   solo
@@ -321,7 +321,19 @@
                   item-text="state"
                   :rules="provider_chanel_Rul"
                   item-value="abbr"
-                  label="ຊ່ອງທາງການຊຳລະ"
+                  label="ຮູບແບບການຊຳລະ"
+                  persistent-hint
+                  multiple
+                  solo
+                ></v-select>
+              </v-col>
+              <v-col cols="3">
+                <v-select
+                  v-model="create_privider.provider_fee_type"
+                  :items="provider_fee_types"
+                  :rules="provider_fee_type_Rul"
+                  item-value="abbr"
+                  label="ປະເພດຄ່າທຳນຽມ"
                   persistent-hint
                   multiple
                   solo
@@ -430,7 +442,7 @@
                   solo
                 ></v-select>
               </v-col>
-              <v-col cols="3">
+              <v-col cols="4">
                 <v-select
                   v-model="create_privider.auto_cut_type"
                   :items="items09"
@@ -448,7 +460,7 @@
                   solo
                 ></v-select>
               </v-col>
-              <v-col cols="6">
+              <v-col cols="4">
                 <v-select
                   v-model="create_privider.auto_data_cut_type"
                   :items="items11"
@@ -466,8 +478,8 @@
                   solo
                 ></v-select>
               </v-col>
-              <v-col cols="6">
-                <v-select
+              <v-col cols="4">
+                <v-text-field
                   v-model="create_privider.day_amount"
                   :rules="
                     create_privider.provider_chanel == 'bill' ||
@@ -476,7 +488,6 @@
                       ? []
                       : [day_amount_Rul]
                   "
-                  :items="items"
                   solo
                   :disabled="
                     create_privider.provider_chanel == 'bill' ||
@@ -484,7 +495,7 @@
                     create_privider.auto_data_cut_type == 'endofmonth'
                   "
                   label="ເລືອກຈຳນວນວັນວົນລູບ"
-                ></v-select>
+                ></v-text-field>
               </v-col>
             </v-row>
           </v-form>
@@ -492,7 +503,6 @@
             class="mx-2"
             fab
             dark
-            small
             color="primary"
             v-if="n + 1 < lastStep"
             @click="validate(n)"
@@ -505,13 +515,13 @@
             class="mx-2"
             fab
             dark
-            small
             color="success"
             @click="done(n)"
+            :disabled="!step.valid"
           >
             <v-icon dark> mdi-content-save </v-icon>
           </v-btn>
-          <v-btn class="mx-2" fab dark small color="red" @click="curr = 1">
+          <v-btn class="mx-2" fab dark color="red" @click="curr = 1">
             <v-icon dark> mdi-menu-left </v-icon>
           </v-btn>
         </v-stepper-content>
@@ -523,16 +533,12 @@
 <script>
 import api from "@/services/api";
 export default {
-  name: "ManageUserCreate",
+  name: "ManageProviderCreate",
   data() {
     return {
-      snackbar: false,
-      text: "My timeout is set to 2000.",
-      timeout: 2000,
       menu: false,
       modal: false,
       menu2: false,
-
       curr: 1,
       lastStep: 4,
       steps: [
@@ -561,6 +567,8 @@ export default {
       ],
       valid: false,
       stepForm: [],
+      product_type: [],
+      provider_fee_types: [],
       items: [
         "1",
         "2",
@@ -676,16 +684,6 @@ export default {
         { state: "ເດືອນ", abbr: "onmonth" },
         { state: "3 ເດືອນ", abbr: "threemonth" },
       ],
-      items10: [
-        { state: "ELECTRICT", abbr: "ELECTRICT" },
-        { state: "EXTERNAL", abbr: "EXTERNAL" },
-        { state: "GOODS", abbr: "GOODS" },
-        { state: "INSURANCE", abbr: "INSURANCE" },
-        { state: "LEASING", abbr: "LEASING" },
-        { state: "TRASH", abbr: "TRASH" },
-        { state: "WATER", abbr: "WATER" },
-        { state: "TELECOM", abbr: "TELECOM" },
-      ],
       create_privider: {
         account: [{}],
         full_name: "",
@@ -722,6 +720,7 @@ export default {
           .substr(0, 10),
         provider_fixacc: "",
         account_drfee: "",
+        provider_fee_type:"",
       },
       full_name: "",
       full_name_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ ຊື່ ແລະ ນາມສະກຸນ"],
@@ -781,9 +780,21 @@ export default {
       provider_fixacc_Rul: [
         (v) => !!v || "ກະລຸນາ ເລືອກບັນຊີຄ່າທຳນຽມທີ່ຕ້ອງການຕັດ",
       ],
+      provider_fee_type_Rul: [(v) => !!v || "ກະລຸນາ ເລືອກປະເພດຄ່າທຳນຽມ"],
     };
   },
+  async mounted() {
+    this.loadProductType();
+  },
   methods: {
+    async loadProductType() {
+      let result = await api.getProductType();
+      this.product_type = result.data.body;
+    },
+    async loadFeeType(){
+      let result = await api.getGetFeeType();
+      this.provider_fee_types = result.data.body;
+    },
     darkMode() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
@@ -793,8 +804,30 @@ export default {
     addRow() {
       this.create_privider.account.push({});
     },
-    async submit() {
-      if (this.$refs.form.validate()) {
+    clear() {
+      this.$refs.form.reset();
+    },
+    cancel() {
+      this.$router.back();
+    },
+    stepComplete(step) {
+      return this.curr > step;
+    },
+    stepStatus(step) {
+      return this.curr > step ? "green" : "blue";
+    },
+    validate(n) {
+      this.steps[n].valid = false;
+      let v = this.$refs.stepForm[n].validate();
+      if (v) {
+        this.steps[n].valid = true;
+        this.curr = n + 2;
+      }
+    },
+    async done(n) {
+      this.steps[n].valid = false;
+      let v = this.$refs.stepForm[n].validate();
+      if (v == true) {
         let formData = new FormData();
         const {
           full_name,
@@ -824,6 +857,7 @@ export default {
           contract_stopdate,
           provider_fixacc,
           account_drfee,
+          provider_fee_type,
         } = this.create_privider;
         formData.append("full_name", full_name);
         formData.append("phone_no", phone_no);
@@ -852,36 +886,12 @@ export default {
         formData.append("provider_fixacc", provider_fixacc);
         formData.append("account_drfee", account_drfee);
         formData.append("account", JSON.stringify(account));
+        formData.append("provider_fee_type", provider_fee_type)
         let result = await api.addProvider(formData);
         if (result.status == 200) {
           this.$router.back();
         }
-      }
-    },
-    clear() {
-      this.$refs.form.reset();
-    },
-    cancel() {
-      this.$router.back();
-    },
-    stepComplete(step) {
-      return this.curr > step;
-    },
-    stepStatus(step) {
-      return this.curr > step ? "green" : "blue";
-    },
-    validate(n) {
-      this.steps[n].valid = false;
-      let v = this.$refs.stepForm[n].validate();
-      if (v) {
-        this.steps[n].valid = true;
-        this.curr = n + 2;
-      }
-    },
-   async done(n) {
-      this.steps[n].valid = false;
-      let v = this.$refs.stepForm[n].validate();
-      if (v) {
+      } else {
         this.steps[n].valid = true;
         this.curr = n + 2;
       }

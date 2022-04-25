@@ -36,7 +36,11 @@ export const getAuto = data => {
 export const getBill = data => {
   return httpClient.post(server.GETBILL_URL,data);
 };
-//get provider add fee 
-export const addFeeProvider = () => {
-  return httpClient.post(server.GETBILL_URL);
+//get product type
+export const getProductType = () => {
+  return httpClient.get(server.GETPRODUCTTYPE);
+};
+//get fee type 
+export const getFeeType = () => {
+  return httpClient.get(server.GETFEETYPE_URL);
 };

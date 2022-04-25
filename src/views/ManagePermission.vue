@@ -16,7 +16,8 @@
               hide-details
             ></v-text-field>
             <v-spacer></v-spacer>
-            <v-btn
+            <v-btn 
+              disabled
               @click="$router.push('/ManageFeeCreate')"
               color="success"
               dark

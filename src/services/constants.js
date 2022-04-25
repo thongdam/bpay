@@ -17,5 +17,6 @@ export const server = {
   GETAUTO_URL:`getauto`,
   GETBILL_URL:`getbill`,
   GETADDFEEPROVIDER_URL:`addfeeprovider`,
-  GETADDFEE_URL:`addfee`,
+  GETFEETYPE_URL:`getFeeType`,
+  GETPRODUCTTYPE:`getproducttype`
 };

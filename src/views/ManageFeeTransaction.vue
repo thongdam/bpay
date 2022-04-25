@@ -46,20 +46,6 @@
               >
                 <v-icon dark>mdi-eye-circle</v-icon>
               </v-btn>
-              <v-btn
-                class="mx-2"
-                fab
-                dark
-                small
-                color="warning"
-                @click="confirmFeeDlgs(item)"
-              >
-                <v-icon dark> mdi-pencil-circle </v-icon>
-              </v-btn>
-
-              <v-btn class="mx-2" fab dark small color="error">
-                <v-icon dark> mdi-delete-circle</v-icon>
-              </v-btn>
             </td>
           </tr>
         </template>
@@ -201,7 +187,6 @@ export default {
   },
   async mounted() {
     this.loadFEE();
-    this.addFeeProvider();
   },
   methods: {
     formatNumber(num) {

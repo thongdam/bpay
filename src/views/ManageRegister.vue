@@ -145,7 +145,7 @@
                 hide-details
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-btn
+              <v-btn disabled
                 @click="$router.push('/ManageRegisterCreate')"
                 class="mx-1"
                 fab
@@ -183,7 +183,7 @@
             </td>
             <td>{{ item.provider_code }}</td>
             <td>
-              <v-icon class="mr-2"> mdi-pencil </v-icon>
+              <v-icon disabled class="mr-2"> mdi-pencil </v-icon>
               <span class="ma-1"></span>
               <v-icon> mdi-delete-empty </v-icon>
             </td>
