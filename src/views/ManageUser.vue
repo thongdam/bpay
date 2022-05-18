@@ -42,9 +42,24 @@
             <td>{{ item.login_attem }}</td>
             <td>{{ item.login_time }}</td>
             <td>
-              <v-icon class="mr-2"> mdi-pencil </v-icon>
-              <span class="ma-1"></span>
-              <v-icon> mdi-delete-empty </v-icon>
+              <v-btn
+                class="mr-2"
+                color="warning"
+                fab
+                small
+                dark
+              >
+                <v-icon dark> mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn
+                class="mr-2"
+                color="error"
+                fab
+                small
+                dark
+              >
+                <v-icon dark> mdi-delete-circle</v-icon>
+              </v-btn>
             </td>
           </tr>
         </template>

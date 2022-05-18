@@ -12,8 +12,8 @@
               item-value="provider_auto"
               label="ເລືອກບໍລິສັດ"
               single-line
-              persistent-hint
-              solo
+              outlined
+              dense
             ></v-select>
           </v-col>
           <v-col cols="12" sm="6" md="2">
@@ -24,15 +24,16 @@
               item-value="values"
               label="ເລືອກສະຖານະ"
               single-line
-              persistent-hint
-              solo
+              outlined
+              dense
             ></v-select>
           </v-col>
           <v-col cols="12" sm="6" md="2">
             <v-text-field
               v-model="register.agreement_no"
               label="ເລກສັນຍາ"
-              solo
+                                outlined
+                  dense
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="6" md="2">
@@ -52,7 +53,8 @@
                   readonly
                   v-bind="attrs"
                   v-on="on"
-                  solo
+                  outlined
+                  dense
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -93,7 +95,8 @@
                   readonly
                   v-bind="attrs"
                   v-on="on"
-                  solo
+                  outlined
+                  dense
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -118,14 +121,8 @@
             </v-menu>
           </v-col>
           <v-col cols="12" sm="6" md="1">
-            <v-btn
-              @click="search_acc()"
-              class="mx-1"
-              fab
-              dark
-              color="success"
-            >
-              <v-icon dark size="35"> mdi-search-web </v-icon>
+            <v-btn @click="search_acc()" class="mx-1" small fab dark color="success">
+              <v-icon dark size="25"> mdi-search-web </v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -145,7 +142,8 @@
                 hide-details
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-btn disabled
+              <v-btn
+                disabled
                 @click="$router.push('/ManageRegisterCreate')"
                 class="mx-1"
                 fab

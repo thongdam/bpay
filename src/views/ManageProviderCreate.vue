@@ -2,8 +2,8 @@
   <v-row class="justify-center">
     <v-container>
       <v-toolbar-title class="mb-5 text-center mt-5">
-        <v-icon color="success">mdi-database-plus</v-icon
-        >ຕັ້ງຄ່າໃຫ້ກັບບໍລິສັດເພື່ອເປິດນຳໃຊ້ບໍລິການ B-Pay
+        <v-icon color="success">mdi-bank</v-icon
+        >ຕັ້ງຄ່າໃຫ້ກັບບໍລິສັດເພື່ອເປິດນຳໃຊ້ບໍລິການ Auto debit
       </v-toolbar-title>
       <v-stepper v-model="curr" color="green">
         <v-stepper-header class="overflow-x-auto">
@@ -198,7 +198,7 @@
                     :rules="account_name_cr_Rul"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="3">
                   <v-select
                     v-model="acc.provider_currency"
                     :items="items03"
@@ -209,28 +209,6 @@
                     persistent-hint
                     solo
                   ></v-select>
-                </v-col>
-                <v-col cols="5">
-                  <v-text-field
-                    v-model="acc.min_amount"
-                    label="ຍອດທີ່ອະນຸຍາດໃຫ້ຊຳລະຕ່ຳສຸດ"
-                    required
-                    type="number"
-                    solo
-                    persistent-hint
-                    :rules="min_amount_Rul"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="5">
-                  <v-text-field
-                    type="number"
-                    v-model="acc.max_amount"
-                    label="ຍອດທີ່ອະນຸຍາດໃຫ້ຊຳລະສູງສຸດ"
-                    required
-                    solo
-                    persistent-hint
-                    :rules="max_amount_Rul"
-                  ></v-text-field>
                 </v-col>
                 <v-col
                   cols="12"
@@ -323,68 +301,17 @@
                   item-value="abbr"
                   label="ຮູບແບບການຊຳລະ"
                   persistent-hint
-                  multiple
                   solo
                 ></v-select>
               </v-col>
               <v-col cols="3">
                 <v-select
                   v-model="create_privider.provider_fee_type"
-                  :items="provider_fee_types"
+                  :items="provider_fee_type"
+                  item-text="fee_company"
                   :rules="provider_fee_type_Rul"
-                  item-value="abbr"
                   label="ປະເພດຄ່າທຳນຽມ"
                   persistent-hint
-                  multiple
-                  solo
-                ></v-select>
-              </v-col>
-              <v-col cols="3">
-                <v-select
-                  v-model="create_privider.provider_send_data"
-                  :items="items02"
-                  item-text="state"
-                  :rules="provider_send_data_Rul"
-                  item-value="abbr"
-                  label="ຮູບແບບການຮັບສົ່ງຂໍ້ມູນໃຫ້ທະນາຄານ"
-                  persistent-hint
-                  single-line
-                  solo
-                ></v-select>
-              </v-col>
-              <v-col cols="3">
-                <v-select
-                  v-model="create_privider.bill_charge_fee"
-                  :items="items04"
-                  item-text="state"
-                  :rules="
-                    create_privider.provider_chanel == 'auto'
-                      ? []
-                      : [bill_charge_fee_Rul]
-                  "
-                  item-value="abbr"
-                  label="ຄ່າທຳນຽມໃນການດຳເນິດທຸລະກຳສຳຫຼັບ(Leasing)"
-                  persistent-hint
-                  single-line
-                  :disabled="create_privider.provider_chanel == 'auto'"
-                  solo
-                ></v-select>
-              </v-col>
-              <v-col cols="3">
-                <v-select
-                  v-model="create_privider.bill_charge_type"
-                  :items="items05"
-                  item-text="state"
-                  :rules="
-                    create_privider.provider_chanel == 'auto'
-                      ? []
-                      : [bill_charge_type_Rul]
-                  "
-                  item-value="abbr"
-                  label="ຮູບແບບໃນການຕັດຄ່າທຳນຽມ(Leasing)"
-                  persistent-hint
-                  single-line
-                  :disabled="create_privider.provider_chanel == 'auto'"
                   solo
                 ></v-select>
               </v-col>
@@ -442,7 +369,7 @@
                   solo
                 ></v-select>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="3">
                 <v-select
                   v-model="create_privider.auto_cut_type"
                   :items="items09"
@@ -460,7 +387,7 @@
                   solo
                 ></v-select>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="3">
                 <v-select
                   v-model="create_privider.auto_data_cut_type"
                   :items="items11"
@@ -478,7 +405,7 @@
                   solo
                 ></v-select>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="3">
                 <v-text-field
                   v-model="create_privider.day_amount"
                   :rules="
@@ -568,7 +495,7 @@ export default {
       valid: false,
       stepForm: [],
       product_type: [],
-      provider_fee_types: [],
+      provider_fee_type: [],
       items: [
         "1",
         "2",
@@ -603,11 +530,7 @@ export default {
         "31",
       ],
       items01: [
-        {
-          state: "ຊຳລະເອງ(B-Pay)ຜ່ານຊ່ອງທາງ Bcel One,Bcel i-Bank,Counter",
-          abbr: "bill",
-        },
-        { state: "ຕັດບັນຊີແບບໂອໂຕ(Auto Debit)", abbr: "auto" },
+        { state: "ຕັດບັນຊີແບບໂອໂຕ(Auto Debit)", abbr: "A" },
       ],
       fixaccount: [
         {
@@ -720,7 +643,7 @@ export default {
           .substr(0, 10),
         provider_fixacc: "",
         account_drfee: "",
-        provider_fee_type:"",
+        provider_fee_type: "",
       },
       full_name: "",
       full_name_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ ຊື່ ແລະ ນາມສະກຸນ"],
@@ -785,15 +708,16 @@ export default {
   },
   async mounted() {
     this.loadProductType();
+    this.loadFeeType();
   },
   methods: {
     async loadProductType() {
       let result = await api.getProductType();
       this.product_type = result.data.body;
     },
-    async loadFeeType(){
-      let result = await api.getGetFeeType();
-      this.provider_fee_types = result.data.body;
+    async loadFeeType() {
+      let result = await api.getFeeType();
+      this.provider_fee_type = result.data.body;
     },
     darkMode() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
@@ -886,7 +810,7 @@ export default {
         formData.append("provider_fixacc", provider_fixacc);
         formData.append("account_drfee", account_drfee);
         formData.append("account", JSON.stringify(account));
-        formData.append("provider_fee_type", provider_fee_type)
+        formData.append("provider_fee_type", provider_fee_type);
         let result = await api.addProvider(formData);
         if (result.status == 200) {
           this.$router.back();

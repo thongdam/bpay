@@ -16,18 +16,15 @@ const logoff = () => {
 };
 
 const login = async (values) => {
-  // let result = await httpClient.post(server.LOGIN_URL, values);
-  // if (result.data.result == "ok") {
-  //   localStorage.setItem(server.USERNAME, values.username);
-  //   localStorage.setItem(server.TOKEN_KEY, result.data.token);
-  //   router.push("/manageuser");
-  //   return true;
-  // } else {
-  //   return false;
-  // }
-  localStorage.setItem(server.USERNAME, values.username);
-  localStorage.setItem(server.TOKEN_KEY, "123456");
-  return true;
+  let result = await httpClient.post(server.LOGIN_URL, values);
+  if (result.data.body.status_code==='0000000') {
+    localStorage.setItem(server.USERNAME, result.data.body.username);
+    localStorage.setItem(server.TOKEN_KEY, "12345454659846554465gdsfsdfsdf");
+    router.push("/dashboard");
+    return true;
+  } else {
+    return false;
+  }
 };
 
 const register = async (values) => {

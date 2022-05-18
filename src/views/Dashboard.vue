@@ -2,7 +2,7 @@
   <v-container>
     <v-row dense>
       <v-col lg="3" md="6" sm="12" cols="12">
-        <StockCard
+        <Dashboard
           title="ບໍລິສັດນຳໃຊ້ທັງໝົດ"
           subtitle="1,800"
           avatar_bg="#00a65a"
@@ -11,7 +11,7 @@
       </v-col>
 
       <v-col lg="3" md="6" sm="12" cols="12">
-        <StockCard
+        <Dashboard
           title="ຜູ້ໃຊ້ງານທັງໝົດ"
           avatar_ic="mdi-account-group"
           avatar_bg="#2980b9"
@@ -20,7 +20,7 @@
       </v-col>
 
       <v-col lg="3" md="6" sm="12" cols="12">
-        <StockCard
+        <Dashboard
           title="ລໍຖ້າຕັດເງິນໃນມື້"
           avatar_ic="mdi-refresh-auto"
           avatar_bg="#dd4b39"
@@ -29,7 +29,7 @@
       </v-col>
 
       <v-col lg="3" md="6" sm="12" cols="12">
-        <StockCard
+        <Dashboard
           title="ຕັດເງິນນຳເລັດໃນມື້"
           avatar_ic="mdi-check-underline-circle-outline"
           avatar_bg="#00c0ef"
@@ -38,7 +38,7 @@
       </v-col>
 
       <v-col lg="3" md="6" sm="12" cols="12">
-        <StockCard
+        <Dashboard
           title="ລາຍການຄ້າງໃນມື້"
           avatar_ic="mdi-alert-circle"
           avatar_bg="#e67e22"
@@ -46,11 +46,12 @@
         />
       </v-col>
     </v-row>
+    
   </v-container>
 </template>
 
 <script>
-import StockCard from "@/components/cards/Dashboard";
+import Dashboard from "@/components/cards/Dashboard";
 import api from "@/services/api";
 export default {
   name: "dashboard",
@@ -76,7 +77,7 @@ export default {
     };
   },
   components: {
-    StockCard,
+    Dashboard,
   },
   async mounted() {
     //this.loadProducts();

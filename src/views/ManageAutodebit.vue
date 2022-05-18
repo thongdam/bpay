@@ -12,8 +12,8 @@
               item-value="provider_auto"
               label="ເລືອກບໍລິສັດ"
               single-line
-              persistent-hint
-              solo
+              outlined
+              dense
             ></v-select>
           </v-col>
           <v-col cols="12" sm="6" md="2">
@@ -24,15 +24,16 @@
               item-value="values"
               label="ເລືອກສະຖານະ"
               single-line
-              persistent-hint
-              solo
+              outlined
+              dense
             ></v-select>
           </v-col>
           <v-col cols="12" sm="6" md="2">
             <v-text-field
               v-model="cheking_auto.agreement_no"
               label="ເລກສັນຍາ"
-              solo
+              outlined
+              dense
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="6" md="2">
@@ -52,7 +53,8 @@
                   readonly
                   v-bind="attrs"
                   v-on="on"
-                  solo
+                  outlined
+                  dense
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -93,7 +95,8 @@
                   readonly
                   v-bind="attrs"
                   v-on="on"
-                  solo
+                  outlined
+                  dense
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -123,9 +126,10 @@
               class="mx-1"
               fab
               dark
+              small
               color="success"
             >
-              <v-icon dark size="35"> mdi-search-web </v-icon>
+              <v-icon dark size="25"> mdi-search-web </v-icon>
             </v-btn>
           </v-col>
         </v-row>

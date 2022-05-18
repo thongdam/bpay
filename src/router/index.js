@@ -15,6 +15,14 @@ import ManageAutodebit from "@/views/ManageAutodebit";
 import ManageBill from "@/views/ManageBill";
 import ManageRegisterCreate from "@/views/ManageRegisterCreate";
 import ManageFeeTransaction from "@/views/ManageFeeTransaction";
+import ManageProviderCrateBill from "@/views/ManageProviderCreateBill";
+import ManageProviderBill from "@/views/ManageProviderBill";
+import ManageProviderEditBill  from "@/views/ManageProviderEditBill";
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+	return originalPush.call(this, location).catch(err => err)
+}
+
 Vue.use(VueRouter);
 const routes = [
   {
@@ -47,6 +55,16 @@ const routes = [
     path: "/ManageProviderCrate",
     name: "ManageProviderCrate",
     component: ManageProviderCreate,
+  },
+  {
+    path: "/ManageProviderBill",
+    name: "ManageProviderBill",
+    component: ManageProviderBill,
+  },
+  {
+    path: "/ManageProviderCrateBill",
+    name: "ManageProviderCrateBill",
+    component: ManageProviderCrateBill,
   },
   {
     path: "/ManageProviderEdit/:id",
@@ -95,6 +113,11 @@ const routes = [
     component: ManageFeeTransaction,
   },
   {
+    path: "/ManageProviderEditBill/:id",
+    name: "ManageProviderEditBill",
+    component: ManageProviderEditBill ,
+  },
+  {
     path: "/",
     redirect: "/login",
   },
@@ -108,4 +131,19 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+// Router guard
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => (record.meta.isSecured ? true : false))) {
+    // secure route
+    if (api.isLoggedIn()) {
+      next();
+    } else {
+      next("/login");
+    }
+  } else {
+    // unsecure route
+    next();
+  }
+});
+
 export default router;

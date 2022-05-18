@@ -12,6 +12,9 @@ axios.interceptors.request.use(async (config) => {
     const userToken = localStorage.getItem(server.TOKEN_KEY);
     if (userToken) {
       config.headers = { "x-access-token": userToken };
+      config.headers = {
+        "Access-Control-Allow-Origin": "*",
+      };
     }
     config.url = apiUrl + "/" + config.url;
   }
