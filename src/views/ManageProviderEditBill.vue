@@ -22,7 +22,7 @@
         {{ step.name }}
         <v-form :ref="'stepForm'" v-model="step.valid" lazy-validation>
           <v-row v-if="n == 0">
-            <v-col cols="3" sm="12" md="3">
+            <v-col cols="12" sm="12" md="3">
               <v-text-field
                 v-model="create_privider.full_name"
                 label="ຊື່ ແລະ ນາມສະກຸນ"
@@ -31,7 +31,7 @@
                 :rules="full_name_Rul"
               ></v-text-field>
             </v-col>
-            <v-col cols="3" sm="12" md="3">
+            <v-col cols="12" sm="12" md="3">
               <v-text-field
                 v-model="create_privider.phone_number"
                 label="ໂທລະສັບມືຖື"
@@ -40,7 +40,7 @@
                 :rules="phone_no_Rul"
               ></v-text-field>
             </v-col>
-            <v-col cols="3">
+            <v-col cols="12" sm="12" md="3">
               <v-text-field
                 v-model="create_privider.line_phone"
                 label="ໂທລະສັບຕັ້ງໂຕະ"
@@ -49,7 +49,7 @@
                 :rules="line_phone_Rul"
               ></v-text-field>
             </v-col>
-            <v-col cols="3">
+            <v-col cols="12" sm="12" md="3">
               <v-text-field
                 v-model="create_privider.provider_long"
                 label="ຊື່ ບໍລິສັດ"
@@ -58,7 +58,7 @@
                 :rules="provider_name_Rul"
               ></v-text-field>
             </v-col>
-            <v-col cols="3" sm="12" md="3">
+            <v-col cols="12" sm="12" md="3">
               <v-text-field
                 v-model="create_privider.provider_auto"
                 label="ຊື່ຫຍໍ້"
@@ -67,7 +67,7 @@
                 :rules="provider_code_Rul"
               ></v-text-field>
             </v-col>
-            <v-col cols="3" sm="12" md="3">
+            <v-col cols="12" sm="12" md="2">
               <v-menu
                 ref="menu"
                 v-model="menu"
@@ -108,7 +108,7 @@
                 </v-date-picker>
               </v-menu>
             </v-col>
-            <v-col cols="3" sm="12" md="3">
+            <v-col cols="12" sm="12" md="2">
               <v-menu
                 ref="menu2"
                 v-model="menu2"
@@ -149,21 +149,34 @@
                 </v-date-picker>
               </v-menu>
             </v-col>
-            <v-col cols="3" sm="12" md="3">
+            <v-col cols="12" sm="12" md="3">
               <v-select
                 v-model="create_privider.product_type"
                 :items="product_type"
                 item-text="provider_group"
                 :rules="product_type_Rul"
-                label="ປະເພດທຸລະກິດ"
                 single-line
                 persistent-hint
                 solo
-              ></v-select>
+                :selected="
+                  create_privider.provider_group == 'LEASING' ? true : false
+                "
+              >
+              </v-select>
+            </v-col>
+            <v-col cols="12" sm="2" md="2" xs="12" class="pa-4">
+              <v-switch
+                v-model="create_privider.provider_bill_status"
+                inset
+                color="success"
+                :label="`ສະຖານະ: ${
+                  create_privider.provider_bill_status == true ? 'ເປິດ' : 'ປິດ'
+                }`"
+              ></v-switch>
             </v-col>
           </v-row>
           <v-row v-if="n == 1">
-            <v-col cols="12">
+            <v-col cols="12" sm="12" md="12">
               <v-btn @click="addRow" small text color="danger">
                 <v-icon>mdi-briefcase-plus</v-icon>
                 <span>ເພິ່ມບັນຊີ</span>
@@ -174,7 +187,7 @@
               v-for="(item, index) in updateAccounts"
               :key="index"
             >
-              <v-col cols="3">
+              <v-col cols="12" sm="3" md="3">
                 <v-text-field
                   v-model="item.provider_acc"
                   label="ເລກ ບັນຊີຮອງຮັບ"
@@ -185,9 +198,9 @@
                   :rules="account_cr_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="2">
+              <v-col cols="12" sm="2" md="2">
                 <v-text-field
-                  v-model="item.account_name_cr"
+                  v-model="item.provider_acc_name"
                   label="ຊື່ ບັນຊີຮອງຮັບ"
                   required
                   solo
@@ -195,7 +208,7 @@
                   :rules="account_name_cr_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="2">
+              <v-col cols="12" sm="2" md="2">
                 <v-text-field
                   v-model="item.provider_ccy"
                   label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
@@ -205,7 +218,7 @@
                   :rules="account_name_cr_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="2">
+              <v-col cols="12" sm="2" md="2">
                 <v-text-field
                   v-model="item.min_amount"
                   label="ຍອດທີ່ອະນຸຍາດໃຫ້ຊຳລະຕ່ຳສຸດ"
@@ -216,7 +229,7 @@
                   :rules="min_amount_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="2">
+              <v-col cols="12" sm="2" md="2">
                 <v-text-field
                   type="number"
                   v-model="item.max_amount"
@@ -229,6 +242,7 @@
               </v-col>
               <v-col
                 cols="12"
+                sm="2"
                 md="1"
                 class="d-flex justify-center align-center mx-0 px-0"
               >
@@ -245,7 +259,7 @@
             </v-row>
           </v-row>
           <v-row v-if="n == 2" class="pa-10">
-            <v-col cols="6" sm="12" md="4">
+            <v-col cols="12" sm="12" md="4">
               <v-text-field
                 v-model="create_privider.account_drfee"
                 label="ເລກ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
@@ -256,7 +270,7 @@
                 :rules="[account_drfee_Rul]"
               ></v-text-field>
             </v-col>
-            <v-col cols="6" sm="12" md="4">
+            <v-col cols="12" sm="12" md="4">
               <v-text-field
                 v-model="create_privider.account_name_drfee"
                 label="ຊື່ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
@@ -265,7 +279,7 @@
                 :rules="[account_name_drfee_Rul]"
               ></v-text-field>
             </v-col>
-            <v-col cols="6" sm="12" md="4">
+            <v-col cols="12" sm="12" md="4">
               <v-select
                 v-model="create_privider.provider_fee_type"
                 :items="provider_fee_type"
@@ -276,7 +290,7 @@
               >
               </v-select>
             </v-col>
-            <v-col cols="4" sm="12" md="4">
+            <v-col cols="12" sm="12" md="4">
               <v-sheet>
                 <v-switch
                   v-model="create_privider.charge_company"
@@ -312,7 +326,7 @@
                 ></v-switch>
               </v-sheet>
             </v-col>
-            <v-col cols="4" sm="12" md="4">
+            <v-col cols="12" sm="12" md="4">
               <v-sheet>
                 <v-switch
                   v-model="create_privider.charge_txn"
@@ -348,7 +362,7 @@
                 ></v-switch>
               </v-sheet>
             </v-col>
-            <v-col cols="4" sm="12" md="4">
+            <v-col cols="12" sm="12" md="4">
               <v-sheet>
                 <v-switch
                   v-model="create_privider.input_amt"
@@ -388,7 +402,7 @@
                     scrollable
                   ></v-time-picker>
                 </v-col>
-                <v-col cols="12" sm="3" md="3">
+                <v-col cols="12" sm="3" md="3" class="pa-5">
                   <v-sheet>
                     <v-switch
                       v-for="(item, index) in loadChannel"
@@ -528,6 +542,11 @@ export default {
           valid: true,
         },
       ],
+      currency: [
+        { state: "ສະກຸນເງິນກີບ", abbr: "LAK" },
+        { state: "ສະກຸນເງິນໂດລາ", abbr: "USD" },
+        { state: "ສະກຸນເງິນບາດ", abbr: "THB" },
+      ],
       valid: false,
       stepForm: [],
       product_type: [],
@@ -565,6 +584,7 @@ export default {
         charge_customer: false,
         charge_month: false,
         charge_txn: false,
+        provider_acc_name: "",
       },
       create_privider: {
         full_name: "",
@@ -668,6 +688,11 @@ export default {
     } else {
       this.create_privider.charge_company = false;
     }
+    if (this.create_privider.provider_bill_status == "A") {
+      this.create_privider.provider_bill_status = true;
+    } else {
+      this.create_privider.provider_bill_status = false;
+    }
     if (this.create_privider.charge_month == "Y") {
       this.create_privider.charge_month = true;
     } else {
@@ -725,6 +750,10 @@ export default {
     }
   },
   methods: {
+    //get account for check
+    async getAccounts() {
+      console.log("getAccounts");
+    },
     async loadPosting() {
       //load bpay posting
       let result = await api.GETBPAYPOSTING(this.$route.params.id);
@@ -771,7 +800,13 @@ export default {
       console.log(this.updateAccounts);
       let arr = [];
       this.updateAccounts.forEach((value, index) => {
-        arr.push({provider_acc:value.provider_acc,account_name_cr:value.account_name_cr,provider_ccy:value.provider_ccy,max_amount:value.max_amount,min_amount:value.min_amount});
+        arr.push({
+          provider_acc: value.provider_acc,
+          account_name_cr: value.account_name_cr,
+          provider_ccy: value.provider_ccy,
+          max_amount: value.max_amount,
+          min_amount: value.min_amount,
+        });
       });
       this.steps[n].valid = false;
       let v = this.$refs.stepForm[n].validate();

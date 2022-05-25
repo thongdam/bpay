@@ -22,4 +22,5 @@ export const server = {
   GETBILLPAYMENT_URL:`getProviderBill`,
   GETBILLACCOUNT_URL:`getBillAccount`,
   GETBPAYPOSTING_URL:`getbpayPosting`,
+  GETACCOUNT_URL:`getAccounts`,
 };

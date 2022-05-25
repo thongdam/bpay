@@ -67,3 +67,7 @@ export const GETBILLACCOUNT = id => {
 export const GETBPAYPOSTING = id => {
   return httpClient.get(server.GETBPAYPOSTING_URL + `/${id}`);
 };
+// get account for check 
+export const getAccounts = data => {
+  return httpClient.post(server.GETACCOUNT_URL, data);
+};
