@@ -207,7 +207,6 @@ export default {
       formData.append("provider_code", items.provider_auto);
       let result = await api.addFeeProvider(formData);
       this.viewFee = result.data.body;
-
     },
     async viewFeeDlgs(items) {
       this.confirmViews = true;

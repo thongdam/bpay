@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     async loadUsers() {
-      let result = await api.getUsers();
+      let result = await api.Users();
       this.BDataArray = result.data.body;
     },
   },

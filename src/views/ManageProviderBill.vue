@@ -68,7 +68,16 @@
                 M:{{item.stop_month =='N' ? 'ເປິດໃຫ້ບໍລິການ':'ປິດທ້າຍເດືອນ'}}
               </v-chip>
             </td>
-            <td>{{ item.provider_channel ==null ? 'Another': item.provider_channel}}</td>
+            <td>
+                <v-chip small class="ml-0 mr-2 white--text" :color="item.provider_channel =='ONLINE' ? 'success' : 'info'" outlined>
+                    {{item.provider_channel =='ONLINE' ? 'ONLINE' : 'OFFLINE'}}
+               </v-chip>
+            </td>
+            <td>
+               <v-chip small class="ml-0 mr-2 white--text" :color="item.charge_company =='Y' ? 'success' : 'primary'" outlined>
+                    {{item.charge_company =='Y' ? 'ຈາກບໍລິສັດ' : 'ຈາກລູກຄ້າ'}}
+               </v-chip>
+              </td>
             <td>
               <v-btn
                 class="mr-2"
@@ -79,16 +88,6 @@
                 small
               >
                 <v-icon dark> mdi-pencil</v-icon>
-              </v-btn>
-              <v-btn
-                class="mr-2"
-                @click="deleteItem(item)"
-                color="danger"
-                fab
-                small
-                dark
-              >
-                <v-icon dark> mdi-delete-empty</v-icon>
               </v-btn>
             </td>
           </tr>
@@ -144,6 +143,7 @@ export default {
         { text: "ເລວາເປິດໃຫ້ຊຳລະ", value: "pay_time" },
         { text: "ເງື່ອນໄຂໃຫ້ບໍລິການ", value: "pay_condition" },
         { text: "ຊ່ອງທາງເຊື່ອມຕໍ່", value: "connection_mode" },
+        { text: "ຄ່າທຳນຽມເຮັດທຸລະກຳ", value: "charge_company" },
         { text: "ຕົວເລືອກ", value: "action" },
       ],
     };
@@ -153,7 +153,7 @@ export default {
   },
   methods: {
     async loadProviderBill() {
-      let result = await api.gitproviderbill();
+      let result = await api.getProviderBill();
       this.providerBill = result.data.body;
     },
     editProviderBill(item) {
@@ -165,7 +165,7 @@ export default {
       this.confirmDeleteDlg = true;
     },
     async confirmDelete() {
-      await api.deleteprovider(this.selectedProductId);
+      await api.deleteProvider(this.selectedProductId);
       this.confirmDeleteDlg = false;
       this.loadProvider();
     },

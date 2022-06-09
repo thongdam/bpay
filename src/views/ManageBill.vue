@@ -159,6 +159,7 @@ export default {
       formData.append("agreement_no", agreement_no);
       formData.append("from_date", from_date);
       formData.append("to_date", to_date);
+      formData.append("username",this.$store.getters["username"])
       let result = await api.getBill(formData);
       this.bill = result.data.body;
     },

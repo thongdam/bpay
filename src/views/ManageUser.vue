@@ -17,7 +17,8 @@
                 hide-details
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-btn disabled
+              <v-btn
+                disabled
                 @click="$router.push('/manageuserCreate')"
                 class="mx-1"
                 fab
@@ -39,7 +40,7 @@
             <td>{{ item.provider_code }}</td>
             <td>{{ item.create_date }}</td>
             <td>{{ item.active_date }}</td>
-            <td>{{ item.login_attem }}</td>
+            <td>+ {{ item.login_attemp }}</td>
             <td>{{ item.login_time }}</td>
             <td>
               <v-btn
@@ -48,16 +49,11 @@
                 fab
                 small
                 dark
+                @click="EditUsers(item)"
               >
                 <v-icon dark> mdi-pencil</v-icon>
               </v-btn>
-              <v-btn
-                class="mr-2"
-                color="error"
-                fab
-                small
-                dark
-              >
+              <v-btn class="mr-2" color="error" fab small dark>
                 <v-icon dark> mdi-delete-circle</v-icon>
               </v-btn>
             </td>
@@ -65,6 +61,50 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-row justify="center">
+      <v-dialog v-model="EditUser" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="text-h5">ແກ້ໄຂຜູ້ໃຊ້ງານ</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12" sm="12" md="12">
+                  <v-text-field
+                    v-model="UpdateUser.username"
+                    label="ຊື່ເຂົ້າໃຊ້ງານ*"
+                    required
+                    solo
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="12" md="12">
+                  <v-select
+                    v-model="UpdateUser.status"
+                    :items="check_status"
+                    item-text="keys"
+                    item-value="values"
+                    label="ເລືອກສະຖານະ"
+                    single-line
+                    persistent-hint
+                    solo
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="EditUser = false">
+              Close
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="EditUser = false">
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </v-container>
 </template>
 <script>
@@ -73,10 +113,19 @@ export default {
   name: "ManageUser",
   data() {
     return {
+      EditUser: false,
       search: "",
       selectedProductId: "",
       confirmDeleteDlg: false,
       BDataArray: [],
+      UpdateUser: [],
+      check_status: [
+        { keys: "Active", values: "A" },
+        { keys: "Pending", values: "P" },
+        { keys: "Lock", values: "L" },
+        { keys: "Unlock", values: "U" },
+        { keys: "Expired", values: "N" },
+      ],
       headers: [
         {
           text: "ລຳດັບ",
@@ -99,8 +148,12 @@ export default {
     this.loadUsers();
   },
   methods: {
+    EditUsers(item) {
+      this.EditUser = true;
+      this.UpdateUser = item;
+    },
     async loadUsers() {
-      let result = await api.getUsers();
+      let result = await api.Users();
       this.BDataArray = result.data.body;
     },
   },

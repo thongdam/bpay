@@ -68,7 +68,6 @@ const routes = [
   },
   {
     path: "/ManageProviderEdit/:id",
-    meta: { isSecured: true },
     name: "ManageProviderEdit",
     component: ManageProviderEdit,
   },

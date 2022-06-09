@@ -82,6 +82,7 @@ export default {
       formData.append("stock", stock);
       formData.append("price", price);
       formData.append("image", this.product.image);
+      formData.append("username",this.$store.getters["username"]);
       await api.addProduct(formData);
       this.$router.back();
     },

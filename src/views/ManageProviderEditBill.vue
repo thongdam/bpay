@@ -4,7 +4,6 @@
       <v-icon color="success">mdi-bank</v-icon
       >ແກ້ໄຂການຕັ້ງຄ່າໃຫ້ກັບບໍລິສັດເພື່ອເປິດນຳໃຊ້ບໍລິການ Bill payment
     </v-toolbar-title>
-    {{ create_privider }}
     <v-stepper v-model="curr" color="green">
       <v-stepper-header class="overflow-x-auto">
         <v-stepper-step
@@ -21,22 +20,34 @@
       <v-stepper-content v-for="(step, n) in steps" :step="n + 1" :key="n">
         {{ step.name }}
         <v-form :ref="'stepForm'" v-model="step.valid" lazy-validation>
-          <v-row v-if="n == 0">
+          <v-row v-if="n == 0" class="mt-5">
+            <v-col cols="12" sm="12" md="3">
+              <v-text-field
+                v-model="create_privider.provider_code"
+                label="ຊື່ຫຍໍ້"
+                placeholder="ຊື່ຫຍໍ້"
+                outlined
+                required
+                :rules="provider_code_Rul"
+              ></v-text-field>
+            </v-col>
             <v-col cols="12" sm="12" md="3">
               <v-text-field
                 v-model="create_privider.full_name"
-                label="ຊື່ ແລະ ນາມສະກຸນ"
                 required
-                solo
+                label="ຊື່ ແລະ ນາມສະກຸນ"
+                placeholder="ຊື່ ແລະ ນາມສະກຸນ"
+                outlined
                 :rules="full_name_Rul"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="12" md="3">
               <v-text-field
                 v-model="create_privider.phone_number"
-                label="ໂທລະສັບມືຖື"
                 required
-                solo
+                label="ໂທລະສັບມືຖື"
+                placeholder="ໂທລະສັບມືຖື"
+                outlined
                 :rules="phone_no_Rul"
               ></v-text-field>
             </v-col>
@@ -44,109 +55,76 @@
               <v-text-field
                 v-model="create_privider.line_phone"
                 label="ໂທລະສັບຕັ້ງໂຕະ"
+                placeholder="ໂທລະສັບຕັ້ງໂຕະ"
+                outlined
                 required
-                solo
                 :rules="line_phone_Rul"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="12" md="3">
               <v-text-field
-                v-model="create_privider.provider_long"
+                v-model="create_privider.provider_name"
                 label="ຊື່ ບໍລິສັດ"
+                placeholder="ຊື່ ບໍລິສັດ"
+                outlined
                 required
-                solo
                 :rules="provider_name_Rul"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="12" md="3">
-              <v-text-field
-                v-model="create_privider.provider_auto"
-                label="ຊື່ຫຍໍ້"
-                required
-                solo
-                :rules="provider_code_Rul"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="12" md="2">
+            <v-col cols="12" sm="3" md="3" xs="12">
               <v-menu
                 ref="menu"
                 v-model="menu"
                 :close-on-content-click="false"
-                :return-value.sync="create_privider.contract_startdate"
                 transition="scale-transition"
                 offset-y
+                max-width="290px"
                 min-width="auto"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     v-model="create_privider.contract_startdate"
                     label="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
-                    readonly
+                    placeholder="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
+                    persistent-hint
                     v-bind="attrs"
                     v-on="on"
-                    solo
+                    outlined
                   ></v-text-field>
                 </template>
                 <v-date-picker
                   v-model="create_privider.contract_startdate"
                   no-title
-                  scrollable
-                  color="green lighten-1"
-                  header-color="primary"
-                >
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="menu = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="$refs.menu.save(create_privider.contract_startdate)"
-                  >
-                    OK
-                  </v-btn>
-                </v-date-picker>
+                  @input="menu = false"
+                ></v-date-picker>
               </v-menu>
             </v-col>
-            <v-col cols="12" sm="12" md="2">
+            <v-col cols="12" sm="3" md="3" xs="12"> 
               <v-menu
                 ref="menu2"
                 v-model="menu2"
                 :close-on-content-click="false"
-                :return-value.sync="create_privider.contract_stopdate"
                 transition="scale-transition"
                 offset-y
+                max-width="290px"
                 min-width="auto"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     v-model="create_privider.contract_stopdate"
-                    label="ເລືອກວັນທີສິນສຸດສັນຍາ"
-                    readonly
+                    label="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
+                    placeholder="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
+                    persistent-hint
                     v-bind="attrs"
                     v-on="on"
-                    solo
+                    outlined
                   ></v-text-field>
                 </template>
                 <v-date-picker
                   v-model="create_privider.contract_stopdate"
                   no-title
-                  scrollable
-                  color="green lighten-1"
-                  header-color="primary"
-                >
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="menu2 = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="$refs.menu2.save(create_privider.contract_stopdate)"
-                  >
-                    OK
-                  </v-btn>
-                </v-date-picker>
+                  @input="menu2 = false"
+                ></v-date-picker>
               </v-menu>
             </v-col>
             <v-col cols="12" sm="12" md="3">
@@ -155,27 +133,24 @@
                 :items="product_type"
                 item-text="provider_group"
                 :rules="product_type_Rul"
-                single-line
-                persistent-hint
-                solo
-                :selected="
-                  create_privider.provider_group == 'LEASING' ? true : false
-                "
+                label="ເລືອກປະເພດທູລະກິດ"
+                placeholder="ເລືອກປະເພດທູລະກິດ"
+                outlined
               >
               </v-select>
             </v-col>
-            <v-col cols="12" sm="2" md="2" xs="12" class="pa-4">
+            <v-col cols="12" sm="4" md="4" xs="12" class="pa-4">
               <v-switch
-                v-model="create_privider.provider_bill_status"
+                v-model="create_privider.provider_status"
                 inset
                 color="success"
                 :label="`ສະຖານະ: ${
-                  create_privider.provider_bill_status == true ? 'ເປິດ' : 'ປິດ'
+                  create_privider.provider_status == true ? 'ເປິດ' : 'ປິດ'
                 }`"
               ></v-switch>
             </v-col>
           </v-row>
-          <v-row v-if="n == 1">
+          <v-row v-if="n == 1" class="mt-5">
             <v-col cols="12" sm="12" md="12">
               <v-btn @click="addRow" small text color="danger">
                 <v-icon>mdi-briefcase-plus</v-icon>
@@ -191,8 +166,9 @@
                 <v-text-field
                   v-model="item.provider_acc"
                   label="ເລກ ບັນຊີຮອງຮັບ"
+                  placeholder="ເລກ ບັນຊີຮອງຮັບ"
+                  outlined
                   required
-                  solo
                   counter
                   type="number"
                   :rules="account_cr_Rul"
@@ -202,30 +178,30 @@
                 <v-text-field
                   v-model="item.provider_acc_name"
                   label="ຊື່ ບັນຊີຮອງຮັບ"
+                  placeholder="ຊື່ ບັນຊີຮອງຮັບ"
+                  outlined
                   required
-                  solo
-                  persistent-hint
                   :rules="account_name_cr_Rul"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="2" md="2">
-                <v-text-field
+                <v-select
                   v-model="item.provider_ccy"
+                  :items="currency"
+                  item-text="abbr"
+                  :rules="provider_currency_Rul"
                   label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
-                  required
-                  solo
-                  persistent-hint
-                  :rules="account_name_cr_Rul"
-                ></v-text-field>
+                  placeholder="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
+                  outlined
+                ></v-select>
               </v-col>
               <v-col cols="12" sm="2" md="2">
                 <v-text-field
                   v-model="item.min_amount"
                   label="ຍອດທີ່ອະນຸຍາດໃຫ້ຊຳລະຕ່ຳສຸດ"
-                  required
+                  placeholder="ຍອດທີ່ອະນຸຍາດໃຫ້ຊຳລະຕ່ຳສຸດ"
+                  outlined
                   type="number"
-                  solo
-                  persistent-hint
                   :rules="min_amount_Rul"
                 ></v-text-field>
               </v-col>
@@ -234,9 +210,9 @@
                   type="number"
                   v-model="item.max_amount"
                   label="ຍອດທີ່ອະນຸຍາດໃຫ້ຊຳລະສູງສຸດ"
+                  placeholder="ຍອດທີ່ອະນຸຍາດໃຫ້ຊຳລະສູງສຸດ"
+                  outlined
                   required
-                  solo
-                  persistent-hint
                   :rules="max_amount_Rul"
                 ></v-text-field>
               </v-col>
@@ -258,35 +234,50 @@
               </v-col>
             </v-row>
           </v-row>
-          <v-row v-if="n == 2" class="pa-10">
-            <v-col cols="12" sm="12" md="4">
+          <v-row v-if="n == 2" class="pa-10 mt-5">
+            <v-col cols="12" sm="3" md="3">
               <v-text-field
-                v-model="create_privider.account_drfee"
+                v-model="accountFee.provider_fee_acc"
                 label="ເລກ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
-                required
-                solo
+                placeholder="ເລກ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
+                outlined
                 type="number"
                 counter
                 :rules="[account_drfee_Rul]"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="12" md="4">
+            <v-col cols="12" sm="3" md="3">
               <v-text-field
-                v-model="create_privider.account_name_drfee"
+                v-model="accountFee.provider_fee_name"
                 label="ຊື່ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
+                placeholder="ຊື່ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
+                outlined
                 required
-                solo
                 :rules="[account_name_drfee_Rul]"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="12" md="4">
+            <v-col cols="12" sm="3" md="3">
               <v-select
-                v-model="create_privider.provider_fee_type"
+                v-model="accountFee.provider_fee_ccy"
+                :items="currency"
+                item-text="abbr"
+                :rules="provider_currency_Rul"
+                label="ເລືອກສະກຸນເງິນ"
+                placeholder="ເລືອກສະກຸນເງິນ"
+                outlined
+                @change="getAccounts()"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" sm="3" md="3">
+              <v-select
+                v-model="create_privider.fee_id"
                 :items="provider_fee_type"
                 item-text="fee_company"
                 :rules="provider_fee_type_Rul"
                 label="ປະເພດຄ່າທຳນຽມ"
-                solo
+                placeholder="ປະເພດຄ່າທຳນຽມ"
+                outlined
+                @change="ViewFeeProvider()"
               >
               </v-select>
             </v-col>
@@ -368,7 +359,7 @@
                   v-model="create_privider.input_amt"
                   inset
                   :label="`ອະນຸຍາດໃຫ້ຕີຈຳນວນເງິນ: ${
-                    create_privider.input_amt.toString() == 'true'
+                    create_privider.input_amt == true
                       ? 'ເປິດ'
                       : 'ປິດ'
                   }`"
@@ -377,7 +368,7 @@
               </v-sheet>
             </v-col>
           </v-row>
-          <v-row v-if="n == 3">
+          <v-row v-if="n == 3" class="mt-5">
             <v-container fluid>
               <v-row justify="space-around" align="center">
                 <v-col style="width: 350px">
@@ -411,7 +402,7 @@
                       inset
                       color="success"
                       :label="`ຜ່ານຊ່ອງທາງ: ${
-                        item.provider_channel == 'true'
+                        item.provider_channel == true
                           ? item.channel
                           : item.channel
                       }`"
@@ -421,7 +412,7 @@
                       inset
                       color="success"
                       :label="`ສົ່ງຂໍ້ມູນ: ${
-                        create_privider.connect_mode.toString() == 'true'
+                        create_privider.connect_mode == true
                           ? 'ONLINE'
                           : 'OFFLINE'
                       }`"
@@ -429,9 +420,7 @@
                     <v-switch
                       v-model="create_privider.onday"
                       :label="`ປະຈຳວັນ: ${
-                        create_privider.onday.toString() == 'true'
-                          ? 'ເປິດ'
-                          : 'ປິດ'
+                        create_privider.onday == true ? 'ເປິດ' : 'ປິດ'
                       }`"
                       color="success"
                       inset
@@ -439,9 +428,7 @@
                     <v-switch
                       v-model="create_privider.stop_week"
                       :label="`ປະຈຳທິດ: ${
-                        create_privider.stop_week.toString() == 'true'
-                          ? 'ເປິດ'
-                          : 'ປິດ'
+                        create_privider.stop_week == true ? 'ເປິດ' : 'ປິດ'
                       }`"
                       color="success"
                       inset
@@ -450,18 +437,14 @@
                       v-model="create_privider.stop_month"
                       color="success"
                       :label="`ປະຈຳເດືອນ: ${
-                        create_privider.stop_month.toString() == 'true'
-                          ? 'ເປິດ'
-                          : 'ປິດ'
+                        create_privider.stop_month == true ? 'ເປິດ' : 'ປິດ'
                       }`"
                       inset
                     ></v-switch>
                     <v-switch
                       v-model="create_privider.aditional"
                       :label="`ວັນສຸກທ້າຍເດືອນ: ${
-                        create_privider.aditional.toString() == 'true'
-                          ? 'ເປິດ'
-                          : 'ປິດ'
+                        create_privider.aditional == true ? 'ເປິດ' : 'ປິດ'
                       }`"
                       color="success"
                       inset
@@ -499,6 +482,59 @@
         </v-btn>
       </v-stepper-content>
     </v-stepper>
+    <v-dialog v-model="errorAccount" max-width="500px">
+      <v-card align="center">
+        <v-card-title class="justify-center">
+          <v-alert dense outlined type="error">
+            ເລກບັນຊີ
+            <strong>ບໍ່ຖືກຕ້ອງ</strong> ກະລຸນາກວດສອບ.
+          </v-alert>
+        </v-card-title>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialog" fullscreen transition="dialog-bottom-transition">
+      <v-card>
+        <v-toolbar flat dark color="success">
+          <v-btn fab small @click="dialog = false" color="error">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <v-data-table :search="search" :headers="headers_fee" :items="viewFee">
+          <!-- table tr section -->
+          <template v-slot:item="{ item }">
+            <tr>
+              <td>
+                <v-chip small color="success" outlined>{{
+                  item.fee_id
+                }}</v-chip>
+              </td>
+              <td>
+                <v-chip small color="secondary" outlined>{{
+                  item.provider_channel == "M001" ? "ONLINE" : "COUNTER"
+                }}</v-chip>
+              </td>
+              <td>
+                <v-chip small color="primary" outlined>{{
+                  formatNumber(item.from_amt) + " " + "LAK"
+                }}</v-chip>
+              </td>
+
+              <td>
+                <v-chip small color="error" outlined>{{
+                  formatNumber(item.to_amt) + " " + "LAK"
+                }}</v-chip>
+              </td>
+              <td>
+                <v-chip small color="success" outlined>{{
+                  formatNumber(item.total_amt) + " " + "LAK"
+                }}</v-chip>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -508,6 +544,10 @@ export default {
   name: "ManageProviderCreateBill",
   data() {
     return {
+      errorAccount: false,
+      dialog: false,
+      search: "",
+      viewFee: [],
       channels: [],
       time: null,
       menu: false,
@@ -520,6 +560,13 @@ export default {
       end: null,
       curr: 1,
       lastStep: 4,
+      headers_fee: [
+        { text: "ລະຫັດຄ່າທຳນຽມ", value: "fee" },
+        { text: "ຊ່ອງທາງ", value: "channel" },
+        { text: "ຈາກ", value: "from_amt" },
+        { text: "ຫາ", value: "to_amt" },
+        { text: "ຄ່າທຳນຽມ", value: "total_amt" },
+      ],
       steps: [
         {
           name: "ຂໍ້ມູນບໍລິສັດ",
@@ -549,11 +596,16 @@ export default {
       ],
       valid: false,
       stepForm: [],
+      accountFee: {
+        provider_fee_acc: "",
+        provider_fee_name: "",
+        provider_fee_ccy: "",
+      },
       product_type: [],
       provider_fee_type: [],
       updateAccounts: {
         full_name: "",
-        phone_no: "",
+        phone_number: "",
         line_phone: "",
         provider_name: "",
         provider_code: "",
@@ -565,7 +617,7 @@ export default {
         account_name_cr: "",
         provider_channel: "",
         provider_send_data: "",
-        provider_currency: "",
+        provider_ccy: "",
         bill_charge_fee: "",
         bill_charge_type: "",
         onday: false,
@@ -585,10 +637,15 @@ export default {
         charge_month: false,
         charge_txn: false,
         provider_acc_name: "",
+        provider_fee_acc: "",
+        provider_fee_name: "",
+        provider_fee_ccy: "",
+        provider_name: "",
+        phone_number: "",
       },
       create_privider: {
         full_name: "",
-        phone_no: "",
+        phone_number: "",
         line_phone: "",
         provider_name: "",
         provider_code: "",
@@ -600,7 +657,7 @@ export default {
         account_name_cr: "",
         provider_channel: "",
         provider_send_data: "",
-        provider_currency: "",
+        provider_ccy: "",
         bill_charge_fee: "",
         bill_charge_type: "",
         onday: false,
@@ -610,8 +667,16 @@ export default {
         input_type: "",
         start_time: "",
         end_time: "",
-        contract_startdate: "",
-        contract_stopdate: "",
+        contract_startdate: new Date(
+          Date.now() - new Date().getTimezoneOffset() * 60000
+        )
+          .toISOString()
+          .substr(0, 10),
+        contract_stopdate: new Date(
+          Date.now() - new Date().getTimezoneOffset() * 60000
+        )
+          .toISOString()
+          .substr(0, 10),
         provider_fixacc: "",
         account_drfee: "",
         provider_fee_type: "",
@@ -622,6 +687,11 @@ export default {
         connect_mode: false,
         channel: "",
         fee_id: false,
+        provider_fee_acc: "",
+        provider_fee_name: "",
+        provider_fee_ccy: "",
+        provider_status: "",
+        provider_name: "",
       },
       loadChannel: {
         provider_channel: false,
@@ -675,23 +745,25 @@ export default {
   async mounted() {
     this.loadProductType();
     this.loadFeeType();
-    this.loadPosting();
     //load provider bill payment
     let result = await api.GetProviderBillById(this.$route.params.id);
     this.create_privider = result.data.body;
     //load account bill payment
-    let resacc = await api.GETBILLACCOUNT(this.$route.params.id);
+    let resacc = await api.GetBillAccount(this.$route.params.id);
     this.updateAccounts = resacc.data.body;
+    //load account bill fee
+    let acc_fee = await api.GetFeeBillAccount(this.$route.params.id);
+    this.accountFee = acc_fee.data.body;
 
     if (this.create_privider.charge_company == "Y") {
       this.create_privider.charge_company = true;
     } else {
       this.create_privider.charge_company = false;
     }
-    if (this.create_privider.provider_bill_status == "A") {
-      this.create_privider.provider_bill_status = true;
+    if (this.create_privider.provider_status == "A") {
+      this.create_privider.provider_status = true;
     } else {
-      this.create_privider.provider_bill_status = false;
+      this.create_privider.provider_status = false;
     }
     if (this.create_privider.charge_month == "Y") {
       this.create_privider.charge_month = true;
@@ -733,31 +805,41 @@ export default {
     } else {
       this.create_privider.aditional = false;
     }
-    if (this.loadChannel[0].provider_channel == "IBANK") {
-      this.loadChannel[0].provider_channel = "true";
-    } else {
-      this.loadChannel[0].provider_channel = "false";
-    }
-    if (this.loadChannel[1].provider_channel == "BCELONE") {
-      this.loadChannel[1].provider_channel = "true";
-    } else {
-      this.loadChannel[1].provider_channel = "false";
-    }
-    if (this.loadChannel[2].provider_channel == "COUNTER") {
-      this.loadChannel[2].provider_channel = "true";
-    } else {
-      this.loadChannel[2].provider_channel = "false";
-    }
+    //load bpay posting
+    let results = await api.GetBpayPosting(this.$route.params.id);
+    this.loadChannel = results.data.body;
+    this.loadChannel.forEach((value, index) => {
+      if (value.provider_channel == "A") {
+        value.provider_channel = true;
+      } else {
+        value.provider_channel = false;
+      }
+    });
   },
   methods: {
-    //get account for check
-    async getAccounts() {
-      console.log("getAccounts");
+    formatNumber(num) {
+      return parseFloat(num).toFixed(2);
     },
-    async loadPosting() {
-      //load bpay posting
-      let result = await api.GETBPAYPOSTING(this.$route.params.id);
-      this.loadChannel = result.data.body;
+    //view fee provider
+    async ViewFeeProvider() {
+      console.log(this.create_privider.fee_id);
+      this.dialog = true;
+      let formData = new FormData();
+      formData.append("fee_id", this.create_privider.fee_id);
+      let results = await api.ViewFeeProviders(formData);
+      this.viewFee = results.data.body;
+    },
+    async getAccounts() {
+      let formData = new FormData();
+      formData.append("txnAcc", this.accountFee.provider_fee_acc);
+      formData.append("txnCcy", this.accountFee.provider_fee_ccy);
+      let result = await api.getAccounts(formData);
+      if (result.data.body.respCode == "00") {
+        this.accountFee.provider_fee_name = result.data.body.accountName;
+      } else {
+        this.errorAccount = true;
+        this.accountFee.provider_fee_name = "";
+      }
     },
     async loadProductType() {
       let result = await api.getProductType();
@@ -774,7 +856,13 @@ export default {
       this.updateAccounts.splice([index], 1);
     },
     addRow() {
-      this.updateAccounts.push({});
+      this.updateAccounts.push({
+        account_cr: "",
+        provider_acc_name: "",
+        provider_ccy: "",
+        min_amount: "",
+        max_amount: "",
+      });
     },
     clear() {
       this.$refs.form.reset();
@@ -797,12 +885,11 @@ export default {
       }
     },
     async done(n) {
-      console.log(this.updateAccounts);
       let arr = [];
       this.updateAccounts.forEach((value, index) => {
         arr.push({
           provider_acc: value.provider_acc,
-          account_name_cr: value.account_name_cr,
+          provider_acc_name: value.provider_acc_name,
           provider_ccy: value.provider_ccy,
           max_amount: value.max_amount,
           min_amount: value.min_amount,
@@ -811,18 +898,12 @@ export default {
       this.steps[n].valid = false;
       let v = this.$refs.stepForm[n].validate();
       if (v == true) {
-        this.channels.push({
-          ibank: this.loadChannel[0].provider_channel,
-          bcelone: this.loadChannel[1].provider_channel,
-          counter: this.loadChannel[2].provider_channel,
-        });
         let formData = new FormData();
         const {
           full_name,
           phone_number,
           line_phone,
           provider_long,
-          provider_auto,
           contract_startdate,
           contract_stopdate,
           product_type,
@@ -840,12 +921,16 @@ export default {
           stop_week,
           stop_month,
           aditional,
+          fee_id,
+          provider_status,
+          provider_code,
+          provider_name,
         } = this.create_privider;
         formData.append("full_name", full_name);
         formData.append("phone_number", phone_number);
         formData.append("line_phone", line_phone);
         formData.append("provider_long", provider_long);
-        formData.append("provider_auto", provider_auto);
+        formData.append("provider_code", provider_code);
         formData.append("contract_startdate", contract_startdate);
         formData.append("contract_stopdate", contract_stopdate);
         formData.append("product_type", product_type);
@@ -863,11 +948,22 @@ export default {
         formData.append("stop_week", stop_week);
         formData.append("stop_month", stop_month);
         formData.append("aditional", aditional);
-        formData.append("channels", JSON.stringify(this.channels));
+        formData.append("fee_id", fee_id);
+        formData.append("provider_status", provider_status);
+        formData.append("provider_name", provider_name);
         formData.append("provider_acc", JSON.stringify(arr));
+        formData.append("ibank", this.loadChannel[0].provider_channel);
+        formData.append("counter", this.loadChannel[1].provider_channel);
+        formData.append("bcelone", this.loadChannel[2].provider_channel);
+        formData.append("provider_fee_acc", this.accountFee.provider_fee_acc);
+        formData.append("provider_fee_name", this.accountFee.provider_fee_name);
+        formData.append("provider_fee_ccy", this.accountFee.provider_fee_ccy);
+        formData.append("username",this.$store.getters["username"])
         let result = await api.updateProviderBill(formData);
-        if (result.status == 200) {
+        if (result.data.body.responseMsg=true) {
           this.$router.back();
+        } else {
+          console.log(result.status);
         }
       } else {
         this.steps[n].valid = true;
