@@ -97,7 +97,6 @@ export default {
           })
           .then((res) => {
             if (res) {
-              console.log("login");
             } else {
               this.errorLogin = true;
             }

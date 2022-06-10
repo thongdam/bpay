@@ -1,6 +1,6 @@
 <template>
-  <v-card ripple id="dashboardCard" >
-    <v-list-item two-line>
+  <v-card ripple id="dashboardCard"  >
+    <v-list-item two-line  class="dashboardCard">
       <v-list-item-content>
         <v-list-item-title class="headline mb-1">{{title}}</v-list-item-title>
         <v-list-item-subtitle class="title">{{subtitle}}</v-list-item-subtitle>
@@ -19,5 +19,3 @@ export default {
    props: ["title", "subtitle", "avatar_bg", "avatar_ic","larges"]
 };
 </script>
-
-<style></style>

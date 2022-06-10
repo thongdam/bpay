@@ -53,19 +53,19 @@
             </td>
             <td>
                <v-chip  x-small  class="ml-0 mr-2 white--text" :color="item.service_status =='A' ? 'success' : 'error'" outlined>
-                {{ item.service_status =='A' ? 'ເປິດໃຫ້ບໍລິການ' : 'ປິດໃຫ້ບໍລິການ' }}
+                {{ item.service_status =='A' ? 'ເປິດນຳໃຊ້' : 'ປິດນຳໃຊ້' }}
               </v-chip>
                 <v-chip v-if="(item.provider_group == 'ELECTRICT') || (item.provider_group == 'WATER')"  x-small  class="ml-0 mr-2 white--text" :color="item.aditional =='N' ? 'error' : 'info'" outlined>
                 {{ item.aditional =='N' ? 'ປິດວັນສຸກ ທ້າຍເດືອນ' : 'ປິດ ເສົາ-ທິດ ທ້າຍເດືອນ' }}
               </v-chip>
               <v-chip x-small v-if="(item.provider_group == 'ELECTRICT') || (item.provider_group == 'WATER')"   class="ml-0 mr-2 white--text" :color="item.onday =='N' ? 'info':'error'" outlined>
-                D:{{item.onday =='N' ? 'ເປິດໃຫ້ບໍລິການ':'ປິດທ້າຍມື້ຕາມໂມງ'}}
+                D:{{item.onday =='N' ? 'ເປິດນຳໃຊ້':'ປິດທ້າຍມື້ຕາມໂມງ'}}
               </v-chip>
               <v-chip x-small v-if="(item.provider_group == 'ELECTRICT') || (item.provider_group == 'WATER')"   class="ml-0 mr-2 white--text" :color="item.stop_week =='N' ? 'info':'error'" outlined>
-                W:{{item.stop_week =='N' ? 'ເປິດໃຫ້ບໍລິການ':'ປິດທ້າຍທິດຕາມໂມງ'}}
+                W:{{item.stop_week =='N' ? 'ເປິດນຳໃຊ້':'ປິດທ້າຍທິດຕາມໂມງ'}}
               </v-chip>
               <v-chip x-small v-if="(item.provider_group == 'ELECTRICT') || (item.provider_group == 'WATER')"   class="ml-0 mr-2 white--text" :color="item.stop_week =='N' ? 'info':'error'" outlined>
-                M:{{item.stop_month =='N' ? 'ເປິດໃຫ້ບໍລິການ':'ປິດທ້າຍເດືອນ'}}
+                M:{{item.stop_month =='N' ? 'ເປິດນຳໃຊ້':'ປິດທ້າຍເດືອນ'}}
               </v-chip>
             </td>
             <td>
@@ -141,9 +141,9 @@ export default {
         { text: "ຊື່ຫຍໍ້ແລະຊື່ເຕັມ", value: "provider_code" },
         { text: "ກຸ່ມບໍລິສັດ", value: "provider_group" },
         { text: "ເລວາເປິດໃຫ້ຊຳລະ", value: "pay_time" },
-        { text: "ເງື່ອນໄຂໃຫ້ບໍລິການ", value: "pay_condition" },
-        { text: "ຊ່ອງທາງເຊື່ອມຕໍ່", value: "connection_mode" },
-        { text: "ຄ່າທຳນຽມເຮັດທຸລະກຳ", value: "charge_company" },
+        { text: "ສະຖານະ", value: "pay_condition" },
+        { text: "ຮູບແບບການເຊື່ອມຕໍ່", value: "connection_mode" },
+        { text: "ຮູບແບບການເກັບຄ່າທຳນຽມ", value: "charge_company" },
         { text: "ຕົວເລືອກ", value: "action" },
       ],
     };

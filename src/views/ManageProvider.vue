@@ -55,7 +55,7 @@
                   :color="item.provider_auto_status == 'A' ? 'success' : 'danger'"
                   outlined
                   dense
-                  >{{ item.provider_auto_status == "A" ? "AUTO" : "C" }}</v-chip
+                  >{{ item.provider_auto_status == "A" ? "AUTO" : "CLOSED" }}</v-chip
                 >
                 <v-chip
                 small
@@ -64,7 +64,7 @@
                   :color="item.provider_bill_status == 'A' ? 'success' : 'danger'"
                   outlined
                   dense
-                  >{{ item.provider_bill_status == "A" ? "BILL" : "C" }}</v-chip
+                  >{{ item.provider_bill_status == "A" ? "BILL" : "CLOSED" }}</v-chip
                 >
               </td>
               <td>
@@ -76,8 +76,8 @@
                 >
                   {{
                     item.provider_status == "A"
-                      ? "ເປິດໃຫ້ບໍລິການ"
-                      : "ປິດໃຫ້ບໍລິສັດ"
+                      ? "ເປິດນຳໃຊ້"
+                      : "ປິດນຳໃຊ້"
                   }}
                 </v-chip>
               </td>
@@ -185,9 +185,9 @@ export default {
         { text: "ຊື່ຫຍໍ້ແລະຊື່ເຕັມ", value: "provider_code" },
         { text: "ເບີໂທ", value: "phone_no" },
         { text: "ນຳໃຊ້ຜະລິດຕະພັນ", value: "provider_auto" },
-        { text: "ເງື່ອນໄຂໃຫ້ບໍລິການ", value: "provider_status" },
-        { text: "ເງື່ອນໄຂການຕັດ", value: "cut_condition" },
-        { text: "ເກັບຄ່າທຳນຽມຈາກ", value: "fee" },
+        { text: "ສະຖານະ", value: "provider_status" },
+        { text: "ເງື່ອນໄຂການຕັດຄ່າທຳນຽມ", value: "cut_condition" },
+        { text: "ຮູບແບບການເກັບຄ່າທຳນຽມ", value: "fee" },
         { text: "ເປິດນຳໃຊ້", value: "create_date" },
         { text: "ມື້ເລິ່ມຕົ້ນແລະສິ້ນສຸດສັນຍາ", value: "contract" },
         { text: "ຕົວເລືອກ", value: "action" },
