@@ -18,7 +18,6 @@
               id="username"
               v-model="account.username"
               solo
-              dense
               required
               :rules="username_Rul"
             />
@@ -34,7 +33,6 @@
               :type="isShowPassword ? 'text' : 'password'"
               counter
               solo
-              dense
               required
               :rules="password_Rul"
             />
@@ -81,9 +79,9 @@ export default {
         password: "",
       },
       username: "",
-      username_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ ຊື່ ແລະ ນາມສະກຸນ"],
+      username_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ Username"],
       password: "",
-      password_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ ເບີໂທລະສັບມືຖື"],
+      password_Rul: [(v) => !!v || "ກະລຸນາປ້ອນ Password"],
     };
   },
   methods: {

@@ -56,6 +56,7 @@
                 v-model="create_privider.phone_number"
                 label="ໂທລະສັບມືຖື"
                 placeholder="ໂທລະສັບມືຖື"
+                type="number"
                 outlined
                 :rules="phone_no_Rul"
               ></v-text-field>
@@ -65,6 +66,7 @@
                 v-model="create_privider.line_phone"
                 label="ໂທລະສັບຕັ້ງໂຕະ"
                 placeholder="ໂທລະສັບຕັ້ງໂຕະ"
+                type="number"
                 outlined
                 :rules="line_phone_Rul"
               ></v-text-field>
@@ -108,6 +110,7 @@
                     v-bind="attrs"
                     v-on="on"
                     outlined
+                    prepend-inner-icon="mdi-calendar-plus"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -136,6 +139,7 @@
                     v-bind="attrs"
                     v-on="on"
                     outlined
+                    prepend-inner-icon="mdi-calendar-plus"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -175,18 +179,7 @@
                   placeholder="ເລກ ບັນຊີຮອງຮັບ"
                   outlined
                   counter
-                  type="number"
                   :rules="account_cr_Rul"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="3" md="3" xs="12">
-                <v-text-field
-                  v-model="acc.provider_acc_name"
-                  required
-                  label="ຊື່ ບັນຊີຮອງຮັບ"
-                  placeholder="ຊື່ ບັນຊີຮອງຮັບ"
-                  outlined
-                  :rules="account_name_cr_Rul"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="2" md="2" xs="12">
@@ -200,6 +193,16 @@
                   outlined
                   @change="getAccounts()"
                 ></v-select>
+              </v-col>
+              <v-col cols="12" sm="3" md="3" xs="12">
+                <v-text-field
+                  v-model="acc.provider_acc_name"
+                  required
+                  label="ຊື່ ບັນຊີຮອງຮັບ"
+                  placeholder="ຊື່ ບັນຊີຮອງຮັບ"
+                  outlined
+                  :rules="account_name_cr_Rul"
+                ></v-text-field>
               </v-col>
               <v-col cols="12" sm="2" md="2" xs="12">
                 <v-text-field
@@ -247,7 +250,7 @@
             </v-row>
           </div>
 
-          <v-row v-if="n == 2" class="pa-10 mt-5">
+          <v-row v-if="n == 2" class="pa-5 mt-5">
             <v-col cols="12" sm="3" md="3">
               <v-text-field
                 v-model="create_privider.provider_fee_acc"
@@ -255,19 +258,8 @@
                 placeholder="ເລກ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
                 outlined
                 required
-                type="number"
                 counter
                 :rules="[account_drfee_Rul]"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="3" md="3">
-              <v-text-field
-                v-model="create_privider.provider_fee_name"
-                label="ຊື່ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
-                placeholder="ຊື່ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
-                outlined
-                required
-                :rules="[account_name_drfee_Rul]"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="3" md="3">
@@ -283,201 +275,294 @@
               ></v-select>
             </v-col>
             <v-col cols="12" sm="3" md="3">
+              <v-text-field
+                v-model="create_privider.provider_fee_name"
+                label="ຊື່ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
+                placeholder="ຊື່ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
+                outlined
+                required
+                :rules="[account_name_drfee_Rul]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="3" md="3">
               <v-select
                 v-model="create_privider.fee_id"
                 :items="provider_fee_type"
                 item-text="fee_company"
                 :rules="provider_fee_type_Rul"
-                label="ປະເພດຄ່າທຳນຽມ"
-                placeholder="ປະເພດຄ່າທຳນຽມ"
+                label="ອັດຕາຄ່າທຳນຽມ"
+                placeholder="ອັດຕາຄ່າທຳນຽມ"
                 outlined
                 @change="ViewFeeProvider()"
               >
               </v-select>
             </v-col>
-            <v-col cols="12" sm="12" md="4">
-              <v-sheet>
-                <v-switch
-                  v-model="create_privider.charge_company"
-                  inset
-                  color="success"
-                  label="ຄ່າທຳນຽມເກັບຈາກບໍລິສັດ"
-                  :disabled="
-                    create_privider.charge_customer == true
-                      ? true
-                      : create_privider.charge_txn == true
-                      ? true
-                      : false
-                  "
-                  :rules="
-                    create_privider.charge_customer == true
-                      ? []
-                      : [charge_company_Rul]
-                  "
-                ></v-switch>
-                <v-switch
-                  v-model="create_privider.charge_customer"
-                  inset
-                  label="ຄ່າທຳນຽມເກັບຈາກລູກຄ້າ"
-                  color="success"
-                  :disabled="
-                    create_privider.charge_company == true ? true : false
-                  "
-                  :rules="
-                    create_privider.charge_company == true
-                      ? []
-                      : [charge_customer_Rul]
-                  "
-                ></v-switch>
-              </v-sheet>
+            <v-col cols="12" sm="6" md="6" xs="12">
+              <v-card class="mx-auto" outlined>
+                <v-list-item three-line>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h6 mb-1">
+                      ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີບໍລິສັດ
+                    </v-list-item-title>
+                    <v-row cols="12" class="pa-3">
+                      <v-col cols="12" sm="12" md="12" xs="12">
+                        <v-sheet>
+                          <v-switch
+                            v-model="create_privider.charge_company"
+                            inset
+                            color="success"
+                            label="ຄ່າທຳນຽມເກັບຈາກບໍລິສັດ"
+                            :disabled="
+                              create_privider.charge_customer == true
+                                ? true
+                                : create_privider.charge_txn == true
+                                ? true
+                                : false
+                            "
+                            :rules="
+                              create_privider.charge_customer == true
+                                ? []
+                                : [charge_company_Rul]
+                            "
+                          ></v-switch>
+                          <v-switch
+                            v-model="create_privider.charge_month"
+                            inset
+                            label="ຕັດລວມຍອດທ້າຍເດືອນ"
+                            color="success"
+                            :disabled="
+                              create_privider.charge_customer == true
+                                ? true
+                                : create_privider.charge_txn == true
+                                ? true
+                                : false
+                            "
+                            :rules="
+                              create_privider.charge_customer == true
+                                ? []
+                                : [charge_month_Rul]
+                            "
+                          ></v-switch>
+                        </v-sheet>
+                      </v-col>
+                    </v-row>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
             </v-col>
-            <v-col cols="12" sm="12" md="4">
-              <v-sheet>
-                <v-switch
-                  v-model="create_privider.charge_txn"
-                  inset
-                  label="ຕັດເທື່ອລະລາຍການ"
-                  color="success"
-                  :disabled="
-                    create_privider.charge_company == true ? true : false
-                  "
-                  :rules="
-                    create_privider.charge_company == true
-                      ? []
-                      : [charge_txn_Rul]
-                  "
-                ></v-switch>
-                <v-switch
-                  v-model="create_privider.charge_month"
-                  inset
-                  label="ຕັດລວມຍອດທ້າຍເດືອນ"
-                  color="success"
-                  :disabled="
-                    create_privider.charge_customer == true
-                      ? true
-                      : create_privider.charge_txn == true
-                      ? true
-                      : false
-                  "
-                  :rules="
-                    create_privider.charge_customer == true
-                      ? []
-                      : [charge_month_Rul]
-                  "
-                ></v-switch>
-              </v-sheet>
-            </v-col>
-            <v-col cols="12" sm="12" md="4">
-              <v-sheet>
-                <v-switch
-                  v-model="create_privider.input_amt"
-                  inset
-                  :label="`ອະນຸຍາດໃຫ້ຕີຈຳນວນເງິນ: ${
-                    create_privider.input_amt == true ? 'ເປິດ' : 'ປິດ'
-                  }`"
-                  color="success"
-                ></v-switch>
-              </v-sheet>
+            <v-col cols="12" sm="6" md="6" xs="12">
+              <v-card class="mx-auto" outlined>
+                <v-list-item three-line>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h6 mb-1">
+                      ຄ່າທຳນຽມການດຳເນິນທຸລະກຳຕັດຈາກບັນຊີລູກຄ່າຊຳລະເອງ
+                    </v-list-item-title>
+                    <v-row cols="12" class="pa-3">
+                      <v-col cols="12" sm="12" md="12" xs="12">
+                        <v-sheet>
+                          <v-switch
+                            v-model="create_privider.charge_customer"
+                            inset
+                            label="ຄ່າທຳນຽມເກັບຈາກລູກຄ້າ"
+                            color="success"
+                            :disabled="
+                              create_privider.charge_company == true
+                                ? true
+                                : false
+                            "
+                            :rules="
+                              create_privider.charge_company == true
+                                ? []
+                                : [charge_customer_Rul]
+                            "
+                          ></v-switch>
+                          <v-switch
+                            v-model="create_privider.charge_txn"
+                            inset
+                            label="ຕັດເທື່ອລະລາຍການ"
+                            color="success"
+                            :disabled="
+                              create_privider.charge_company == true
+                                ? true
+                                : false
+                            "
+                            :rules="
+                              create_privider.charge_company == true
+                                ? []
+                                : [charge_txn_Rul]
+                            "
+                          ></v-switch>
+                        </v-sheet>
+                      </v-col>
+                    </v-row>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
             </v-col>
           </v-row>
-
           <v-row v-if="n == 3" class="mt-5">
-            <v-container fluid>
-              <v-row justify="space-around" align="center">
-                <v-col style="width: 350px">
-                  <h2>ເວລາເລິ່ມຕົ້ນ:</h2>
-                  <v-time-picker
-                    v-model="create_privider.start_time"
-                    :max="end"
-                    format="24hr"
-                    :rules="[start_Rul]"
-                    flat
-                    scrollable
-                  ></v-time-picker>
-                </v-col>
-                <v-col style="width: 350px">
-                  <h2>ເວລາສິ້ນສຸດ:</h2>
-                  <v-time-picker
-                    v-model="create_privider.end_time"
-                    :min="start"
-                    format="24hr"
-                    :rules="[end_Rul]"
-                    flat
-                    scrollable
-                  ></v-time-picker>
-                </v-col>
-                <v-col cols="12" sm="3" md="3" class="pa-5">
-                  <v-sheet>
-                    <v-switch
-                      v-model="create_privider.ibank"
-                      inset
-                      color="success"
-                      :label="`ຊຳລະຜ່ານຊ່ອງທາງ IBANK: ${
-                        create_privider.ibank == true ? 'ເປິດ' : 'ປິດ'
-                      }`"
-                    ></v-switch>
-                    <v-switch
-                      v-model="create_privider.bcelone"
-                      inset
-                      color="success"
-                      :label="`ຊຳລະຜ່ານຊ່ອງທາງ BCEL ONE: ${
-                        create_privider.bcelone == true ? 'ເປິດ' : 'ປິດ'
-                      }`"
-                    ></v-switch>
-                    <v-switch
-                      v-model="create_privider.counter"
-                      inset
-                      color="success"
-                      :label="`ຊຳລະຜ່ານຊ່ອງທາງ COUNTER: ${
-                        create_privider.counter == true ? 'ເປິດ' : 'ປິດ'
-                      }`"
-                    ></v-switch>
-                    <v-switch
-                      v-model="create_privider.connect_mode"
-                      inset
-                      color="success"
-                      :label="`ສົ່ງຂໍ້ມູນແບບ: ${
-                        create_privider.connect_mode == false
-                          ? 'OFFLINE'
-                          : 'ONLINE'
-                      }`"
-                    ></v-switch>
-                    <v-switch
-                      v-model="create_privider.onday"
-                      :label="`ປະຈຳວັນ: ${
-                        create_privider.onday == true ? 'ເປິດ' : 'ປິດ'
-                      }`"
-                      color="success"
-                      inset
-                    ></v-switch>
-                    <v-switch
-                      v-model="create_privider.stop_week"
-                      :label="`ປະຈຳທິດ: ${
-                        create_privider.stop_week == true ? 'ເປິດ' : 'ປິດ'
-                      }`"
-                      color="success"
-                      inset
-                    ></v-switch>
-                    <v-switch
-                      v-model="create_privider.stop_month"
-                      color="success"
-                      :label="`ປະຈຳເດືອນ: ${
-                        create_privider.stop_month == true ? 'ເປິດ' : 'ປິດ'
-                      }`"
-                      inset
-                    ></v-switch>
-                    <v-switch
-                      v-model="create_privider.aditional"
-                      :label="`ວັນສຸກທ້າຍເດືອນ: ${
-                        create_privider.aditional == true ? 'ເປິດ' : 'ປິດ'
-                      }`"
-                      color="success"
-                      inset
-                    ></v-switch>
-                  </v-sheet>
-                </v-col>
-              </v-row>
-            </v-container>
+            <v-col cols="12" sm="6" md="6" xs="12">
+              <v-card class="mx-auto" outlined>
+                <v-list-item three-line>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h5 mb-1">
+                      ເວລາເປິດໃຫ້ຊຳລະ
+                    </v-list-item-title>
+                    <v-row cols="12" class="pa-3">
+                      <v-col cols="12" sm="6" md="6" xs="12">
+                        <h5>ເວລາເລິ່ມຕົ້ນ</h5>
+                        <v-time-picker
+                          v-model="create_privider.start_time"
+                          :max="end"
+                          format="24hr"
+                          :rules="[start_Rul]"
+                          flat
+                          scrollable
+                        ></v-time-picker>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="6" xs="12">
+                        <h5>ເວລາສິ້ນສຸດ</h5>
+                        <v-time-picker
+                          v-model="create_privider.end_time"
+                          :min="start"
+                          format="24hr"
+                          :rules="[end_Rul]"
+                          flat
+                          scrollable
+                        ></v-time-picker>
+                      </v-col>
+                    </v-row>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </v-col>
+            <v-col cols="12" sm="6" md="6" xs="12">
+              <v-card class="mx-auto" outlined>
+                <v-list-item three-line>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h6 mb-1">
+                      ເງື່ອນໄຂອື່ນໆ
+                    </v-list-item-title>
+                    <v-row cols="12" class="pa-3">
+                      <v-col cols="12" sm="12" md="12" xs="12">
+                        <v-sheet>
+                          <v-switch
+                            v-model="create_privider.onday"
+                            :label="`ປະຈຳວັນ: ${
+                              create_privider.onday == true ? 'ເປິດ' : 'ປິດ'
+                            }`"
+                            color="success"
+                            inset
+                          ></v-switch>
+                          <v-switch
+                            v-model="create_privider.stop_week"
+                            :label="`ປະຈຳທິດ: ${
+                              create_privider.stop_week == true ? 'ເປິດ' : 'ປິດ'
+                            }`"
+                            color="success"
+                            inset
+                          ></v-switch>
+                          <v-switch
+                            v-model="create_privider.stop_month"
+                            color="success"
+                            :label="`ປະຈຳເດືອນ: ${
+                              create_privider.stop_month == true
+                                ? 'ເປິດ'
+                                : 'ປິດ'
+                            }`"
+                            inset
+                          ></v-switch>
+                          <v-switch
+                            v-model="create_privider.aditional"
+                            :label="`ວັນສຸກທ້າຍເດືອນ: ${
+                              create_privider.aditional == true ? 'ເປິດ' : 'ປິດ'
+                            }`"
+                            color="success"
+                            inset
+                          ></v-switch>
+                        </v-sheet>
+                      </v-col>
+                    </v-row>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </v-col>
+            <v-col cols="12" sm="6" md="6" xs="12">
+              <v-card class="mx-auto" outlined>
+                <v-list-item three-line>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h6 mb-1">
+                      ຮູບແບບການຊຳລະ
+                    </v-list-item-title>
+                    <v-row cols="12" class="pa-3">
+                      <v-col cols="12" sm="12" md="12" xs="12">
+                        <v-sheet>
+                          <v-switch
+                            v-model="create_privider.ibank"
+                            inset
+                            color="success"
+                            :label="`ຊຳລະຜ່ານຊ່ອງທາງ IBANK: ${
+                              create_privider.ibank == true ? 'ເປິດ' : 'ປິດ'
+                            }`"
+                          ></v-switch>
+                          <v-switch
+                            v-model="create_privider.bcelone"
+                            inset
+                            color="success"
+                            :label="`ຊຳລະຜ່ານຊ່ອງທາງ BCEL ONE: ${
+                              create_privider.bcelone == true ? 'ເປິດ' : 'ປິດ'
+                            }`"
+                          ></v-switch>
+                          <v-switch
+                            v-model="create_privider.counter"
+                            inset
+                            color="success"
+                            :label="`ຊຳລະຜ່ານຊ່ອງທາງ COUNTER: ${
+                              create_privider.counter == true ? 'ເປິດ' : 'ປິດ'
+                            }`"
+                          ></v-switch>
+                        </v-sheet>
+                      </v-col>
+                    </v-row>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </v-col>
+            <v-col cols="12" sm="6" md="6" xs="12">
+              <v-card class="mx-auto" outlined>
+                <v-list-item three-line>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h6 mb-1">
+                      ຮູບແບບການຮັບສົ່ງຂໍ້ມູນແລະການຊຳລະ
+                    </v-list-item-title>
+                    <v-row cols="12" class="pa-3">
+                      <v-col cols="12" sm="12" md="12" xs="12">
+                        <v-sheet>
+                          <v-switch
+                            v-model="create_privider.input_amt"
+                            inset
+                            :label="`ອະນຸຍາດໃຫ້ຕີຈຳນວນເງິນ: ${
+                              create_privider.input_amt == true ? 'ເປິດ' : 'ປິດ'
+                            }`"
+                            color="success"
+                          ></v-switch>
+                          <v-switch
+                            v-model="create_privider.connect_mode"
+                            inset
+                            color="success"
+                            :label="`ສົ່ງຂໍ້ມູນ: ${
+                              create_privider.connect_mode == true
+                                ? 'ONLINE'
+                                : 'OFFLINE'
+                            }`"
+                          ></v-switch>
+                        </v-sheet>
+                      </v-col>
+                    </v-row>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </v-col>
           </v-row>
         </v-form>
         <v-btn
@@ -502,7 +587,7 @@
         >
           <v-icon dark> mdi-content-save </v-icon>
         </v-btn>
-        <v-btn class="mx-2" fab dark color="red" @click="curr = 1">
+        <v-btn  :disabled="curr == 1 ? true : false" class="mx-2" fab dark color="red" @click="curr = 1">
           <v-icon dark> mdi-menu-left </v-icon>
         </v-btn>
       </v-stepper-content>
@@ -918,9 +1003,8 @@ export default {
         formData.append("provider_fee_name", provider_fee_name);
         formData.append("provider_fee_ccy", provider_fee_ccy);
         formData.append("username", this.$store.getters["username"]);
-        console.log(this.create_privider);
         let result = await api.addProviderBill(formData);
-        if ((result.data.body.responseMsg = true)) {
+        if (result.data.body.responseMsg = true) {
           this.$router.back();
         } else {
           console.log(result.status);

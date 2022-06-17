@@ -53,9 +53,6 @@
               >
                 <v-icon dark> mdi-pencil</v-icon>
               </v-btn>
-              <v-btn class="mr-2" color="error" fab small dark>
-                <v-icon dark> mdi-delete-circle</v-icon>
-              </v-btn>
             </td>
           </tr>
         </template>
@@ -90,6 +87,18 @@
                     solo
                   ></v-select>
                 </v-col>
+                <v-col cols="12" sm="12" md="12">
+                  <v-select
+                    v-model="UpdateUser.provider_code"
+                    :items="providers"
+                    item-text="provider_long"
+                    item-value="provider_auto"
+                    label="ເລືອກບໍລິສັດ"
+                    single-line
+                    persistent-hint
+                    solo
+                  ></v-select>
+                </v-col>
               </v-row>
             </v-container>
           </v-card-text>
@@ -98,7 +107,7 @@
             <v-btn color="blue darken-1" text @click="EditUser = false">
               Close
             </v-btn>
-            <v-btn color="blue darken-1" text @click="EditUser = false">
+            <v-btn color="blue darken-1" text @click="UpdateUsers()">
               Save
             </v-btn>
           </v-card-actions>
@@ -119,12 +128,14 @@ export default {
       confirmDeleteDlg: false,
       BDataArray: [],
       UpdateUser: [],
+      providers: [],
       check_status: [
         { keys: "Active", values: "A" },
         { keys: "Pending", values: "P" },
         { keys: "Lock", values: "L" },
         { keys: "Unlock", values: "U" },
         { keys: "Expired", values: "N" },
+        { keys: "Close", values: "C" },
       ],
       headers: [
         {
@@ -146,8 +157,37 @@ export default {
   },
   async mounted() {
     this.loadUsers();
+    this.loadProvider();
   },
   methods: {
+    async UpdateUsers(){
+      let formData = new FormData();
+      const {
+        login_attemp,
+        login_time,
+        provider_code,
+        username,
+        id,
+        status
+      }= this.UpdateUser;
+      formData.append("login_attemp",login_attemp)
+      formData.append("login_time",login_time);
+      formData.append("provider_code",provider_code)
+      formData.append("username",username)
+      formData.append("id",id)
+      formData.append("status",status)
+      let result = await api.UpdateUsers(formData);
+      console.log(result.data.body.responseMsg)
+      if(result.data.body.responseMsg = true){
+        window.location.reload();
+      }else{
+        console.log(result.status);
+      }
+    },
+    async loadProvider() {
+      let result = await api.getProviders();
+      this.providers = result.data.body;
+    },
     EditUsers(item) {
       this.EditUser = true;
       this.UpdateUser = item;

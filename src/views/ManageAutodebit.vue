@@ -6,118 +6,89 @@
         <v-row>
           <v-col cols="12" sm="6" md="3">
             <v-select
-              v-model="cheking_auto.provider_code"
+              v-model="checking_auto.provider_code"
               :items="providers"
               item-text="provider_long"
               item-value="provider_auto"
               label="ເລືອກບໍລິສັດ"
               single-line
               outlined
-              dense
             ></v-select>
           </v-col>
           <v-col cols="12" sm="6" md="2">
             <v-select
-              v-model="cheking_auto.status_auto"
+              v-model="checking_auto.status_auto"
               :items="chekc_status"
               item-text="keys"
               item-value="values"
               label="ເລືອກສະຖານະ"
               single-line
               outlined
-              dense
             ></v-select>
           </v-col>
           <v-col cols="12" sm="6" md="2">
             <v-text-field
-              v-model="cheking_auto.agreement_no"
+              v-model="checking_auto.agreement_no"
               label="ເລກສັນຍາ"
               outlined
-              dense
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="6" md="2">
+          <v-col cols="12" sm="2" md="2" xs="12">
             <v-menu
               ref="menu"
               v-model="menu"
               :close-on-content-click="false"
-              :return-value.sync="cheking_auto.from_date"
               transition="scale-transition"
               offset-y
+              max-width="290px"
               min-width="auto"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="cheking_auto.from_date"
-                  label="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
-                  readonly
+                  v-model="checking_auto.from_date"
+                  label="ຈາກວັນທີ"
+                  placeholder="ຈາກວັນທີ"
+                  persistent-hint
                   v-bind="attrs"
                   v-on="on"
                   outlined
-                  dense
+                  prepend-inner-icon="mdi-calendar-plus"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="cheking_auto.from_date"
+                v-model="checking_auto.from_date"
                 no-title
-                scrollable
-                color="green lighten-1"
-                header-color="primary"
-              >
-                <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="menu = false">
-                  Cancel
-                </v-btn>
-                <v-btn
-                  text
-                  color="primary"
-                  @click="$refs.menu.save(cheking_auto.from_date)"
-                >
-                  OK
-                </v-btn>
-              </v-date-picker>
+                @input="menu = false"
+              ></v-date-picker>
             </v-menu>
           </v-col>
-          <v-col cols="12" sm="6" md="2">
+          <v-col cols="12" sm="2" md="2" xs="12">
             <v-menu
               ref="menu2"
               v-model="menu2"
               :close-on-content-click="false"
-              :return-value.sync="cheking_auto.to_date"
               transition="scale-transition"
               offset-y
+              max-width="290px"
               min-width="auto"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="cheking_auto.to_date"
-                  label="ເລືອກວັນທີສິນສຸດສັນຍາ"
-                  readonly
+                  v-model="checking_auto.to_date"
+                  label="ຫາວັນທີ"
+                  placeholder="ຫາວັນທີ"
+                  persistent-hint
                   v-bind="attrs"
                   v-on="on"
                   outlined
-                  dense
+                  prepend-inner-icon="mdi-calendar-plus"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="cheking_auto.to_date"
+                v-model="checking_auto.to_date"
                 no-title
-                scrollable
-                color="green lighten-1"
-                header-color="primary"
-              >
-                <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="menu2 = false">
-                  Cancel
-                </v-btn>
-                <v-btn
-                  text
-                  color="primary"
-                  @click="$refs.menu2.save(cheking_auto.to_date)"
-                >
-                  OK
-                </v-btn>
-              </v-date-picker>
+                @input="menu2 = false"
+              ></v-date-picker>
             </v-menu>
           </v-col>
           <v-col cols="12" sm="6" md="1">
@@ -158,12 +129,31 @@
           <tr>
             <td>{{ item.id }}</td>
             <td>{{ item.agreement_no }}</td>
+            <td>{{ item.customer_name }}</td>
+            <td>{{ formatNumber(item.amount) }}</td>
+            <td>{{ item.deduct_date }}</td>
+            <td>{{ item.date_process }}</td>
             <td>{{ item.provider_acc }}</td>
             <td>{{ item.provider_acc_name }}</td>
             <td>{{ item.provider_ccy }}</td>
-            <td>{{ item.customer_name }}</td>
+            <td>
+              <v-chip small color="info" outlined pill>
+                {{ item.auto_condition_type }} ຄັ້ງ
+              </v-chip>
+              <v-btn
+                class="ml-3"
+                color="warning"
+                fab
+                x-small
+                @click="UpdateStatus(item)"
+              >
+                <v-icon dark> mdi-refresh-auto</v-icon>
+              </v-btn>
+            </td>
+            <td>{{ item.provider_code }}</td>
             <td>
               <v-chip
+              small
                 :color="
                   item.provider_auto_status == '89'
                     ? 'danger'
@@ -183,25 +173,15 @@
                 }}
               </v-chip>
             </td>
-            <td>{{ item.provider_code }}</td>
             <td>
               <v-chip
-                :color="
-                  item.register_status == 'C'
-                    ? 'danger'
-                    : item.register_status == 'A'
-                    ? 'success'
-                    : 'warning'
-                "
+              small
+                :color="item.register_status == 'C' ? 'danger' : item.register_status == 'A' ? 'success': item.register_status == 'R' ?'info':'warning'"
                 outlined
                 pill
               >
                 {{
-                  item.register_status == "C"
-                    ? "ເລກສັນຍາຖືກປິດ"
-                    : item.register_status == "A"
-                    ? "ລົງທະບຽນສຳເລັດ"
-                    : "ລໍຖ້າລົງທະບຽນ"
+                  item.register_status == "C" ? "ເລກສັນຍາຖືກປິດ" : item.register_status == "A" ? "ລົງທະບຽນສຳເລັດ" : item.register_status == "R" ? "ສົ່ງເງິນຄືນລູກຄ້າ" : "ລໍຖ້າລົງທະບຽນ"
                 }}
               </v-chip>
             </td>
@@ -225,7 +205,7 @@ export default {
       confirmDeleteDlg: false,
       autodebits: [],
       providers: [],
-      cheking_auto: {
+      checking_auto: {
         provider_code: "",
         status_auto: "",
         agreement_no: "",
@@ -245,12 +225,16 @@ export default {
           value: "id",
         },
         { text: "ເລກທີສັນຍາ", value: "agreement_no" },
+        { text: "ຊື່ແລະນາມສະກຸນ", value: "full_name" },
+        { text: "ຈຳນວນເງິນ", value: "amount" },
+        { text: "ວັນທີກຳໜົດຕັດເງິນ", value: "deduct_date" },
+        { text: "ວັນທີຕັດເງິນ", value: "date_process" },
         { text: "ເລກບັນຊີ", value: "account_number" },
         { text: "ຊື່ບັນຊີ", value: "account_name" },
         { text: "ສະກຸນເງິນ", value: "currency" },
-        { text: "ຊື່ແລະນາມສະກຸນ", value: "full_name" },
-        { text: "ສະຖານະ", value: "status" },
+        { text: "ຈຳນວນຄັ້ງເຂົ້າຕັດເງິນ", value: "count_amt" },
         { text: "ບໍລິສັດ", value: "provider_code" },
+        { text: "ສະຖານະ", value: "status" },
         { text: "ສະຖານະລົງທະບຽນ", value: "register_status" },
       ],
     };
@@ -260,6 +244,15 @@ export default {
     this.loadProvider();
   },
   methods: {
+    formatNumber(num) {
+      return parseFloat(num).toFixed(2);
+    },
+    async UpdateStatus(item) {
+      let formData = new FormData();
+      const { id } = item;
+      formData.append("id", item.id);
+      formData.append("username", this.$store.getters["username"]);
+    },
     async loadAcc() {
       let result = await api.getacc();
       this.autodebits = result.data.body;
@@ -271,13 +264,13 @@ export default {
     async search_autodebit() {
       let formData = new FormData();
       const { provider_code, status_auto, agreement_no, from_date, to_date } =
-        this.cheking_auto;
+        this.checking_auto;
       formData.append("provider_code", provider_code);
       formData.append("status_auto", status_auto);
       formData.append("agreement_no", agreement_no);
       formData.append("from_date", from_date);
       formData.append("to_date", to_date);
-      formData.append("username",this.$store.getters["username"])
+      formData.append("username", this.$store.getters["username"]);
       let result = await api.getAuto(formData);
       this.autodebits = result.data.body;
     },

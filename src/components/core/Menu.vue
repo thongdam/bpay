@@ -38,6 +38,7 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
+
     <v-btn fab x-small absolute right color="error" @click="onClickLogOff"
       ><v-icon>mdi-logout</v-icon>
     </v-btn>
@@ -56,19 +57,25 @@ export default {
     return {
       selectedMenu: 0,
       drawer: true,
+          careers: [
+      ['Benefits', 'people_outline'],
+      ['Get Started', 'settings'],
+    ],
       menus: [
         ["mdi-view-dashboard", "ພາບລວມລະບົບ", "/dashboard"],
-        ["mdi-account", "ຈັດການຂໍ້ມູນຜູ້ໃຊ້", "/ManageUser"],
+        ["mdi-account-group", "ຈັດການຂໍ້ມູນຜູ້ໃຊ້", "/ManageUser"],
         ["mdi-domain", "ຈັດການຂໍ້ມູນບໍລິສັດ(AUTO)", "/ManageProvider"],
         ["mdi-book-cross", "ຈັດການຂໍ້ມູນບໍລິສັດ(BILL)", "/ManageProviderBill"],
-        ["mdi-account-plus", "ຈັດການລົງທະບຽນ", "/ManageRegister"],
+        ["mdi-card-account-details", "ຈັດການລົງທະບຽນ", "/ManageRegister"],
+        ["mdi-check-underline-circle", "ກວດສອບລາຍການອັບໂຫຼດ", "/CheckUploadData"],
+        ["mdi-water", "ກວດສອບຍອດໜີ້ນ້ຳປະປາ", "/WaterCheckList"],
         ["mdi-refresh-auto", "ກວດສອບລາຍການ(Auto)", "/ManageAutodebit"],
         [
           "mdi-order-bool-ascending-variant",
           "ກວດສອບລາຍການ(Bill)",
           "/ManageBill",
         ],
-        ["mdi-key", "ຈັດການບົດບາດນຳໃຊ້ລະບົບ", "/ManagePermission"],
+        ["mdi-key", "ຈັດການສິດດນຳໃຊ້ລະບົບ", "/ManagePermission"],
         ["mdi-cash-multiple", "ຈັດການຂັ້ນບັນໃດຄ່າທຳນຽມ", "/ManageFee"],
         ["mdi-currency-usd", "ຈັດການຕັດຄ່າທຳນຽມ", "/ManageFeeTransaction"],
         ["mdi-alert-circle", "ຈັດການປິດລະບົບສະຫຼຸບປີ", "/about"],

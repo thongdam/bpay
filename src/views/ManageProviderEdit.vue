@@ -99,6 +99,7 @@
                     v-bind="attrs"
                     v-on="on"
                     outlined
+                    prepend-inner-icon="mdi-calendar-plus"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -127,6 +128,7 @@
                     v-bind="attrs"
                     v-on="on"
                     outlined
+                    prepend-inner-icon="mdi-calendar-plus"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -1339,8 +1341,7 @@ export default {
         formData.append("username", this.$store.getters["username"]);
         formData.append("provider_acc", JSON.stringify(arr));
         let result = await api.UpdateProvider(formData);
-        console.log(result.data.body.responseMsg);
-        if ((result.data.body.responseMsg = true)) {
+        if (result.data.body.responseMsg = true) {
           this.$router.back();
         } else {
           console.log(result.status);

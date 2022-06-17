@@ -1,9 +1,13 @@
 import httpClient from "@/services/httpClient";
 import { server } from "@/services/constants";
-//==============develop by thongdam khamsena setting auto debit===============
+//======develop by thongdam khamsena setting auto debit======
 //get all users
 export const Users = () => {
   return httpClient.get(server.Users_URL);
+};
+//get all users
+export const UpdateUsers = data => {
+  return httpClient.put(server.Users_URL, data);
 };
 //get all provider
 export const getProviders = () => {
@@ -48,7 +52,16 @@ export const getProductType = () => {
 export const getFeeType = () => {
   return httpClient.get(server.GetFeeType_URL);
 };
-//================develop by thongdam khamsena setting bill payment==============
+//get all provider for  auto
+export const getFeeAuto = () => {
+  return httpClient.get(server.GetFeeTypeAuto_URL);
+};
+// check upload auto debit
+export const Search_AutoDebits = data => {
+  return httpClient.post(server.Search_AutoDebits_RUL,data);
+};
+
+//======develop by thongdam khamsena setting bill payment=====
 export const getProviderBill = () =>{
   return httpClient.get(server.GetBillPayment_URL);
 }
@@ -101,4 +114,13 @@ export const GetProviderAutoById = id => {
 };
 export const GetAutoAccount = id => {
   return httpClient.get(server.GetAutoAccount_URL + `/${id}`);
+};
+
+// =======get provider for npp========
+export const GetAllProviderNpp = () => {
+  return httpClient.get(server.GetAllProviderNpp_RUL);
+};
+//searching amount npp
+export const Searching_NPP = data => {
+  return httpClient.post(server.GetAllProviderNpp_RUL,data);
 };

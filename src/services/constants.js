@@ -4,9 +4,9 @@ export const NETWORK_TIMEOUT_MESSAGE = "A network timeout has occurred, Please t
 export const UPLOAD_PHOTO_FAIL_MESSAGE = "An error has occurred. The photo was unable to upload.";
 export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK";
 //production
-//export const apiUrl = "http://10.0.4.44:8888/BpayAdmin/Bpay/";
+//export const apiUrl = "http://10.0.4.44:8888/BpayAdmin/Bpay";
 //localhost
- export const apiUrl = "http://localhost:5996/Bpay";
+export const apiUrl = "http://localhost:5996/Bpay";
 
 export const server = {
   Users_URL:`getUsers`,
@@ -20,6 +20,7 @@ export const server = {
   GetAuto_URL:`getauto`,
   GetBill_URL:`getbill`,
   GetFeeType_URL:`getFeeType`,
+  GetFeeTypeAuto_URL:`getFeeTypeAuto`,
   GetProductType_URL:`getproducttype`,
   GetBillPayment_URL:`getProviderBill`,
   GetBillAccount_URL:`getBillAccount`,
@@ -30,5 +31,7 @@ export const server = {
   FetchProvider_URL:`fetchProviders`,
   ProviderAll_URL:`providersAll`,
   GetProviderAutoById_URL:`getProviderAutoById`,
-  GetAutoAccount_URL:`getAutoAccount`
+  GetAutoAccount_URL:`getAutoAccount`,
+  GetAllProviderNpp_RUL:`GetAllProviderNpp`,
+  Search_AutoDebits_RUL:`Search_AutoDebits`
 };

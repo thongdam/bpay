@@ -4,9 +4,9 @@
     <v-card>
       <v-container>
         <v-row>
-          <v-col cols="12" sm="6" md="3">
+          <v-col cols="12" sm="2" md="2">
             <v-select
-              v-model="register.provider_code"
+              v-model="checking_auto.provider_code"
               :items="providers"
               item-text="provider_long"
               item-value="provider_auto"
@@ -15,25 +15,14 @@
               outlined
             ></v-select>
           </v-col>
-          <v-col cols="12" sm="6" md="2">
-            <v-select
-              v-model="register.status_auto"
-              :items="chekc_status"
-              item-text="keys"
-              item-value="values"
-              label="ເລືອກສະຖານະ"
-              single-line
-              outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="12" sm="6" md="2">
+          <v-col cols="12" sm="3" md="3">
             <v-text-field
-              v-model="register.agreement_no"
+              v-model="checking_auto.agreement_no"
               label="ເລກສັນຍາ"
               outlined
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="2" md="2" xs="12">
+          <v-col cols="12" sm="3" md="3" xs="12">
               <v-menu
                 ref="menu"
                 v-model="menu"
@@ -45,7 +34,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="register.from_date"
+                    v-model="checking_auto.from_date"
                     label="ຈາກວັນທີ"
                     placeholder="ຈາກວັນທີ"
                     persistent-hint
@@ -56,13 +45,13 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                  v-model="register.from_date"
+                  v-model="checking_auto.from_date"
                   no-title
                   @input="menu = false"
                 ></v-date-picker>
               </v-menu>
             </v-col>
-            <v-col cols="12" sm="2" md="2" xs="12">
+            <v-col cols="12" sm="3" md="3" xs="12">
               <v-menu
                 ref="menu2"
                 v-model="menu2"
@@ -74,7 +63,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="register.to_date"
+                    v-model="checking_auto.to_date"
                     label="ຫາວັນທີ"
                     placeholder="ຫາວັນທີ"
                     persistent-hint
@@ -85,19 +74,19 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                  v-model="register.to_date"
+                  v-model="checking_auto.to_date"
                   no-title
                   @input="menu2 = false"
                 ></v-date-picker>
               </v-menu>
             </v-col>
-          <v-col cols="12" sm="6" md="1">
+          <v-col cols="12" sm="1" md="1" xs="12">
             <v-btn
-              @click="search_acc()"
+              @click="Search_AutoDebits()"
               class="mx-1"
-              small
               fab
               dark
+              small
               color="success"
             >
               <v-icon dark size="25"> mdi-search-web </v-icon>
@@ -105,71 +94,53 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-data-table :search="search" :headers="headers" :items="register_acc">
+      <v-data-table :search="search" :headers="headers" :items="results_check">
         <!-- table top section -->
         <template v-slot:top>
-          <v-col cols="12" sm="6" md="12" xs="12">
-            <v-toolbar flat color="white">
-              <v-toolbar-title
-                >ຈັດການລົງທະບຽນບັນຊີລູກຄ້າຂອງບໍລິສັດ</v-toolbar-title
-              >
-              <v-divider class="mx-4" inset vertical></v-divider>
-              <v-text-field
-                v-model="search"
-                append-icon="search"
-                label="ຄົ້ນຫາ"
-                single-line
-                hide-details
-              ></v-text-field>
-              <v-spacer></v-spacer>
-              <v-btn
-                disabled
-                @click="$router.push('/ManageRegisterCreate')"
-                class="mx-1"
-                fab
-                dark
-                color="success"
-              >
-                <v-icon size="30">mdi-plus-circle</v-icon>
-              </v-btn>
-            </v-toolbar>
-          </v-col>
+          <v-row>
+            <v-col cols="12" sm="8" md="8" xs="12">
+              <v-toolbar flat color="white">
+                <v-toolbar-title>ກວດສອບລາຍການອັບໂຫຼດຂອງລູກຄ້າ</v-toolbar-title>
+                <v-divider class="mx-4" inset vertical></v-divider>
+                <v-text-field
+                  v-model="search"
+                  append-icon="search"
+                  label="ຄົ້ນຫາ"
+                  single-line
+                  hide-details
+                ></v-text-field>
+              </v-toolbar>
+            </v-col>
+          </v-row>
         </template>
-
         <!-- table tr section -->
         <template v-slot:item="{ item }">
           <tr>
-            <td>{{ item.id }}</td>
             <td>{{ item.agreement_no }}</td>
+            <td>{{ item.customer_name }}</td>
+            <td>{{ item.phone_number }}</td>
+            <td>{{ formatNumber(item.amount) }}</td>
+            <td>{{ item.deduct_date }}</td>
             <td>{{ item.provider_acc }}</td>
             <td>{{ item.provider_acc_name }}</td>
-            <td>{{ item.create_date }}</td>
+            <td>{{ item.provider_ccy }}</td>
+            <td>{{ item.provider_code }}</td>
             <td>
               <v-chip
                 :color="
-                  item.provider_auto_status == 'A'
+                  item.service_status == 'NEW' || item.service_status == null
                     ? 'success'
-                    : item.provider_auto_status == 'C'
-                    ? 'error'
-                    : 'warning'
+                    : 'error'
                 "
                 outlined
                 pill
               >
                 {{
-                  item.provider_auto_status == "A"
-                    ? "ລົງທະບຽນສຳເລັດ"
-                    : item.provider_auto_status == "C"
-                    ? "ປິດເລກທີ່ສັນຍາ"
-                    : "ລໍຖ້າລົງທະບຽນ"
+                  item.service_status == "NEW" || item.service_status == null
+                    ? "NEW"
+                    : item.service_status
                 }}
               </v-chip>
-            </td>
-            <td>{{ item.provider_code }}</td>
-            <td>
-              <v-icon disabled class="mr-2"> mdi-pencil </v-icon>
-              <span class="ma-1"></span>
-              <v-icon> mdi-delete-empty </v-icon>
             </td>
           </tr>
         </template>
@@ -189,34 +160,26 @@ export default {
       search: "",
       selectedProductId: "",
       confirmDeleteDlg: false,
-      register_acc: [],
+      results_check: [],
       providers: [],
-      register: {
+      checking_auto: {
         provider_code: "",
         status_auto: "",
         agreement_no: "",
         from_date: "",
         to_date: "",
       },
-      chekc_status: [
-        { keys: "Active", values: "A" },
-        { keys: "Pending", values: "P" },
-        { keys: "Close", values: "C" },
-      ],
       headers: [
-        {
-          text: "ລຳດັບ",
-          align: "left",
-          sortable: true,
-          value: "id",
-        },
         { text: "ເລກທີສັນຍາ", value: "agreement_no" },
+        { text: "ຊື່ ແລະ ນາມສະກຸນ", value: "full_name" },
+        { text: "ເບີໂທ", value: "phone_no" },
+        { text: "ຈຳນວນເງິນ", value: "due_amount" },
+        { text: "ມື້ກຳໜົດຕັດ", value: "deduct_date" },
         { text: "ເລກບັນຊີ", value: "account_number" },
         { text: "ຊື່ບັນຊີ", value: "account_name" },
-        { text: "ມື້ລົງທະບຽນ", value: "register_date" },
-        { text: "ສະຖານະ", value: "account_status" },
+        { text: "ສະກຸນເງິນ", value: "currency" },
         { text: "ບໍລິສັດ", value: "provider_code" },
-        { text: "ຕົວເລືອກ", value: "register_by" },
+        { text: "ສະຖານະ", value: "register_status" },
       ],
     };
   },
@@ -224,22 +187,25 @@ export default {
     this.loadProvider();
   },
   methods: {
+    formatNumber(num) {
+      return parseFloat(num).toFixed(2);
+    },
     async loadProvider() {
       let result = await api.getProviders();
       this.providers = result.data.body;
     },
-    async search_acc() {
+    async Search_AutoDebits() {
       let formData = new FormData();
       const { provider_code, status_auto, agreement_no, from_date, to_date } =
-        this.register;
+        this.checking_auto;
       formData.append("provider_code", provider_code);
       formData.append("status_auto", status_auto);
       formData.append("agreement_no", agreement_no);
       formData.append("from_date", from_date);
       formData.append("to_date", to_date);
       formData.append("username", this.$store.getters["username"]);
-      let result = await api.getAcc(formData);
-      this.register_acc = result.data.body;
+      let result = await api.Search_AutoDebits(formData);
+      this.results_check = result.data.body;
     },
   },
 };

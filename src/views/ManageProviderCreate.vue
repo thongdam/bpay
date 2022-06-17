@@ -1,6 +1,5 @@
 <template lang="html">
   <v-container>
-    {{create_provider}}
     <v-toolbar-title class="mb-5 text-center mt-5">
       <v-icon color="success">mdi-bank</v-icon>
       ຕັ້ງຄ່າໃຫ້ກັບບໍລິສັດເພື່ອເປິດນຳໃຊ້ບໍລິການ Auto debit
@@ -110,6 +109,7 @@
                     v-bind="attrs"
                     v-on="on"
                     outlined
+                    prepend-inner-icon="mdi-calendar-plus"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -138,6 +138,7 @@
                     v-bind="attrs"
                     v-on="on"
                     outlined
+                    prepend-inner-icon="mdi-calendar-plus"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -180,16 +181,6 @@
                   :rules="provider_acc_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" sm="3" md="3" xs="12">
-                <v-text-field
-                  v-model="item.provider_acc_name"
-                  required
-                  label="ຊື່ ບັນຊີຮອງຮັບ"
-                  placeholder="ຊື່ ບັນຊີຮອງຮັບ"
-                  outlined
-                  :rules="[provider_acc_name_Rul]"
-                ></v-text-field>
-              </v-col>
               <v-col cols="12" sm="2" md="2" xs="12">
                 <v-select
                   v-model="item.provider_ccy"
@@ -202,6 +193,17 @@
                   @change="getAccounts()"
                 ></v-select>
               </v-col>
+              <v-col cols="12" sm="3" md="3" xs="12">
+                <v-text-field
+                  v-model="item.provider_acc_name"
+                  required
+                  label="ຊື່ ບັນຊີຮອງຮັບ"
+                  placeholder="ຊື່ ບັນຊີຮອງຮັບ"
+                  outlined
+                  :rules="[provider_acc_name_Rul]"
+                ></v-text-field>
+              </v-col>
+              
               <v-col cols="12" sm="2" md="2" xs="12">
                 <v-text-field
                   v-model="item.min_amount"
@@ -1152,102 +1154,100 @@ export default {
       }
     },
     async done(n) {
-      console.log(this.create_provider)
-      // this.steps[n].valid = false;
-      // let v = this.$refs.stepForm[n].validate();
-      // if (v == true) {
-      //   let formData = new FormData();
-      //   const {
-      //     account,
-      //     provider_code,
-      //     full_name,
-      //     phone_number,
-      //     line_phone,
-      //     provider_name,
-      //     provider_group,
-      //     contract_startdate,
-      //     contract_stopdate,
-      //     provider_status,
-      //     provider_fee_acc,
-      //     provider_fee_name,
-      //     provider_fee_ccy,
-      //     fee_id,
-      //     auto_charge_fee,
-      //     charge_day,
-      //     charge_week,
-      //     charge_month,
-      //     auto_condition_type,
-      //     onday,
-      //     onmonth,
-      //     threemonth,
-      //     notcutback,
-      //     cutback,
-      //     endofmonth,
-      //     provider_fix,
-      //     day_amount,
-      //     provider_fix_acc,
-      //     provider_fix_name,
-      //     provider_fix_ccy,
-      //     charge_fee_provider,
-      //     charge_fee_customer,
-      //     charge_transaction,
-      //     change_amount,
-      //     no_change_amount,
-      //     provider_acc_fix,
-      //     provider_acc_no_fix,
-      //     onmonths,
-      //   } = this.create_provider;
-      //   formData.append("provider_code", provider_code);
-      //   formData.append("full_name", full_name);
-      //   formData.append("phone_number", phone_number);
-      //   formData.append("line_phone", line_phone);
-      //   formData.append("provider_name", provider_name);
-      //   formData.append("provider_group", provider_group);
-      //   formData.append("contract_startdate", contract_startdate);
-      //   formData.append("contract_stopdate", contract_stopdate);
-      //   formData.append("provider_status", provider_status);
-      //   formData.append("provider_fee_acc", provider_fee_acc);
-      //   formData.append("provider_fee_name", provider_fee_name);
-      //   formData.append("provider_fee_ccy", provider_fee_ccy);
-      //   formData.append("provider_fix", provider_fix);
-      //   formData.append("provider_fix_acc", provider_fix_acc);
-      //   formData.append("provider_fix_name", provider_fix_name);
-      //   formData.append("provider_fix_ccy", provider_fix_ccy);
-      //   formData.append("provider_acc_fix", provider_acc_fix);
-      //   formData.append("provider_acc_no_fix", provider_acc_no_fix);
-      //   formData.append("fee_id", fee_id);
-      //   formData.append("auto_charge_fee", auto_charge_fee);
-      //   formData.append("charge_day", charge_day);
-      //   formData.append("charge_week", charge_week);
-      //   formData.append("charge_month", charge_month);
-      //   formData.append("auto_condition_type", auto_condition_type);
-      //   formData.append("onday", onday);
-      //   formData.append("onmonth", onmonth);
-      //   formData.append("threemonth", threemonth);
-      //   formData.append("notcutback", notcutback);
-      //   formData.append("cutback", cutback);
-      //   formData.append("endofmonth", endofmonth);
-      //   formData.append("day_amount", day_amount);
-      //   formData.append("charge_fee_provider", charge_fee_provider);
-      //   formData.append("charge_fee_customer", charge_fee_customer);
-      //   formData.append("charge_transaction", charge_transaction);
-      //   formData.append("change_amount", change_amount);
-      //   formData.append("no_change_amount", no_change_amount);
-      //   formData.append("onmonths", onmonths);
-      //   formData.append("username", this.$store.getters["username"]);
-      //   formData.append("provider_acc", JSON.stringify(account));
-
-      //   let result = await api.addProvider(formData);
-      //   if ((result.data.body.responseMsg = true)) {
-      //     this.$router.back();
-      //   } else {
-      //     console.log(result.status);
-      //   }
-      // } else {
-      //   this.steps[n].valid = true;
-      //   this.curr = n + 2;
-      // }
-      // this.curr = 3;
+      this.steps[n].valid = false;
+      let v = this.$refs.stepForm[n].validate();
+      if (v == true) {
+        let formData = new FormData();
+        const {
+          account,
+          provider_code,
+          full_name,
+          phone_number,
+          line_phone,
+          provider_name,
+          provider_group,
+          contract_startdate,
+          contract_stopdate,
+          provider_status,
+          provider_fee_acc,
+          provider_fee_name,
+          provider_fee_ccy,
+          fee_id,
+          auto_charge_fee,
+          charge_day,
+          charge_week,
+          charge_month,
+          auto_condition_type,
+          onday,
+          onmonth,
+          threemonth,
+          notcutback,
+          cutback,
+          endofmonth,
+          provider_fix,
+          day_amount,
+          provider_fix_acc,
+          provider_fix_name,
+          provider_fix_ccy,
+          charge_fee_provider,
+          charge_fee_customer,
+          charge_transaction,
+          change_amount,
+          no_change_amount,
+          provider_acc_fix,
+          provider_acc_no_fix,
+          onmonths,
+        } = this.create_provider;
+        formData.append("provider_code", provider_code);
+        formData.append("full_name", full_name);
+        formData.append("phone_number", phone_number);
+        formData.append("line_phone", line_phone);
+        formData.append("provider_name", provider_name);
+        formData.append("provider_group", provider_group);
+        formData.append("contract_startdate", contract_startdate);
+        formData.append("contract_stopdate", contract_stopdate);
+        formData.append("provider_status", provider_status);
+        formData.append("provider_fee_acc", provider_fee_acc);
+        formData.append("provider_fee_name", provider_fee_name);
+        formData.append("provider_fee_ccy", provider_fee_ccy);
+        formData.append("provider_fix", provider_fix);
+        formData.append("provider_fix_acc", provider_fix_acc);
+        formData.append("provider_fix_name", provider_fix_name);
+        formData.append("provider_fix_ccy", provider_fix_ccy);
+        formData.append("provider_acc_fix", provider_acc_fix);
+        formData.append("provider_acc_no_fix", provider_acc_no_fix);
+        formData.append("fee_id", fee_id);
+        formData.append("auto_charge_fee", auto_charge_fee);
+        formData.append("charge_day", charge_day);
+        formData.append("charge_week", charge_week);
+        formData.append("charge_month", charge_month);
+        formData.append("auto_condition_type", auto_condition_type);
+        formData.append("onday", onday);
+        formData.append("onmonth", onmonth);
+        formData.append("threemonth", threemonth);
+        formData.append("notcutback", notcutback);
+        formData.append("cutback", cutback);
+        formData.append("endofmonth", endofmonth);
+        formData.append("day_amount", day_amount);
+        formData.append("charge_fee_provider", charge_fee_provider);
+        formData.append("charge_fee_customer", charge_fee_customer);
+        formData.append("charge_transaction", charge_transaction);
+        formData.append("change_amount", change_amount);
+        formData.append("no_change_amount", no_change_amount);
+        formData.append("onmonths", onmonths);
+        formData.append("username", this.$store.getters["username"]);
+        formData.append("provider_acc", JSON.stringify(account));
+        let result = await api.addProvider(formData);
+        if (result.data.body.responseMsg = true) {
+          this.$router.back();
+        } else {
+          console.log(result.status);
+        }
+      } else {
+        this.steps[n].valid = true;
+        this.curr = n + 2;
+      }
+      this.curr = 3;
     },
   },
 };

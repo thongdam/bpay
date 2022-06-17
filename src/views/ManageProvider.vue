@@ -49,38 +49,36 @@
               <td>{{ item.phone_number }}</td>
               <td>
                 <v-chip
-                small
+                x-small
                   v-if="item.provider_auto_status != null"
                   class="white--text"
                   :color="item.provider_auto_status == 'A' ? 'success' : 'danger'"
                   outlined
                   dense
-                  >{{ item.provider_auto_status == "A" ? "AUTO" : "CLOSED" }}</v-chip
+                  >{{ item.provider_auto_status == "A" ? "ນຳໃຊ້ AUTO" : "ປິດນຳໃຊ້ AUTO" }}</v-chip
                 >
                 <v-chip
-                small
+                x-small
                   v-if="item.provider_bill_status != null"
                   class="white--text"
                   :color="item.provider_bill_status == 'A' ? 'success' : 'danger'"
                   outlined
                   dense
-                  >{{ item.provider_bill_status == "A" ? "BILL" : "CLOSED" }}</v-chip
+                  >{{ item.provider_bill_status == "A" ? "ນຳໃຊ້ BILL" : "ປິດນຳໃຊ້ BILL" }}</v-chip
                 >
               </td>
-              <td>
+              <!-- <td>
                 <v-chip
                   small
                   class="ml-0 mr-2 white--text"
-                  :color="item.provider_status == 'A' ? 'success' : 'danger'"
+                  :color="item.provider_status == 'C' && item.provider_auto_status == 'A'? 'success': (item.provider_status == 'C' && item.provider_bill_status == 'A' ?'success':item.provider_status == 'A' && item.provider_bill_status == 'A' ?'success':item.provider_status == 'A' && item.provider_auto_status == 'A' ?'success':'danger')"
                   outlined
                 >
                   {{
-                    item.provider_status == "A"
-                      ? "ເປິດນຳໃຊ້"
-                      : "ປິດນຳໃຊ້"
+                    item.provider_status == 'C' && item.provider_auto_status == 'A'? 'ເປິດນຳໃຊ້': (item.provider_status == 'C' && item.provider_bill_status == 'A' ?'ເປິດນຳໃຊ້':item.provider_status == 'A' && item.provider_bill_status == 'A' ?'ເປິດນຳໃຊ້':item.provider_status == 'A' && item.provider_auto_status == 'A' ?'ເປິດນຳໃຊ້':'ປິດນຳໃຊ້')
                   }}
                 </v-chip>
-              </td>
+              </td> -->
               <td>
                 <v-chip small dense class="white--text" color="primary" outlined>
                   {{
@@ -184,8 +182,8 @@ export default {
         },
         { text: "ຊື່ຫຍໍ້ແລະຊື່ເຕັມ", value: "provider_code" },
         { text: "ເບີໂທ", value: "phone_no" },
-        { text: "ນຳໃຊ້ຜະລິດຕະພັນ", value: "provider_auto" },
-        { text: "ສະຖານະ", value: "provider_status" },
+        { text: "ສະຖານະ", value: "provider_auto" },
+        // { text: "ສະຖານະ", value: "provider_status" },
         { text: "ເງື່ອນໄຂການຕັດຄ່າທຳນຽມ", value: "cut_condition" },
         { text: "ຮູບແບບການເກັບຄ່າທຳນຽມ", value: "fee" },
         { text: "ເປິດນຳໃຊ້", value: "create_date" },

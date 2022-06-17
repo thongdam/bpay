@@ -4,49 +4,45 @@
     <v-card>
       <v-container>
         <v-row>
-          <v-col cols="12" sm="6" md="4">
+          <v-col cols="12" sm="4" md="4" xs="12">
             <v-select
-              v-model="cheking_bill.provider_code"
+              v-model="checking_npp.provider_code"
               :items="providers"
-              item-text="provider_long"
-              item-value="provider_auto"
+              item-text="provider_code"
+              item-value="provider_code"
               label="ເລືອກບໍລິສັດ"
               single-line
               outlined
             ></v-select>
           </v-col>
-          <v-col cols="12" sm="6" md="4">
-            <v-select
-              v-model="cheking_bill.status_auto"
-              :items="chekc_status"
-              item-text="keys"
-              item-value="values"
-              label="ເລືອກສະຖານະ"
-              single-line
-              outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="12" sm="6" md="3">
+          <v-col cols="12" sm="4" md="4" xs="12">
             <v-text-field
-              v-model="cheking_bill.agreement_no"
-              label="ເລກສັນຍາ"
+              v-model="checking_npp.agreement_no"
+              label="ເລກຜູ້ໃຊ້ນ້ຳ"
               outlined
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="6" md="1">
-            <v-btn @click="search_bill()" class="mx-1" fab dark small color="success">
+          <v-col cols="12" sm="4" md="4" xs="12">
+            <v-btn
+              @click="Searching_NPP()"
+              class="mx-1"
+              fab
+              dark
+              small
+              color="success"
+            >
               <v-icon dark size="25"> mdi-search-web </v-icon>
             </v-btn>
           </v-col>
         </v-row>
       </v-container>
-      <v-data-table :search="search" :headers="headers" :items="bill">
+      <v-data-table :search="search" :headers="headers" :items="result_list">
         <!-- table top section -->
         <template v-slot:top>
           <v-row>
-            <v-col cols="12" sm="6" md="6">
+            <v-col cols="12" sm="8" md="8" xs="12">
               <v-toolbar flat color="white">
-                <v-toolbar-title>ກວດສອບລາຍການ(Bill)</v-toolbar-title>
+                <v-toolbar-title>ກວດສອບຍອດໜີ້ນ້ຳປະປາ</v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-text-field
                   v-model="search"
@@ -64,10 +60,32 @@
           <tr>
             <td>{{ item.id }}</td>
             <td>{{ item.agreement_no }}</td>
-            <td>{{ item.customer_name }}</td>
-            <td>{{ item.phone_number }}</td>
-            <td>{{ item.total_amt }}</td>
+            <td>{{ item.provider_acc }}</td>
+            <td>{{ item.provider_acc_name }}</td>
             <td>{{ item.provider_ccy }}</td>
+            <td>{{ item.customer_name }}</td>
+            <td>
+              <v-chip
+                :color="
+                  item.provider_auto_status == '89'
+                    ? 'danger'
+                    : item.provider_auto_status == '00'
+                    ? 'success'
+                    : 'warning'
+                "
+                outlined
+                pill
+              >
+                {{
+                  item.provider_auto_status == "89"
+                    ? "ຍອດເງິນໃນບັນຊີບໍ່ພຽງພໍ"
+                    : item.provider_auto_status == "00"
+                    ? "ຕັດເງິນສຳເລັດ"
+                    : "ລໍຖ້າຕັດເງິນ"
+                }}
+              </v-chip>
+            </td>
+            <td>{{ item.provider_code }}</td>
             <td>
               <v-chip
                 :color="
@@ -89,7 +107,6 @@
                 }}
               </v-chip>
             </td>
-            <td>{{ item.provider_code }}</td>
           </tr>
         </template>
       </v-data-table>
@@ -108,20 +125,15 @@ export default {
       search: "",
       selectedProductId: "",
       confirmDeleteDlg: false,
-      bill: [],
+      result_list: [],
       providers: [],
-      cheking_bill: {
+      checking_npp: {
         provider_code: "",
         status_auto: "",
         agreement_no: "",
         from_date: "",
         to_date: "",
       },
-      chekc_status: [
-        { keys: "Active", values: "A" },
-        { keys: "Pending", values: "P" },
-        { keys: "Close", values: "C" },
-      ],
       headers: [
         {
           text: "ລຳດັບ",
@@ -129,13 +141,12 @@ export default {
           sortable: true,
           value: "id",
         },
-        { text: "ເລກທີສັນຍາ", value: "agreement_no" },
-        { text: "ຊື່ແລະນາມສະກຸນ", value: "full_name" },
-        { text: "ເບີໂທ", value: "phone_number" },
-        { text: "ຈຳນວນເງິນ", value: "amount" },
-        { text: "ສະກຸນເງິນ", value: "currency" },
-        { text: "ສະຖານະ", value: "status" },
-        { text: "ບໍລິສັດ", value: "provider_code" },
+        { text: "ເລກຜູ້ໃຊ້ນ້ຳ", value: "agreement_no" },
+        { text: "ຊື່ນາມສະກຸນ", value: "full_name" },
+        { text: "ໜີ້ໃຫມ່", value: "amount" },
+        { text: "ໜີ້ເກົ່າ", value: "old_amount" },
+        { text: "ວັນທີໃບບິນ", value: "full_name" },
+        { text: "ວັນທີອັບຂໍ້ມູນ", value: "status" },
       ],
     };
   },
@@ -144,21 +155,19 @@ export default {
   },
   methods: {
     async loadProvider() {
-      let result = await api.getProviders();
+      let result = await api.GetAllProviderNpp();
       this.providers = result.data.body;
     },
-    async search_bill() {
+    async Searching_NPP() {
       let formData = new FormData();
-      const { provider_code, status_auto, agreement_no, from_date, to_date } =
-        this.cheking_bill;
+      const { provider_code, agreement_no, dblink } =
+        this.checking_npp;
       formData.append("provider_code", provider_code);
-      formData.append("status_auto", status_auto);
       formData.append("agreement_no", agreement_no);
-      formData.append("from_date", from_date);
-      formData.append("to_date", to_date);
+      formData.append("dblink", dblink);
       formData.append("username",this.$store.getters["username"])
-      let result = await api.getBill(formData);
-      this.bill = result.data.body;
+      let result = await api.Searching_NPP(formData);
+      this.result_list = result.data.body;
     },
   },
 };
