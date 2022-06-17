@@ -17,14 +17,14 @@ const logoff = () => {
 
 const login = async (values) => {
   let result = await httpClient.post(server.LOGIN_URL, values);
-  // if (result.data.body.status_code==='0000000') {
-    localStorage.setItem(server.USERNAME, "BCEL1832");
+  if (result.data.body.status_code==='0000000') {
+    localStorage.setItem(server.USERNAME, result.data.body.username);
     localStorage.setItem(server.TOKEN_KEY, "12345454659846554465gdsfsdfsdf");
     router.push("/dashboard");
     return true;
-  // } else {
-  //   return false;
-  // }
+  } else {
+    return false;
+  }
 };
 
 const register = async (values) => {
