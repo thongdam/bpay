@@ -26,6 +26,7 @@
             <td>{{ item.id }}</td>
             <td>{{ item.provider_auto }}</td>
             <td>{{ item.provider_long }}</td>
+            <td>{{ item.product_type }}</td>
             <td>
               <v-chip
                 v-if="item.fee_company != null"
@@ -172,7 +173,8 @@ export default {
         },
         { text: "ຊື່ຫຍໍ້", value: "username" },
         { text: "ບໍລິສັດ", value: "provider_code" },
-        { text: "ນຳໃຊ້ຄ່າທຳນຽມ", value: "create_date" },
+        { text: "ຜະລິດຕະພັນ", value: "product_code" },
+        { text: "ລະຫັດຄ່າທຳນຽມ", value: "create_date" },
         { text: "ຕົວເລືອກ", value: "action" },
       ],
       headers_fee: [
@@ -212,6 +214,7 @@ export default {
       this.confirmViews = true;
       let formData = new FormData();
       formData.append("provider_code", items.provider_auto);
+      formData.append("product_type", items.product_type);
       let result = await api.getViewFee(formData);
       this.viewFee = result.data.body;
     },

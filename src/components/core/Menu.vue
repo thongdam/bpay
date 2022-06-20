@@ -77,7 +77,7 @@ export default {
         ],
         ["mdi-key", "ຈັດການສິດດນຳໃຊ້ລະບົບ", "/ManagePermission"],
         ["mdi-cash-multiple", "ຈັດການຂັ້ນບັນໃດຄ່າທຳນຽມ", "/ManageFee"],
-        ["mdi-currency-usd", "ຈັດການຕັດຄ່າທຳນຽມ", "/ManageFeeTransaction"],
+        ["mdi-currency-usd", "ຈັດການຄ່າທຳນຽມ", "/ManageFeeTransaction"],
         ["mdi-alert-circle", "ຈັດການປິດລະບົບສະຫຼຸບປີ", "/about"],
       ],
       mini: true,

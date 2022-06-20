@@ -23,7 +23,7 @@
           <v-row v-if="n == 0" class="mt-5">
             <v-col cols="12" sm="3" md="3" xs="12">
               <v-autocomplete
-                v-model="create_privider.providers"
+                v-model="create_provider.providers"
                 :items="viewProviders"
                 item-text="provider_code"
                 outlined
@@ -34,7 +34,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="3" xs="12">
               <v-text-field
-                v-model="create_privider.provider_code"
+                v-model="create_provider.provider_code"
                 label="ຊື່ຫຍໍ້"
                 placeholder="ຊື່ຫຍໍ້"
                 outlined
@@ -43,7 +43,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="3" xs="12">
               <v-text-field
-                v-model="create_privider.full_name"
+                v-model="create_provider.full_name"
                 clearable
                 label="ຊື່ ແລະ ນາມສະກຸນ"
                 placeholder="ຊື່ ແລະ ນາມສະກຸນ"
@@ -53,7 +53,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="3" xs="12">
               <v-text-field
-                v-model="create_privider.phone_number"
+                v-model="create_provider.phone_number"
                 label="ໂທລະສັບມືຖື"
                 placeholder="ໂທລະສັບມືຖື"
                 type="number"
@@ -63,7 +63,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="3" xs="12">
               <v-text-field
-                v-model="create_privider.line_phone"
+                v-model="create_provider.line_phone"
                 label="ໂທລະສັບຕັ້ງໂຕະ"
                 placeholder="ໂທລະສັບຕັ້ງໂຕະ"
                 type="number"
@@ -73,7 +73,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="3" xs="12">
               <v-text-field
-                v-model="create_privider.provider_name"
+                v-model="create_provider.provider_name"
                 label="ຊື່ ບໍລິສັດ"
                 placeholder="ຊື່ ບໍລິສັດ"
                 outlined
@@ -82,7 +82,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="3" xs="12">
               <v-select
-                v-model="create_privider.product_type"
+                v-model="create_provider.product_type"
                 :items="product_type"
                 item-text="provider_group"
                 :rules="product_type_Rul"
@@ -103,7 +103,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="create_privider.contract_startdate"
+                    v-model="create_provider.contract_startdate"
                     label="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
                     placeholder="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
                     persistent-hint
@@ -114,7 +114,7 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                  v-model="create_privider.contract_startdate"
+                  v-model="create_provider.contract_startdate"
                   no-title
                   @input="menu = false"
                 ></v-date-picker>
@@ -132,7 +132,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="create_privider.contract_stopdate"
+                    v-model="create_provider.contract_stopdate"
                     label="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
                     placeholder="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
                     persistent-hint
@@ -143,7 +143,7 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                  v-model="create_privider.contract_stopdate"
+                  v-model="create_provider.contract_stopdate"
                   no-title
                   @input="menu2 = false"
                 ></v-date-picker>
@@ -151,11 +151,11 @@
             </v-col>
             <v-col cols="12" sm="4" md="4" xs="12" class="pa-4">
               <v-switch
-                v-model="create_privider.provider_status"
+                v-model="create_provider.provider_status"
                 inset
                 color="success"
                 :label="`ສະຖານະ: ${
-                  create_privider.provider_status == true ? 'ເປິດ' : 'ປິດ'
+                  create_provider.provider_status == true ? 'ເປິດ' : 'ປິດ'
                 }`"
               ></v-switch>
             </v-col>
@@ -167,7 +167,7 @@
             </v-btn>
             <v-row
               class="rounded"
-              v-for="(acc, index) in create_privider.account"
+              v-for="(acc, index) in create_provider.account"
               :key="index"
               style="border: 1px solid lightgrey"
             >
@@ -241,7 +241,7 @@
                   icon
                   small
                   color="danger"
-                  :disabled="Object.keys(create_privider.account).length === 1"
+                  :disabled="Object.keys(create_provider.account).length === 1"
                   @click="deleteRow(index)"
                 >
                   <v-icon>mdi-close</v-icon>
@@ -253,7 +253,7 @@
           <v-row v-if="n == 2" class="pa-5 mt-5">
             <v-col cols="12" sm="3" md="3">
               <v-text-field
-                v-model="create_privider.provider_fee_acc"
+                v-model="create_provider.provider_fee_acc"
                 label="ເລກ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
                 placeholder="ເລກ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
                 outlined
@@ -264,7 +264,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="3">
               <v-select
-                v-model="create_privider.provider_fee_ccy"
+                v-model="create_provider.provider_fee_ccy"
                 :items="currency"
                 item-text="abbr"
                 :rules="provider_currency_Rul"
@@ -276,7 +276,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="3">
               <v-text-field
-                v-model="create_privider.provider_fee_name"
+                v-model="create_provider.provider_fee_name"
                 label="ຊື່ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
                 placeholder="ຊື່ ບັນຊີຕັດຄ່າທຳນຽມເຮັດທຸລະກຳ"
                 outlined
@@ -286,7 +286,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="3">
               <v-select
-                v-model="create_privider.fee_id"
+                v-model="create_provider.fee_id"
                 :items="provider_fee_type"
                 item-text="fee_company"
                 :rules="provider_fee_type_Rul"
@@ -308,37 +308,37 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-sheet>
                           <v-switch
-                            v-model="create_privider.charge_company"
+                            v-model="create_provider.charge_company"
                             inset
                             color="success"
                             label="ຄ່າທຳນຽມເກັບຈາກບໍລິສັດ"
                             :disabled="
-                              create_privider.charge_customer == true
+                              create_provider.charge_customer == true
                                 ? true
-                                : create_privider.charge_txn == true
+                                : create_provider.charge_txn == true
                                 ? true
                                 : false
                             "
                             :rules="
-                              create_privider.charge_customer == true
+                              create_provider.charge_customer == true
                                 ? []
                                 : [charge_company_Rul]
                             "
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.charge_month"
+                            v-model="create_provider.charge_month"
                             inset
                             label="ຕັດລວມຍອດທ້າຍເດືອນ"
                             color="success"
                             :disabled="
-                              create_privider.charge_customer == true
+                              create_provider.charge_customer == true
                                 ? true
-                                : create_privider.charge_txn == true
+                                : create_provider.charge_txn == true
                                 ? true
                                 : false
                             "
                             :rules="
-                              create_privider.charge_customer == true
+                              create_provider.charge_customer == true
                                 ? []
                                 : [charge_month_Rul]
                             "
@@ -361,33 +361,33 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-sheet>
                           <v-switch
-                            v-model="create_privider.charge_customer"
+                            v-model="create_provider.charge_customer"
                             inset
                             label="ຄ່າທຳນຽມເກັບຈາກລູກຄ້າ"
                             color="success"
                             :disabled="
-                              create_privider.charge_company == true
+                              create_provider.charge_company == true
                                 ? true
                                 : false
                             "
                             :rules="
-                              create_privider.charge_company == true
+                              create_provider.charge_company == true
                                 ? []
                                 : [charge_customer_Rul]
                             "
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.charge_txn"
+                            v-model="create_provider.charge_txn"
                             inset
                             label="ຕັດເທື່ອລະລາຍການ"
                             color="success"
                             :disabled="
-                              create_privider.charge_company == true
+                              create_provider.charge_company == true
                                 ? true
                                 : false
                             "
                             :rules="
-                              create_privider.charge_company == true
+                              create_provider.charge_company == true
                                 ? []
                                 : [charge_txn_Rul]
                             "
@@ -412,7 +412,7 @@
                       <v-col cols="12" sm="6" md="6" xs="12">
                         <h5>ເວລາເລິ່ມຕົ້ນ</h5>
                         <v-time-picker
-                          v-model="create_privider.start_time"
+                          v-model="create_provider.start_time"
                           :max="end"
                           format="24hr"
                           :rules="[start_Rul]"
@@ -423,7 +423,7 @@
                       <v-col cols="12" sm="6" md="6" xs="12">
                         <h5>ເວລາສິ້ນສຸດ</h5>
                         <v-time-picker
-                          v-model="create_privider.end_time"
+                          v-model="create_provider.end_time"
                           :min="start"
                           format="24hr"
                           :rules="[end_Rul]"
@@ -447,35 +447,35 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-sheet>
                           <v-switch
-                            v-model="create_privider.onday"
+                            v-model="create_provider.onday"
                             :label="`ປະຈຳວັນ: ${
-                              create_privider.onday == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.onday == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                             color="success"
                             inset
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.stop_week"
+                            v-model="create_provider.stop_week"
                             :label="`ປະຈຳທິດ: ${
-                              create_privider.stop_week == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.stop_week == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                             color="success"
                             inset
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.stop_month"
+                            v-model="create_provider.stop_month"
                             color="success"
                             :label="`ປະຈຳເດືອນ: ${
-                              create_privider.stop_month == true
+                              create_provider.stop_month == true
                                 ? 'ເປິດ'
                                 : 'ປິດ'
                             }`"
                             inset
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.aditional"
+                            v-model="create_provider.aditional"
                             :label="`ວັນສຸກທ້າຍເດືອນ: ${
-                              create_privider.aditional == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.aditional == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                             color="success"
                             inset
@@ -498,27 +498,27 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-sheet>
                           <v-switch
-                            v-model="create_privider.ibank"
+                            v-model="create_provider.ibank"
                             inset
                             color="success"
                             :label="`ຊຳລະຜ່ານຊ່ອງທາງ IBANK: ${
-                              create_privider.ibank == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.ibank == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.bcelone"
+                            v-model="create_provider.bcelone"
                             inset
                             color="success"
                             :label="`ຊຳລະຜ່ານຊ່ອງທາງ BCEL ONE: ${
-                              create_privider.bcelone == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.bcelone == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.counter"
+                            v-model="create_provider.counter"
                             inset
                             color="success"
                             :label="`ຊຳລະຜ່ານຊ່ອງທາງ COUNTER: ${
-                              create_privider.counter == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.counter == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                           ></v-switch>
                         </v-sheet>
@@ -539,19 +539,19 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-sheet>
                           <v-switch
-                            v-model="create_privider.input_amt"
+                            v-model="create_provider.input_amt"
                             inset
                             :label="`ອະນຸຍາດໃຫ້ຕີຈຳນວນເງິນ: ${
-                              create_privider.input_amt == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.input_amt == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                             color="success"
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.connect_mode"
+                            v-model="create_provider.connect_mode"
                             inset
                             color="success"
                             :label="`ສົ່ງຂໍ້ມູນ: ${
-                              create_privider.connect_mode == true
+                              create_provider.connect_mode == true
                                 ? 'ONLINE'
                                 : 'OFFLINE'
                             }`"
@@ -713,7 +713,7 @@ export default {
         { text: "ຫາ", value: "to_amt" },
         { text: "ຄ່າທຳນຽມ", value: "total_amt" },
       ],
-      create_privider: {
+      create_provider: {
         account: [
           {
             provider_acc: "",
@@ -833,10 +833,10 @@ export default {
   methods: {
     async fetchProviders() {
       let formData = new FormData();
-      formData.append("provider_code", this.create_privider.providers);
+      formData.append("provider_code", this.create_provider.providers);
       let results = await api.fetchProviders(formData);
-      this.create_privider = results.data.body;
-      this.create_privider.account.push({
+      this.create_provider = results.data.body;
+      this.create_provider.account.push({
         provider_acc: "",
         provider_acc_name: "",
         provider_ccy: "",
@@ -854,20 +854,20 @@ export default {
     async ViewFeeProvider() {
       this.Fee_dialog = true;
       let formData = new FormData();
-      formData.append("fee_id", this.create_privider.fee_id);
+      formData.append("fee_id", this.create_provider.fee_id);
       let results = await api.ViewFeeProviders(formData);
       this.viewFee = results.data.body;
     },
     async CheckAccounts() {
       let formData = new FormData();
-      formData.append("txnAcc", this.create_privider.provider_fee_acc);
-      formData.append("txnCcy", this.create_privider.provider_fee_ccy);
+      formData.append("txnAcc", this.create_provider.provider_fee_acc);
+      formData.append("txnCcy", this.create_provider.provider_fee_ccy);
       let result = await api.getAccounts(formData);
       if (result.data.body.respCode == "00") {
-        this.create_privider.provider_fee_name = result.data.body.accountName;
+        this.create_provider.provider_fee_name = result.data.body.accountName;
       } else {
         this.errorAccount = true;
-        this.create_privider.provider_fee_name = "";
+        this.create_provider.provider_fee_name = "";
       }
     },
     //get account for check
@@ -875,7 +875,7 @@ export default {
       let txnAcc;
       let txnCcy;
       let formData = new FormData();
-      this.create_privider.account.forEach((value, index) => {
+      this.create_provider.account.forEach((value, index) => {
         txnAcc = value.provider_acc;
         txnCcy = value.provider_ccy;
       });
@@ -883,12 +883,12 @@ export default {
       formData.append("txnCcy", txnCcy);
       let result = await api.getAccounts(formData);
       if (result.data.body.respCode == "00") {
-        this.create_privider.account.forEach((value, index) => {
+        this.create_provider.account.forEach((value, index) => {
           value.provider_acc_name = result.data.body.accountName;
         });
       } else {
         this.errorAccount = true;
-        this.create_privider.account.forEach((value, index) => {
+        this.create_provider.account.forEach((value, index) => {
           value.provider_acc_name = "";
         });
       }
@@ -905,10 +905,10 @@ export default {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
     deleteRow(index) {
-      this.create_privider.account.splice([index], 1);
+      this.create_provider.account.splice([index], 1);
     },
     addRow() {
-      this.create_privider.account.push({
+      this.create_provider.account.push({
         provider_acc: "",
         provider_acc_name: "",
         provider_ccy: "",
@@ -937,7 +937,7 @@ export default {
       }
     },
     async done(n) {
-      console.log(this.create_privider);
+      console.log(this.create_provider);
       this.steps[n].valid = false;
       let v = this.$refs.stepForm[n].validate();
       if (v == true) {
@@ -972,7 +972,7 @@ export default {
           ibank,
           bcelone,
           counter,
-        } = this.create_privider;
+        } = this.create_provider;
         formData.append("full_name", full_name);
         formData.append("phone_number", phone_number);
         formData.append("line_phone", line_phone);

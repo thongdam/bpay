@@ -21,19 +21,31 @@
         {{ step.name }}
         <v-form :ref="'stepForm'" v-model="step.valid" lazy-validation>
           <v-row v-if="n == 0" class="mt-5">
-            <v-col cols="12" sm="12" md="3">
+            <v-col cols="12" sm="3" md="3" xs="12">
+              <v-autocomplete
+                v-model="create_provider.providers"
+                :items="viewProviders"
+                item-text="provider_code"
+                outlined
+                label="ບໍລິສັດ"
+                placeholder="ບໍລິສັດ"
+                @change="fetchProviders()"
+              ></v-autocomplete>
+            </v-col>
+            <v-col co <v-col cols="12" sm="12" md="3">
               <v-text-field
-                v-model="create_privider.provider_code"
+                v-model="create_provider.provider_code"
                 label="ຊື່ຫຍໍ້"
                 placeholder="ຊື່ຫຍໍ້"
                 outlined
                 required
                 :rules="provider_code_Rul"
+                readonly
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="12" md="3">
               <v-text-field
-                v-model="create_privider.full_name"
+                v-model="create_provider.full_name"
                 required
                 label="ຊື່ ແລະ ນາມສະກຸນ"
                 placeholder="ຊື່ ແລະ ນາມສະກຸນ"
@@ -43,7 +55,7 @@
             </v-col>
             <v-col cols="12" sm="12" md="3">
               <v-text-field
-                v-model="create_privider.phone_number"
+                v-model="create_provider.phone_number"
                 required
                 label="ໂທລະສັບມືຖື"
                 placeholder="ໂທລະສັບມືຖື"
@@ -54,7 +66,7 @@
             </v-col>
             <v-col cols="12" sm="12" md="3">
               <v-text-field
-                v-model="create_privider.line_phone"
+                v-model="create_provider.line_phone"
                 label="ໂທລະສັບຕັ້ງໂຕະ"
                 placeholder="ໂທລະສັບຕັ້ງໂຕະ"
                 outlined
@@ -65,7 +77,7 @@
             </v-col>
             <v-col cols="12" sm="12" md="3">
               <v-text-field
-                v-model="create_privider.provider_name"
+                v-model="create_provider.provider_name"
                 label="ຊື່ ບໍລິສັດ"
                 placeholder="ຊື່ ບໍລິສັດ"
                 outlined
@@ -85,7 +97,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="create_privider.contract_startdate"
+                    v-model="create_provider.contract_startdate"
                     label="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
                     placeholder="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
                     persistent-hint
@@ -96,7 +108,7 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                  v-model="create_privider.contract_startdate"
+                  v-model="create_provider.contract_startdate"
                   no-title
                   @input="menu = false"
                 ></v-date-picker>
@@ -114,7 +126,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="create_privider.contract_stopdate"
+                    v-model="create_provider.contract_stopdate"
                     label="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
                     placeholder="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
                     persistent-hint
@@ -125,7 +137,7 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                  v-model="create_privider.contract_stopdate"
+                  v-model="create_provider.contract_stopdate"
                   no-title
                   @input="menu2 = false"
                 ></v-date-picker>
@@ -133,7 +145,7 @@
             </v-col>
             <v-col cols="12" sm="12" md="3">
               <v-select
-                v-model="create_privider.product_type"
+                v-model="create_provider.product_type"
                 :items="product_type"
                 item-text="provider_group"
                 :rules="product_type_Rul"
@@ -145,11 +157,11 @@
             </v-col>
             <v-col cols="12" sm="4" md="4" xs="12" class="pa-4">
               <v-switch
-                v-model="create_privider.provider_status"
+                v-model="create_provider.provider_status"
                 inset
                 color="success"
                 :label="`ສະຖານະ: ${
-                  create_privider.provider_status == true ? 'ເປິດ' : 'ປິດ'
+                  create_provider.provider_status == true ? 'ເປິດ' : 'ປິດ'
                 }`"
               ></v-switch>
             </v-col>
@@ -275,7 +287,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="3">
               <v-select
-                v-model="create_privider.fee_id"
+                v-model="create_provider.fee_id"
                 :items="provider_fee_type"
                 item-text="fee_company"
                 :rules="provider_fee_type_Rul"
@@ -297,9 +309,9 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-sheet>
                           <v-switch
-                            v-model="create_privider.charge_company"
+                            v-model="create_provider.charge_company"
                             :rules="
-                              create_privider.charge_customer == true
+                              create_provider.charge_customer == true
                                 ? []
                                 : [charge_company_Rul]
                             "
@@ -307,29 +319,29 @@
                             color="success"
                             label="ຄ່າທຳນຽມເກັບຈາກບໍລິສັດ"
                             :disabled="
-                              (create_privider.charge_txn == true
+                              (create_provider.charge_txn == true
                                 ? true
                                 : false) ||
-                              (create_privider.charge_customer == true
+                              (create_provider.charge_customer == true
                                 ? true
                                 : false)
                             "
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.charge_month"
+                            v-model="create_provider.charge_month"
                             inset
                             label="ລວມຍອດທ້າຍເດືອນ"
                             :disabled="
-                              (create_privider.charge_txn == true
+                              (create_provider.charge_txn == true
                                 ? true
                                 : false) ||
-                              (create_privider.charge_customer == true
+                              (create_provider.charge_customer == true
                                 ? true
                                 : false)
                             "
                             color="success"
                             :rules="
-                              create_privider.charge_customer == true
+                              create_provider.charge_customer == true
                                 ? []
                                 : [charge_month_Rul]
                             "
@@ -352,39 +364,39 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-sheet>
                           <v-switch
-                            v-model="create_privider.charge_customer"
+                            v-model="create_provider.charge_customer"
                             inset
                             :rules="
-                              create_privider.charge_company == null
+                              create_provider.charge_company == null
                                 ? [charge_customer_Rul]
                                 : []
                             "
                             label="ຄ່າທຳນຽມເກັບຈາກລູກຄ້າ"
                             color="success"
                             :disabled="
-                              (create_privider.charge_company == true
+                              (create_provider.charge_company == true
                                 ? true
                                 : false) ||
-                              (create_privider.charge_month == true
+                              (create_provider.charge_month == true
                                 ? true
                                 : false)
                             "
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.charge_txn"
+                            v-model="create_provider.charge_txn"
                             inset
                             label="ຕັດເທື່ອລະລາຍການ"
                             color="success"
                             :disabled="
-                              (create_privider.charge_month == true
+                              (create_provider.charge_month == true
                                 ? true
                                 : false) ||
-                              (create_privider.charge_company == true
+                              (create_provider.charge_company == true
                                 ? true
                                 : false)
                             "
                             :rules="
-                              create_privider.charge_company == null
+                              create_provider.charge_company == null
                                 ? [charge_txn_Rul]
                                 : []
                             "
@@ -409,7 +421,7 @@
                       <v-col cols="12" sm="6" md="6" xs="12">
                         <h5>ເວລາເລິ່ມຕົ້ນ</h5>
                         <v-time-picker
-                          v-model="create_privider.start_time"
+                          v-model="create_provider.start_time"
                           :max="end"
                           format="24hr"
                           :rules="[start_Rul]"
@@ -420,7 +432,7 @@
                       <v-col cols="12" sm="6" md="6" xs="12">
                         <h5>ເວລາສິ້ນສຸດ</h5>
                         <v-time-picker
-                          v-model="create_privider.end_time"
+                          v-model="create_provider.end_time"
                           :min="start"
                           format="24hr"
                           :rules="[end_Rul]"
@@ -444,35 +456,35 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-sheet>
                           <v-switch
-                            v-model="create_privider.onday"
+                            v-model="create_provider.onday"
                             :label="`ປະຈຳວັນ: ${
-                              create_privider.onday == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.onday == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                             color="success"
                             inset
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.stop_week"
+                            v-model="create_provider.stop_week"
                             :label="`ປະຈຳທິດ: ${
-                              create_privider.stop_week == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.stop_week == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                             color="success"
                             inset
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.stop_month"
+                            v-model="create_provider.stop_month"
                             color="success"
                             :label="`ປະຈຳເດືອນ: ${
-                              create_privider.stop_month == true
+                              create_provider.stop_month == true
                                 ? 'ເປິດ'
                                 : 'ປິດ'
                             }`"
                             inset
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.aditional"
+                            v-model="create_provider.aditional"
                             :label="`ວັນສຸກທ້າຍເດືອນ: ${
-                              create_privider.aditional == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.aditional == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                             color="success"
                             inset
@@ -523,19 +535,19 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-sheet>
                           <v-switch
-                            v-model="create_privider.input_amt"
+                            v-model="create_provider.input_amt"
                             inset
                             :label="`ອະນຸຍາດໃຫ້ຕີຈຳນວນເງິນ: ${
-                              create_privider.input_amt == true ? 'ເປິດ' : 'ປິດ'
+                              create_provider.input_amt == true ? 'ເປິດ' : 'ປິດ'
                             }`"
                             color="success"
                           ></v-switch>
                           <v-switch
-                            v-model="create_privider.connect_mode"
+                            v-model="create_provider.connect_mode"
                             inset
                             color="success"
                             :label="`ສົ່ງຂໍ້ມູນ: ${
-                              create_privider.connect_mode == true
+                              create_provider.connect_mode == true
                                 ? 'ONLINE'
                                 : 'OFFLINE'
                             }`"
@@ -647,6 +659,7 @@ export default {
     return {
       errorAccount: false,
       dialog: false,
+      viewProviders: [],
       search: "",
       viewFee: [],
       channels: [],
@@ -744,7 +757,7 @@ export default {
         provider_name: "",
         phone_number: "",
       },
-      create_privider: {
+      create_provider: {
         full_name: "",
         phone_number: "",
         line_phone: "",
@@ -851,9 +864,11 @@ export default {
   async mounted() {
     this.loadProductType();
     this.loadFeeType();
+    this.loadProvider();
     //load provider bill payment
     let result = await api.GetProviderBillById(this.$route.params.id);
-    this.create_privider = result.data.body;
+    this.create_provider = result.data.body;
+    this.create_provider.provider_code = this.$route.params.id;
     //load account bill payment
     let resacc = await api.GetBillAccount(this.$route.params.id);
     this.updateAccounts = resacc.data.body;
@@ -861,60 +876,60 @@ export default {
     let acc_fee = await api.GetFeeBillAccount(this.$route.params.id);
     this.accountFee = acc_fee.data.body;
 
-    if (this.create_privider.charge_company == "Y") {
-      this.create_privider.charge_company = true;
+    if (this.create_provider.charge_company == "Y") {
+      this.create_provider.charge_company = true;
     } else {
-      this.create_privider.charge_company = false;
+      this.create_provider.charge_company = false;
     }
-    if (this.create_privider.charge_customer == "N") {
-      this.create_privider.charge_customer = true;
+    if (this.create_provider.charge_customer == "N") {
+      this.create_provider.charge_customer = true;
     } else {
-      this.create_privider.charge_customer = false;
+      this.create_provider.charge_customer = false;
     }
-    if (this.create_privider.provider_status == "A") {
-      this.create_privider.provider_status = true;
+    if (this.create_provider.provider_status == "A") {
+      this.create_provider.provider_status = true;
     } else {
-      this.create_privider.provider_status = false;
+      this.create_provider.provider_status = false;
     }
-    if (this.create_privider.charge_month == "Y") {
-      this.create_privider.charge_month = true;
+    if (this.create_provider.charge_month == "Y") {
+      this.create_provider.charge_month = true;
     } else {
-      this.create_privider.charge_month = false;
+      this.create_provider.charge_month = false;
     }
-    if (this.create_privider.charge_txn == "Y") {
-      this.create_privider.charge_txn = true;
+    if (this.create_provider.charge_txn == "Y") {
+      this.create_provider.charge_txn = true;
     } else {
-      this.create_privider.charge_txn = false;
+      this.create_provider.charge_txn = false;
     }
-    if (this.create_privider.input_amt == "Y") {
-      this.create_privider.input_amt = true;
+    if (this.create_provider.input_amt == "Y") {
+      this.create_provider.input_amt = true;
     } else {
-      this.create_privider.input_amt = false;
+      this.create_provider.input_amt = false;
     }
-    if (this.create_privider.connect_mode == "ONLINE") {
-      this.create_privider.connect_mode = true;
+    if (this.create_provider.connect_mode == "ONLINE") {
+      this.create_provider.connect_mode = true;
     } else {
-      this.create_privider.connect_mode = false;
+      this.create_provider.connect_mode = false;
     }
-    if (this.create_privider.onday == "Y") {
-      this.create_privider.onday = true;
+    if (this.create_provider.onday == "Y") {
+      this.create_provider.onday = true;
     } else {
-      this.create_privider.onday = false;
+      this.create_provider.onday = false;
     }
-    if (this.create_privider.stop_week == "Y") {
-      this.create_privider.stop_week = true;
+    if (this.create_provider.stop_week == "Y") {
+      this.create_provider.stop_week = true;
     } else {
-      this.create_privider.stop_week = false;
+      this.create_provider.stop_week = false;
     }
-    if (this.create_privider.stop_month == "Y") {
-      this.create_privider.stop_month = true;
+    if (this.create_provider.stop_month == "Y") {
+      this.create_provider.stop_month = true;
     } else {
-      this.create_privider.stop_month = false;
+      this.create_provider.stop_month = false;
     }
-    if (this.create_privider.aditional == "Y") {
-      this.create_privider.aditional = true;
+    if (this.create_provider.aditional == "Y") {
+      this.create_provider.aditional = true;
     } else {
-      this.create_privider.aditional = false;
+      this.create_provider.aditional = false;
     }
     //load bpay posting
     let results = await api.GetBpayPosting(this.$route.params.id);
@@ -928,6 +943,10 @@ export default {
     });
   },
   methods: {
+    async loadProvider() {
+      let result = await api.providersAll();
+      this.viewProviders = result.data.body;
+    },
     formatNumber(num) {
       return parseFloat(num).toFixed(2);
     },
@@ -935,7 +954,7 @@ export default {
     async ViewFeeProvider() {
       this.dialog = true;
       let formData = new FormData();
-      formData.append("fee_id", this.create_privider.fee_id);
+      formData.append("fee_id", this.create_provider.fee_id);
       let results = await api.ViewFeeProviders(formData);
       this.viewFee = results.data.body;
     },
@@ -1057,7 +1076,7 @@ export default {
           provider_status,
           provider_code,
           provider_name,
-        } = this.create_privider;
+        } = this.create_provider;
         formData.append("full_name", full_name);
         formData.append("phone_number", phone_number);
         formData.append("line_phone", line_phone);
@@ -1091,6 +1110,7 @@ export default {
         formData.append("provider_fee_name", this.accountFee.provider_fee_name);
         formData.append("provider_fee_ccy", this.accountFee.provider_fee_ccy);
         formData.append("username", this.$store.getters["username"]);
+        console.log(this.create_provider);
         let result = await api.updateProviderBill(formData);
         if ((result.data.body.responseMsg = true)) {
           this.$router.back();

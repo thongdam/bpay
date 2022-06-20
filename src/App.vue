@@ -41,7 +41,7 @@ export default {
 
   methods: {
     setTimers: function () {
-      this.warningTimer = setTimeout(this.warningMessage, 80 * 1000); // 14 minutes - 14 * 60 * 1000
+      this.warningTimer = setTimeout(this.warningMessage, 20 * 20000); // 14 minutes - 14 * 60 * 1000
       this.warningZone = false;
     },
     warningMessage: function () {

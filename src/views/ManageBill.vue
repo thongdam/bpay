@@ -79,12 +79,13 @@
                 "
                 outlined
                 pill
+                small
               >
                 {{
                   item.register_status == "C"
                     ? "ເລກສັນຍາຖືກປິດ"
                     : item.register_status == "A"
-                    ? "ລົງທະບຽນສຳເລັດ"
+                    ? "ເປິດໃນຊຳລະ"
                     : "ລໍຖ້າລົງທະບຽນ"
                 }}
               </v-chip>

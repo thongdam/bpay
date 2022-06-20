@@ -105,7 +105,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-data-table :search="search" :headers="headers" :items="autodebits">
+      <v-data-table :search="search" :headers="headers" :items="AutoDebits">
         <!-- table top section -->
         <template v-slot:top>
           <v-row>
@@ -153,7 +153,7 @@
             <td>{{ item.provider_code }}</td>
             <td>
               <v-chip
-              small
+                small
                 :color="
                   item.provider_auto_status == '89'
                     ? 'danger'
@@ -175,13 +175,27 @@
             </td>
             <td>
               <v-chip
-              small
-                :color="item.register_status == 'C' ? 'danger' : item.register_status == 'A' ? 'success': item.register_status == 'R' ?'info':'warning'"
+                small
+                :color="
+                  item.register_status == 'C'
+                    ? 'danger'
+                    : item.register_status == 'A'
+                    ? 'success'
+                    : item.register_status == 'R'
+                    ? 'info'
+                    : 'warning'
+                "
                 outlined
                 pill
               >
                 {{
-                  item.register_status == "C" ? "ເລກສັນຍາຖືກປິດ" : item.register_status == "A" ? "ລົງທະບຽນສຳເລັດ" : item.register_status == "R" ? "ສົ່ງເງິນຄືນລູກຄ້າ" : "ລໍຖ້າລົງທະບຽນ"
+                  item.register_status == "C"
+                    ? "ເລກສັນຍາຖືກປິດ"
+                    : item.register_status == "A"
+                    ? "ລົງທະບຽນສຳເລັດ"
+                    : item.register_status == "R"
+                    ? "ສົ່ງເງິນຄືນລູກຄ້າ"
+                    : "ລໍຖ້າລົງທະບຽນ"
                 }}
               </v-chip>
             </td>
@@ -203,7 +217,7 @@ export default {
       search: "",
       selectedProductId: "",
       confirmDeleteDlg: false,
-      autodebits: [],
+      AutoDebits: [],
       providers: [],
       checking_auto: {
         provider_code: "",
@@ -240,7 +254,6 @@ export default {
     };
   },
   async mounted() {
-    //this.loadAcc();
     this.loadProvider();
   },
   methods: {
@@ -249,13 +262,16 @@ export default {
     },
     async UpdateStatus(item) {
       let formData = new FormData();
-      const { id } = item;
-      formData.append("id", item.id);
+      const { id, provider_code } = item;
+      formData.append("id", id);
+      formData.append("provider_code", provider_code);
       formData.append("username", this.$store.getters["username"]);
-    },
-    async loadAcc() {
-      let result = await api.getacc();
-      this.autodebits = result.data.body;
+      let result = await api.UpdateStatus(formData);
+      if ((result.data.body.responseMsg = true)) {
+        window.location.reload();
+      } else {
+        console.log(result.status);
+      }
     },
     async loadProvider() {
       let result = await api.getProviders();
@@ -272,7 +288,7 @@ export default {
       formData.append("to_date", to_date);
       formData.append("username", this.$store.getters["username"]);
       let result = await api.getAuto(formData);
-      this.autodebits = result.data.body;
+      this.AutoDebits = result.data.body;
     },
   },
 };

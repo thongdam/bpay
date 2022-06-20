@@ -60,6 +60,10 @@ export const getFeeAuto = () => {
 export const Search_AutoDebits = data => {
   return httpClient.post(server.Search_AutoDebits_RUL,data);
 };
+// check upload auto debit
+export const UpdateStatus = data => {
+  return httpClient.post(server.UpdateStatus_URL,data);
+};
 
 //======develop by thongdam khamsena setting bill payment=====
 export const getProviderBill = () =>{

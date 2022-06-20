@@ -122,8 +122,8 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     v-model="create_provider.contract_stopdate"
-                    label="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
-                    placeholder="ເລືອກວັນທີເລິ່ມຕົ້ນສັນຍາ"
+                    label="ເລືອກວັນທີສິນສຸດສັນຍາ"
+                    placeholder="ເລືອກວັນທີສິນສຸດສັນຍາ"
                     persistent-hint
                     v-bind="attrs"
                     v-on="on"
@@ -171,16 +171,6 @@
                   :rules="provider_acc_Rul"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" sm="3" md="3" xs="12">
-                <v-text-field
-                  v-model="item.provider_acc_name"
-                  required
-                  label="ຊື່ ບັນຊີຮອງຮັບ"
-                  placeholder="ຊື່ ບັນຊີຮອງຮັບ"
-                  outlined
-                  :rules="[provider_acc_name_Rul]"
-                ></v-text-field>
-              </v-col>
               <v-col cols="12" sm="2" md="2" xs="12">
                 <v-select
                   v-model="item.provider_ccy"
@@ -192,6 +182,16 @@
                   outlined
                   @change="getAccounts()"
                 ></v-select>
+              </v-col>
+              <v-col cols="12" sm="3" md="3" xs="12">
+                <v-text-field
+                  v-model="item.provider_acc_name"
+                  required
+                  label="ຊື່ ບັນຊີຮອງຮັບ"
+                  placeholder="ຊື່ ບັນຊີຮອງຮັບ"
+                  outlined
+                  :rules="[provider_acc_name_Rul]"
+                ></v-text-field>
               </v-col>
               <v-col cols="12" sm="2" md="2" xs="12">
                 <v-text-field
@@ -299,6 +299,7 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-sheet>
                           <v-switch
+                            @change="Check_fee_provider()"
                             v-model="create_provider.charge_fee_provider"
                             inset
                             color="success"
@@ -443,6 +444,7 @@
                       <v-col cols="12" sm="4" md="4" xs="12">
                         <v-sheet>
                           <v-switch
+                            @change="CheckChangeMonth()"
                             v-model="create_provider.no_change_amount"
                             inset
                             color="success"
@@ -510,6 +512,7 @@
                       <v-col cols="12" sm="4" md="4" xs="12">
                         <v-sheet>
                           <v-switch
+                            @change="CheckNoChangeMonth()"
                             v-model="create_provider.change_amount"
                             inset
                             color="success"
@@ -528,7 +531,7 @@
                             v-model="create_provider.onday"
                             inset
                             color="success"
-                            label="ວັນ"
+                            label="ພາຍໃນວັນ"
                             :rules="
                               create_provider.onmonths == true ||
                               create_provider.no_change_amount == true
@@ -536,16 +539,18 @@
                                 : [onday_RUL]
                             "
                             :disabled="create_provider.onmonths == true"
+                            @change="CheckOnday()"
                           ></v-switch>
                         </v-sheet>
                       </v-col>
                       <v-col cols="12=" sm="4" md="4" xs="12">
                         <v-sheet>
                           <v-switch
+                            @change="CheckOMonth()"
                             v-model="create_provider.onmonths"
                             inset
                             color="success"
-                            label="ເດືອນລະຄັ້ງ"
+                            label="ພາຍໃນເດືອນ"
                             :rules="
                               create_provider.onday == true ||
                               create_provider.no_change_amount == true
@@ -562,7 +567,11 @@
               </v-card>
             </v-col>
             <v-col cols="12" sm="6" md="6" xs="12">
-              <v-card class="mx-auto" outlined>
+              <v-card
+                class="mx-auto"
+                outlined
+                :disabled="create_provider.no_change_amount == true"
+              >
                 <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-title class="text-h6 mb-1">
@@ -576,10 +585,7 @@
                             inset
                             color="success"
                             label="ບໍ່ຕັດຄືນ"
-                            :disabled="
-                              create_provider.cutback == true ||
-                              create_provider.endofmonth == true
-                            "
+                            :disabled="create_provider.onmonths == true"
                           ></v-switch>
                         </v-sheet>
                       </v-col>
@@ -591,8 +597,15 @@
                             color="success"
                             label="ຕັດຄືນ"
                             :disabled="
-                              create_provider.notcutback == true ||
-                              create_provider.endofmonth == true
+                              create_provider.endofmonth == true ||
+                              create_provider.notcutback == true
+                            "
+                            :rules="
+                              create_provider.onmonths == true ||
+                              create_provider.onday == true ||
+                              create_provider.no_change_amount == true
+                                ? []
+                                : [cutback_RUL]
                             "
                           ></v-switch>
                         </v-sheet>
@@ -605,8 +618,15 @@
                             color="success"
                             label="ຕັດສິນສຸດເດືອນ"
                             :disabled="
-                              create_provider.notcutback == true ||
-                              create_provider.cutback == true
+                              create_provider.cutback == true ||
+                              create_provider.notcutback == true
+                            "
+                            :rules="
+                              create_provider.cutback == true ||
+                              create_provider.onday == true ||
+                              create_provider.no_change_amount == true
+                                ? []
+                                : [endofmonth_RUL]
                             "
                           ></v-switch>
                         </v-sheet>
@@ -639,7 +659,7 @@
                 <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-title class="text-h6 mb-1">
-                      ກໍລະນີຕັດຄ່າທຳນຽມຈາກບັນຊີອື່ນ
+                      ກໍລະນີຕັດຄ່າທຳນຽມຈາກບັນຊີບໍລິສັດ
                     </v-list-item-title>
                     <v-row cols="12" class="pa-3">
                       <v-col cols="12" sm="6" md="6" xs="12">
@@ -736,7 +756,14 @@
         >
           <v-icon dark> mdi-content-save </v-icon>
         </v-btn>
-        <v-btn :disabled="curr==1 ? true : false" class="mx-2" fab dark color="red" @click="curr -= 1">
+        <v-btn
+          :disabled="curr == 1 ? true : false"
+          class="mx-2"
+          fab
+          dark
+          color="red"
+          @click="curr -= 1"
+        >
           <v-icon dark> mdi-menu-left </v-icon>
         </v-btn>
       </v-stepper-content>
@@ -1008,6 +1035,8 @@ export default {
       charge_day_RUL: (v) => !!v || "ກະລຸນາປ້ອນຂໍ້ມູນ*",
       charge_fee_provider_RUL: (v) => !!v || "ກະລຸນາປ້ອນຂໍ້ມູນ*",
       charge_fee_customer_RUL: (v) => !!v || "ກະລຸນາປ້ອນຂໍ້ມູນ*",
+      cutback_RUL: (v) => !!v || "ກະລຸນາປ້ອນຂໍ້ມູນ*",
+      endofmonth_RUL: (v) => !!v || "ກະລຸນາປ້ອນຂໍ້ມູນ*",
     };
   },
   async mounted() {
@@ -1128,6 +1157,53 @@ export default {
     }
   },
   methods: {
+    CheckOnday() {
+      if (this.create_provider.onday == true) {
+        this.create_provider.notcutback = true;
+      } else {
+        this.create_provider.notcutback = false;
+        this.create_provider.endofmonth = false;
+      }
+    },
+    CheckOMonth() {
+      if (this.create_provider.onmonths == true) {
+        this.create_provider.notcutback = false;
+        this.create_provider.endofmonth = true;
+      } else {
+        this.create_provider.notcutback = false;
+        this.create_provider.endofmonth = false;
+      }
+    },
+    CheckChangeMonth() {
+      if (this.create_provider.no_change_amount == true) {
+        this.create_provider.change_amount = false;
+        this.create_provider.onday = false;
+        this.create_provider.onmonths = false;
+        this.create_provider.notcutback = false;
+        this.create_provider.endofmonth = false;
+      }
+    },
+    CheckNoChangeMonth() {
+      if (this.create_provider.change_amount == true) {
+        this.create_provider.no_change_amount = false;
+        this.create_provider.onmonth = false;
+        this.create_provider.threemonth = false;
+      }
+    },
+    Check_fee_provider() {
+      if (this.create_provider.charge_fee_provider == true) {
+        this.create_provider.charge_fee_customer = false;
+        this.create_provider.charge_transaction = false;
+      }
+    },
+    Check_fee_customer() {
+      if (this.create_provider.charge_fee_customer == true) {
+        this.create_provider.charge_fee_provider = false;
+        this.create_provider.charge_day = false;
+        this.create_provider.charge_week = false;
+        this.create_provider.charge_month = false;
+      }
+    },
     formatNumber(num) {
       return parseFloat(num).toFixed(2);
     },
@@ -1341,7 +1417,7 @@ export default {
         formData.append("username", this.$store.getters["username"]);
         formData.append("provider_acc", JSON.stringify(arr));
         let result = await api.UpdateProvider(formData);
-        if (result.data.body.responseMsg = true) {
+        if ((result.data.body.responseMsg = true)) {
           this.$router.back();
         } else {
           console.log(result.status);
