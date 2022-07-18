@@ -1,7 +1,7 @@
 <template>
   <v-app class="application">
     <Menu v-if="$store.state.isLogged" />
-    <Content />
+    <Content  />
   </v-app>
 </template>
 
@@ -24,7 +24,6 @@ export default {
       warningZone: false,
     };
   },
-
   mounted() {
     this.events.forEach(function (event) {
       window.addEventListener(event, this.resetTimer);

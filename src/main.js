@@ -8,7 +8,6 @@ import "@fontsource/noto-sans";
 import "@mdi/font/css/materialdesignicons.css";
 import Vue2Filters from 'vue2-filters';
 Vue.config.productionTip = false;
-
 new Vue({
   router,
   store,

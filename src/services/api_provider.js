@@ -122,9 +122,22 @@ export const GetAutoAccount = id => {
 
 // =======get provider for npp========
 export const GetAllProviderNpp = () => {
-  return httpClient.get(server.GetAllProviderNpp_RUL);
+  return httpClient.get(server.WaterCheckList_URL);
 };
 //searching amount npp
-export const Searching_NPP = data => {
-  return httpClient.post(server.GetAllProviderNpp_RUL,data);
+export const WaterCheckList = data => {
+  return httpClient.post(server.WaterCheckLists_URL,data);
 };
+
+// add permissions 
+export const AddPermission = data => {
+  return httpClient.post(server.AddPerMission_URL,data);
+};
+//get permissions
+export const GetPermission = id => {
+  return httpClient.get(server.AddPerMission_URL + `/${id}`);
+};
+//dashboard
+// export const GetDashboard = () => {
+//   return httpClient.get(server.AddPerMission_URL);
+// };

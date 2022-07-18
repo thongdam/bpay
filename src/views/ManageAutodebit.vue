@@ -5,15 +5,16 @@
       <v-container>
         <v-row>
           <v-col cols="12" sm="6" md="3">
-            <v-select
+            <v-autocomplete
               v-model="checking_auto.provider_code"
               :items="providers"
               item-text="provider_long"
               item-value="provider_auto"
-              label="ເລືອກບໍລິສັດ"
-              single-line
               outlined
-            ></v-select>
+              chips
+              small-chips
+              label="ເລືອກບໍລິສັດ"
+            ></v-autocomplete>
           </v-col>
           <v-col cols="12" sm="6" md="2">
             <v-select
@@ -100,7 +101,7 @@
               small
               color="success"
             >
-              <v-icon dark size="25"> mdi-search-web </v-icon>
+              <v-icon dark size="25"> mdi-magnify </v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -108,17 +109,14 @@
       <v-data-table :search="search" :headers="headers" :items="AutoDebits">
         <!-- table top section -->
         <template v-slot:top>
-          <v-row>
-            <v-col cols="12" sm="6" md="6">
+          <v-row justify="end" align="end">
+            <v-col cols="12" sm="4" md="4" xs="12">
               <v-toolbar flat color="white">
-                <v-toolbar-title>ກວດສອບລາຍການ(Auto)</v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-text-field
                   v-model="search"
-                  append-icon="search"
+                  append-icon="mdi-magnify"
                   label="ຄົ້ນຫາ"
-                  single-line
-                  hide-details
                 ></v-text-field>
               </v-toolbar>
             </v-col>
@@ -130,23 +128,48 @@
             <td>{{ item.id }}</td>
             <td>{{ item.agreement_no }}</td>
             <td>{{ item.customer_name }}</td>
-            <td>{{ formatNumber(item.amount) }}</td>
+            <td>
+              <v-chip
+                x-small
+                :color="
+                  item.provider_ccy == 'LAK'
+                    ? 'success'
+                    : item.provider_ccy == 'USD'
+                    ? 'error'
+                    : item.provider_ccy == 'THB'
+                    ? 'info'
+                    : ''
+                "
+                outlined
+                >{{ formatNumber(item.amount) }}</v-chip
+              >
+            </td>
             <td>{{ item.deduct_date }}</td>
             <td>{{ item.date_process }}</td>
             <td>{{ item.provider_acc }}</td>
             <td>{{ item.provider_acc_name }}</td>
-            <td>{{ item.provider_ccy }}</td>
             <td>
-              <v-chip small color="info" outlined pill>
+              <v-chip
+                x-small
+                :color="
+                  item.provider_ccy == 'LAK'
+                    ? 'success'
+                    : item.provider_ccy == 'USD'
+                    ? 'error'
+                    : item.provider_ccy == 'THB'
+                    ? 'info'
+                    : ''
+                "
+                outlined
+                >{{ item.provider_ccy }}</v-chip
+              >
+            </td>
+
+            <td>
+              <v-chip x-small color="info" outlined pill>
                 {{ item.auto_condition_type }} ຄັ້ງ
               </v-chip>
-              <v-btn
-                class="ml-3"
-                color="warning"
-                fab
-                x-small
-                @click="UpdateStatus(item)"
-              >
+              <v-btn color="warning" fab x-small @click="UpdateStatus(item)">
                 <v-icon dark> mdi-refresh-auto</v-icon>
               </v-btn>
             </td>
@@ -203,6 +226,9 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-snackbar v-model="error" :timeout="timeout_error" color="error">
+      {{ text_error }}
+    </v-snackbar>
   </v-container>
 </template>
 <script>
@@ -215,6 +241,9 @@ export default {
       modal: false,
       menu2: false,
       search: "",
+      text_error: "ບໍ່ມີຂໍ້ມູນ",
+      timeout_error: 5000,
+      error: false,
       selectedProductId: "",
       confirmDeleteDlg: false,
       AutoDebits: [],
@@ -288,7 +317,11 @@ export default {
       formData.append("to_date", to_date);
       formData.append("username", this.$store.getters["username"]);
       let result = await api.getAuto(formData);
-      this.AutoDebits = result.data.body;
+      if (result.data.body.length > 0) {
+        this.AutoDebits = result.data.body;
+      } else {
+        this.error = true;
+      }
     },
   },
 };

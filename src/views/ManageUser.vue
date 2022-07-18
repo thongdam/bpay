@@ -11,7 +11,7 @@
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-text-field
                 v-model="search"
-                append-icon="search"
+                append-icon="mdi-magnify"
                 label="ຄົ້ນຫາ"
                 single-line
                 hide-details
@@ -36,7 +36,7 @@
           <tr>
             <td>{{ item.id }}</td>
             <td>{{ item.username }}</td>
-            <td>{{ item.status }}</td>
+            <td><v-chip small :color="item.status =='A' ? 'success' :'danger'" outlined>{{item.status =='A' ? 'ນຳໃຊ້' : 'ປິດ'}}</v-chip ></td>
             <td>{{ item.provider_code }}</td>
             <td>{{ item.create_date }}</td>
             <td>{{ item.active_date }}</td>
@@ -44,10 +44,20 @@
             <td>{{ item.login_time }}</td>
             <td>
               <v-btn
+                @click="AddPermission(item)"
+                class="mr-2"
+                color="success"
+                fab
+                x-small
+                dark
+              >
+                <v-icon dark> mdi-key-plus</v-icon>
+              </v-btn>
+              <v-btn
                 class="mr-2"
                 color="warning"
                 fab
-                small
+                x-small
                 dark
                 @click="EditUsers(item)"
               >
@@ -114,6 +124,9 @@
         </v-card>
       </v-dialog>
     </v-row>
+    <v-snackbar v-model="btn_register" :timeout="timeout" color="success">
+      {{ text }}
+    </v-snackbar>
   </v-container>
 </template>
 <script>
@@ -122,6 +135,9 @@ export default {
   name: "ManageUser",
   data() {
     return {
+      btn_register: false,
+      text: "ແກ້ໄຂຂໍ້ມູນສຳເລັດ.",
+      timeout: 2000,
       EditUser: false,
       search: "",
       selectedProductId: "",
@@ -160,27 +176,25 @@ export default {
     this.loadProvider();
   },
   methods: {
-    async UpdateUsers(){
+    AddPermission(item){
+      this.$router.push(`/ManagePermission/${item.username}`);
+    },
+    async UpdateUsers() {
       let formData = new FormData();
-      const {
-        login_attemp,
-        login_time,
-        provider_code,
-        username,
-        id,
-        status
-      }= this.UpdateUser;
-      formData.append("login_attemp",login_attemp)
-      formData.append("login_time",login_time);
-      formData.append("provider_code",provider_code)
-      formData.append("username",username)
-      formData.append("id",id)
-      formData.append("status",status)
+      const { login_attemp, login_time, provider_code, username, id, status } =
+        this.UpdateUser;
+      formData.append("login_attemp", login_attemp);
+      formData.append("login_time", login_time);
+      formData.append("provider_code", provider_code);
+      formData.append("username", username);
+      formData.append("id", id);
+      formData.append("status", status);
       let result = await api.UpdateUsers(formData);
-      console.log(result.data.body.responseMsg)
-      if(result.data.body.responseMsg = true){
-        window.location.reload();
-      }else{
+      if (result.data.body.responseMsg == "true") {
+        this.btn_register  = true;
+        this.EditUser = false;
+        setTimeout(() => this.$router.push({ path: "/ManageUser" }), 2000);
+      } else {
         console.log(result.status);
       }
     },

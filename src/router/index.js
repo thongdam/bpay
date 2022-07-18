@@ -20,6 +20,7 @@ import ManageProviderBill from "@/views/ManageProviderBill";
 import ManageProviderEditBill  from "@/views/ManageProviderEditBill";
 import CheckUploadData from "@/views/CheckUploadData";
 import WaterCheckList from "@/views/WaterCheckList";
+import ClosEndOfYear from "@/views/ClosEndOfYear";
 import api from "@/services/api";
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -100,12 +101,6 @@ const routes = [
     meta: { isSecured: true },
   },
   {
-    path: "/ManagePermission",
-    name: "ManagePermission",
-    component: ManagePermission,
-    meta: { isSecured: true },
-  },
-  {
     path: "/ManageFeeCreate",
     name: "ManageFeeCreate",
     component: ManageFeeCreate,
@@ -145,6 +140,18 @@ const routes = [
     path: "/WaterCheckList",
     name: "WaterCheckList",
     component: WaterCheckList ,
+    meta: { isSecured: true },
+  },
+  {
+    path: "/ManagePermission/:id",
+    name: "ManagePermission",
+    component: ManagePermission ,
+    meta: { isSecured: true },
+  },
+  {
+    path: "/ClosEndOfYear",
+    name: "ClosEndOfYear",
+    component: ClosEndOfYear ,
     meta: { isSecured: true },
   },
   {

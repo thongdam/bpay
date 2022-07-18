@@ -5,15 +5,16 @@
       <v-container>
         <v-row>
           <v-col cols="12" sm="2" md="2">
-            <v-select
+            <v-autocomplete
               v-model="checking_auto.provider_code"
               :items="providers"
               item-text="provider_long"
               item-value="provider_auto"
-              label="ເລືອກບໍລິສັດ"
-              single-line
               outlined
-            ></v-select>
+              chips
+              small-chips
+              label="ເລືອກບໍລິສັດ"
+            ></v-autocomplete>
           </v-col>
           <v-col cols="12" sm="3" md="3">
             <v-text-field
@@ -23,63 +24,63 @@
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="3" md="3" xs="12">
-              <v-menu
-                ref="menu"
-                v-model="menu"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                max-width="290px"
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="checking_auto.from_date"
-                    label="ຈາກວັນທີ"
-                    placeholder="ຈາກວັນທີ"
-                    persistent-hint
-                    v-bind="attrs"
-                    v-on="on"
-                    outlined
-                    prepend-inner-icon="mdi-calendar-plus"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
+            <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              max-width="290px"
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
                   v-model="checking_auto.from_date"
-                  no-title
-                  @input="menu = false"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
-            <v-col cols="12" sm="3" md="3" xs="12">
-              <v-menu
-                ref="menu2"
-                v-model="menu2"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                max-width="290px"
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="checking_auto.to_date"
-                    label="ຫາວັນທີ"
-                    placeholder="ຫາວັນທີ"
-                    persistent-hint
-                    v-bind="attrs"
-                    v-on="on"
-                    outlined
-                    prepend-inner-icon="mdi-calendar-plus"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
+                  label="ຈາກວັນທີ"
+                  placeholder="ຈາກວັນທີ"
+                  persistent-hint
+                  v-bind="attrs"
+                  v-on="on"
+                  outlined
+                  prepend-inner-icon="mdi-calendar-plus"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="checking_auto.from_date"
+                no-title
+                @input="menu = false"
+              ></v-date-picker>
+            </v-menu>
+          </v-col>
+          <v-col cols="12" sm="3" md="3" xs="12">
+            <v-menu
+              ref="menu2"
+              v-model="menu2"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              max-width="290px"
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
                   v-model="checking_auto.to_date"
-                  no-title
-                  @input="menu2 = false"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
+                  label="ຫາວັນທີ"
+                  placeholder="ຫາວັນທີ"
+                  persistent-hint
+                  v-bind="attrs"
+                  v-on="on"
+                  outlined
+                  prepend-inner-icon="mdi-calendar-plus"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="checking_auto.to_date"
+                no-title
+                @input="menu2 = false"
+              ></v-date-picker>
+            </v-menu>
+          </v-col>
           <v-col cols="12" sm="1" md="1" xs="12">
             <v-btn
               @click="Search_AutoDebits()"
@@ -89,7 +90,7 @@
               small
               color="success"
             >
-              <v-icon dark size="25"> mdi-search-web </v-icon>
+              <v-icon dark size="25"> mdi-magnify </v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -97,17 +98,14 @@
       <v-data-table :search="search" :headers="headers" :items="results_check">
         <!-- table top section -->
         <template v-slot:top>
-          <v-row>
-            <v-col cols="12" sm="8" md="8" xs="12">
+          <v-row justify="end" align="end">
+            <v-col cols="12" sm="4" md="4" xs="12">
               <v-toolbar flat color="white">
-                <v-toolbar-title>ກວດສອບລາຍການອັບໂຫຼດຂອງລູກຄ້າ</v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-text-field
                   v-model="search"
-                  append-icon="search"
+                  append-icon="mdi-magnify"
                   label="ຄົ້ນຫາ"
-                  single-line
-                  hide-details
                 ></v-text-field>
               </v-toolbar>
             </v-col>
@@ -146,6 +144,9 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-snackbar v-model="error" :timeout="timeout_error" color="error">
+      {{ text_error }}
+    </v-snackbar>
   </v-container>
 </template>
 <script>
@@ -158,6 +159,9 @@ export default {
       modal: false,
       menu2: false,
       search: "",
+      text_error: "ບໍ່ມີຂໍ້ມູນ",
+      timeout_error: 5000,
+      error: false,
       selectedProductId: "",
       confirmDeleteDlg: false,
       results_check: [],
@@ -205,7 +209,11 @@ export default {
       formData.append("to_date", to_date);
       formData.append("username", this.$store.getters["username"]);
       let result = await api.Search_AutoDebits(formData);
-      this.results_check = result.data.body;
+      if (result.data.body.length > 0) {
+        this.results_check = result.data.body;
+      } else {
+        this.error = true;
+      }
     },
   },
 };

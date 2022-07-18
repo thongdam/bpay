@@ -161,7 +161,7 @@
             </v-col>
           </v-row>
           <div v-if="n == 1">
-            <v-btn @click="addRow" small text color="danger" class="ml-2 mt-5">
+            <v-btn @click="addRow" small text color="danger" class="ml-2 mt-5" :disabled="Object.keys(create_provider.account).length === 3">
               <v-icon>mdi-briefcase-plus</v-icon>
               <span>ເພິ່ມບັນຊີ</span>
             </v-btn>
@@ -191,7 +191,7 @@
                   label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                   placeholder="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                   outlined
-                  @change="getAccounts()"
+                  @change="getAccounts(acc, index)"
                 ></v-select>
               </v-col>
               <v-col cols="12" sm="3" md="3" xs="12">
@@ -244,7 +244,7 @@
                   :disabled="Object.keys(create_provider.account).length === 1"
                   @click="deleteRow(index)"
                 >
-                  <v-icon>mdi-close</v-icon>
+                  <v-icon>mdi-close-circle</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -648,6 +648,12 @@
         </v-data-table>
       </v-card>
     </v-dialog>
+    <v-snackbar v-model="btn_add_provider" :timeout="timeout" color="success">
+      {{ text }}
+    </v-snackbar>
+    <v-snackbar v-model="error" :timeout="timeout_error" color="error">
+      {{ text_error }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -657,6 +663,12 @@ export default {
   name: "ManageProviderCreateBill",
   data() {
     return {
+      btn_add_provider: false,
+      text: "ບັນທືກຂໍ້ມູນສຳເລັດ.",
+      timeout: 2000,
+      error: false,
+      text_error: "ມີຂໍ້ຜິດພາດໃນການບັນທຶກຂໍ້ມູນ.",
+      timeout_error: 2000,
       Fee_dialog: false,
       search: "",
       viewFee: [],
@@ -871,26 +883,16 @@ export default {
       }
     },
     //get account for check
-    async getAccounts() {
-      let txnAcc;
-      let txnCcy;
+    async getAccounts(acc, index) {
       let formData = new FormData();
-      this.create_provider.account.forEach((value, index) => {
-        txnAcc = value.provider_acc;
-        txnCcy = value.provider_ccy;
-      });
-      formData.append("txnAcc", txnAcc);
-      formData.append("txnCcy", txnCcy);
+      formData.append("txnAcc", acc.provider_acc);
+      formData.append("txnCcy", acc.provider_ccy);
       let result = await api.getAccounts(formData);
       if (result.data.body.respCode == "00") {
-        this.create_provider.account.forEach((value, index) => {
-          value.provider_acc_name = result.data.body.accountName;
-        });
+          this.create_provider.account[index].provider_acc_name = result.data.body.accountName;
       } else {
-        this.errorAccount = true;
-        this.create_provider.account.forEach((value, index) => {
-          value.provider_acc_name = "";
-        });
+          this.errorAccount = true;
+          this.create_provider.account[index].provider_acc_name = "";
       }
     },
     async loadProductType() {
@@ -1004,10 +1006,11 @@ export default {
         formData.append("provider_fee_ccy", provider_fee_ccy);
         formData.append("username", this.$store.getters["username"]);
         let result = await api.addProviderBill(formData);
-        if (result.data.body.responseMsg = true) {
-          this.$router.back();
+        if (result.data.body.responseMsg == "true") {
+          this.btn_add_provider = true;
+          setTimeout(() => this.$router.push({ path: "/ManageProviderBill" }), 1500);
         } else {
-          console.log(result.status);
+          this.error = true;
         }
       } else {
         this.steps[n].valid = true;

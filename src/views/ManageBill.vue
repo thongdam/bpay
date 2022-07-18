@@ -5,19 +5,20 @@
       <v-container>
         <v-row>
           <v-col cols="12" sm="6" md="4">
-            <v-select
-              v-model="cheking_bill.provider_code"
+            <v-autocomplete
+              v-model="checking_bill.provider_code"
               :items="providers"
               item-text="provider_long"
               item-value="provider_auto"
-              label="ເລືອກບໍລິສັດ"
-              single-line
               outlined
-            ></v-select>
+              chips
+              small-chips
+              label="ເລືອກບໍລິສັດ"
+            ></v-autocomplete>
           </v-col>
           <v-col cols="12" sm="6" md="4">
             <v-select
-              v-model="cheking_bill.status_auto"
+              v-model="checking_bill.status_auto"
               :items="chekc_status"
               item-text="keys"
               item-value="values"
@@ -28,14 +29,21 @@
           </v-col>
           <v-col cols="12" sm="6" md="3">
             <v-text-field
-              v-model="cheking_bill.agreement_no"
+              v-model="checking_bill.agreement_no"
               label="ເລກສັນຍາ"
               outlined
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="6" md="1">
-            <v-btn @click="search_bill()" class="mx-1" fab dark small color="success">
-              <v-icon dark size="25"> mdi-search-web </v-icon>
+            <v-btn
+              @click="search_bill()"
+              class="mx-1"
+              fab
+              dark
+              small
+              color="success"
+            >
+              <v-icon dark size="25"> mdi-magnify </v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -43,17 +51,14 @@
       <v-data-table :search="search" :headers="headers" :items="bill">
         <!-- table top section -->
         <template v-slot:top>
-          <v-row>
-            <v-col cols="12" sm="6" md="6">
+          <v-row justify="end" align="end">
+          <v-col cols="12" sm="4" md="4" xs="12">
               <v-toolbar flat color="white">
-                <v-toolbar-title>ກວດສອບລາຍການ(Bill)</v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-text-field
                   v-model="search"
-                  append-icon="search"
+                  append-icon="mdi-magnify"
                   label="ຄົ້ນຫາ"
-                  single-line
-                  hide-details
                 ></v-text-field>
               </v-toolbar>
             </v-col>
@@ -67,7 +72,9 @@
             <td>{{ item.customer_name }}</td>
             <td>{{ item.phone_number }}</td>
             <td>{{ item.total_amt }}</td>
-            <td>{{ item.provider_ccy }}</td>
+            <td>
+              <v-chip small :color="item.provider_ccy =='LAK' ? 'success' :(item.provider_ccy =='USD' ? 'error' : item.provider_ccy =='THB'? 'info':'')" outlined>{{ item.provider_ccy }}</v-chip>
+            </td>
             <td>
               <v-chip
                 :color="
@@ -95,6 +102,9 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-snackbar v-model="error" :timeout="timeout_error" color="error">
+      {{ text_error }}
+    </v-snackbar>
   </v-container>
 </template>
 <script>
@@ -107,11 +117,14 @@ export default {
       modal: false,
       menu2: false,
       search: "",
+      text_error:"ບໍ່ມີຂໍ້ມູນ",
+      timeout_error: 5000,
+      error: false,
       selectedProductId: "",
       confirmDeleteDlg: false,
       bill: [],
       providers: [],
-      cheking_bill: {
+      checking_bill: {
         provider_code: "",
         status_auto: "",
         agreement_no: "",
@@ -151,15 +164,19 @@ export default {
     async search_bill() {
       let formData = new FormData();
       const { provider_code, status_auto, agreement_no, from_date, to_date } =
-        this.cheking_bill;
+        this.checking_bill;
       formData.append("provider_code", provider_code);
       formData.append("status_auto", status_auto);
       formData.append("agreement_no", agreement_no);
       formData.append("from_date", from_date);
       formData.append("to_date", to_date);
-      formData.append("username",this.$store.getters["username"])
+      formData.append("username", this.$store.getters["username"]);
       let result = await api.getBill(formData);
-      this.bill = result.data.body;
+        if (result.data.body.length > 0) {
+          this.bill = result.data.body;
+        } else {
+          this.error = true;
+        }
     },
   },
 };

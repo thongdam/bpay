@@ -11,7 +11,7 @@
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-text-field
                 v-model="search"
-                append-icon="search"
+                append-icon="mdi-magnify"
                 label="ຄົ້ນຫາ"
                 single-line
                 hide-details
@@ -85,7 +85,7 @@
                 color="warning"
                 fab
                 dark
-                small
+                x-small
               >
                 <v-icon dark> mdi-pencil</v-icon>
               </v-btn>
@@ -140,7 +140,7 @@ export default {
         },
         { text: "ຊື່ຫຍໍ້ແລະຊື່ເຕັມ", value: "provider_code" },
         { text: "ກຸ່ມບໍລິສັດ", value: "provider_group" },
-        { text: "ເລວາເປິດໃຫ້ຊຳລະ", value: "pay_time" },
+        { text: "ເວລາເປິດໃຫ້ຊຳລະ", value: "pay_time" },
         { text: "ສະຖານະ", value: "pay_condition" },
         { text: "ຮູບແບບການເຊື່ອມຕໍ່", value: "connection_mode" },
         { text: "ຮູບແບບການເກັບຄ່າທຳນຽມ", value: "charge_company" },

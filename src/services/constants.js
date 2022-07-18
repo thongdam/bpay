@@ -7,6 +7,8 @@ export const UPLOAD_PHOTO_FAIL_MESSAGE =
   "An error has occurred. The photo was unable to upload.";
 export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK";
 //production
+//export const apiUrl = "http://10.0.2.184:8080/BpayAdmin/Bpay";
+//develop
 //export const apiUrl = "http://10.0.4.44:8888/BpayAdmin/Bpay";
 //localhost
 export const apiUrl = "http://localhost:5996/Bpay";
@@ -35,7 +37,10 @@ export const server = {
   ProviderAll_URL: `providersAll`,
   GetProviderAutoById_URL: `getProviderAutoById`,
   GetAutoAccount_URL: `getAutoAccount`,
-  GetAllProviderNpp_RUL: `GetAllProviderNpp`,
   Search_AutoDebits_RUL: `Search_AutoDebits`,
   UpdateStatus_URL: `UpdateStatus`,
+  WaterCheckList_URL: `WaterCheckList`,
+  WaterCheckLists_URL: `WaterCheckLists`,
+  AddPerMission_URL: `AddPermission`,
+  GetDashboard_URL: `GetDashboard`
 };

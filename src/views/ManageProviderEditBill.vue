@@ -199,7 +199,7 @@
                   label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                   placeholder="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                   outlined
-                  @change="CheckAccounts()"
+                  @change="CheckAccounts(item, index)"
                 ></v-select>
               </v-col>
               <v-col cols="12" sm="2" md="2">
@@ -648,6 +648,12 @@
         </v-data-table>
       </v-card>
     </v-dialog>
+    <v-snackbar v-model="btn_edit_provider" :timeout="timeout" color="success">
+      {{ text }}
+    </v-snackbar>
+    <v-snackbar v-model="error" :timeout="timeout_error" color="error">
+      {{ text_error }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -657,6 +663,12 @@ export default {
   name: "ManageProviderCreateBill",
   data() {
     return {
+      btn_edit_provider: false,
+      text: "ບັນທືກຂໍ້ມູນສຳເລັດ.",
+      timeout: 2000,
+      error: false,
+      text_error: "ມີຂໍ້ຜິດພາດໃນການບັນທຶກຂໍ້ມູນ.",
+      timeout_error: 2000,
       errorAccount: false,
       dialog: false,
       viewProviders: [],
@@ -970,26 +982,17 @@ export default {
         this.accountFee.provider_fee_name = "";
       }
     },
-    async CheckAccounts() {
-      let txnAcc;
-      let txnCcy;
+    async CheckAccounts(item, index) {
       let formData = new FormData();
-      this.updateAccounts.forEach((value, index) => {
-        txnAcc = value.provider_acc;
-        txnCcy = value.provider_ccy;
-      });
-      formData.append("txnAcc", txnAcc);
-      formData.append("txnCcy", txnCcy);
+      formData.append("txnAcc", item.provider_acc);
+      formData.append("txnCcy", item.provider_ccy);
       let result = await api.getAccounts(formData);
       if (result.data.body.respCode == "00") {
-        this.updateAccounts.forEach((value, index) => {
-          value.provider_acc_name = result.data.body.accountName;
-        });
+          this.updateAccounts[index].provider_acc_name =
+            result.data.body.accountName;
       } else {
         this.errorAccount = true;
-        this.updateAccounts.forEach((value, index) => {
-          value.provider_acc_name = "";
-        });
+        this.updateAccounts[index].provider_acc_name = "";
       }
     },
     async loadProductType() {
@@ -1110,12 +1113,15 @@ export default {
         formData.append("provider_fee_name", this.accountFee.provider_fee_name);
         formData.append("provider_fee_ccy", this.accountFee.provider_fee_ccy);
         formData.append("username", this.$store.getters["username"]);
-        console.log(this.create_provider);
         let result = await api.updateProviderBill(formData);
-        if ((result.data.body.responseMsg = true)) {
-          this.$router.back();
+        if (result.data.body.responseMsg == "true") {
+          this.btn_edit_provider = true;
+          setTimeout(
+            () => this.$router.push({ path: "/ManageProviderBill" }),
+            1500
+          );
         } else {
-          console.log(result.status);
+          this.error = true;
         }
       } else {
         this.steps[n].valid = true;

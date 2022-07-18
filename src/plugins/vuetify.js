@@ -16,7 +16,8 @@ export default new Vuetify({
         success: "#4CAF50",
         warning: "#FFC107",
         danger:"#c0392b",
-        green: "#00a65a"
+        green: "#00a65a",
+        yellow: "#FF9F29"
       },
     },
   },

@@ -11,7 +11,7 @@
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-text-field
                 v-model="search"
-                append-icon="search"
+                append-icon="mdi-magnify"
                 label="ຄົ້ນຫາ"
                 single-line
                 hide-details
@@ -33,6 +33,7 @@
                 class="ma-2"
                 color="error"
                 outlined
+                small
                 >{{ item.fee_company }}</v-chip
               >
             </td>
@@ -41,11 +42,11 @@
                 class="mx-2"
                 fab
                 dark
-                small
+                x-small
                 color="primary"
                 @click="viewFeeDlgs(item)"
               >
-                <v-icon dark>mdi-eye-circle</v-icon>
+                <v-icon dark>mdi-eye</v-icon>
               </v-btn>
             </td>
           </tr>
@@ -81,7 +82,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="error" @click="confirmAddFeeDlg = false" fab small>
-              <v-icon> mdi-close-circle </v-icon>
+              <v-icon> mdi-close </v-icon>
             </v-btn>
             <v-btn color="success" @click="confirmAddFeeDlg = false" fab small>
               <v-icon> mdi-content-save-check </v-icon>
@@ -140,7 +141,7 @@
                   small
                   color="error"
                   @click="dialog.value = false"
-                  ><v-icon>mdi-close-circle</v-icon></v-btn
+                  ><v-icon>mdi-close</v-icon></v-btn
                 >
               </v-card-actions>
             </v-card>

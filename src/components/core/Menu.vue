@@ -23,18 +23,18 @@
       <v-list-item-group v-model="selectedMenu" mandatory color="primary">
         <v-list-item
           class="white--text"
-          v-for="([icon, text, route], i) in menus"
-          :key="i"
+          v-for="([icon, text, route], i) in menus" :key="i"
           link
           @click="onClickMenu(route)"
         >
+
           <v-list-item-icon>
             <v-icon>{{ icon }}</v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
             <v-list-item-title>{{ text }}</v-list-item-title>
           </v-list-item-content>
+
         </v-list-item>
       </v-list-item-group>
     </v-list>
@@ -55,6 +55,7 @@ export default {
   },
   data() {
     return {
+      check_permission: true,
       selectedMenu: 0,
       drawer: true,
           careers: [
@@ -75,10 +76,9 @@ export default {
           "ກວດສອບລາຍການ(Bill)",
           "/ManageBill",
         ],
-        ["mdi-key", "ຈັດການສິດດນຳໃຊ້ລະບົບ", "/ManagePermission"],
         ["mdi-cash-multiple", "ຈັດການຂັ້ນບັນໃດຄ່າທຳນຽມ", "/ManageFee"],
         ["mdi-currency-usd", "ຈັດການຄ່າທຳນຽມ", "/ManageFeeTransaction"],
-        ["mdi-alert-circle", "ຈັດການປິດລະບົບສະຫຼຸບປີ", "/about"],
+        ["mdi-alert-circle", "ຈັດການປິດລະບົບສະຫຼຸບປີ", "/ClosEndOfYear"],
       ],
       mini: true,
     };

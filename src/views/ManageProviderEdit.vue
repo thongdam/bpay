@@ -150,7 +150,14 @@
             </v-col>
           </v-row>
           <div v-if="n == 1">
-            <v-btn @click="addRow" small text color="danger" class="ml-2 mt-5">
+            <v-btn
+              :disabled="Object.keys(updateAutoAccounts).length === 3"
+              @click="addRow"
+              small
+              text
+              color="danger"
+              class="ml-2 mt-5"
+            >
               <v-icon>mdi-briefcase-plus</v-icon>
               <span>ເພິ່ມບັນຊີ</span>
             </v-btn>
@@ -180,7 +187,7 @@
                   label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                   placeholder="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                   outlined
-                  @change="getAccounts()"
+                  @change="getAccounts(item,index)"
                 ></v-select>
               </v-col>
               <v-col cols="12" sm="3" md="3" xs="12">
@@ -233,7 +240,7 @@
                   :disabled="Object.keys(updateAutoAccounts).length === 1"
                   @click="deleteRow(index)"
                 >
-                  <v-icon>mdi-close</v-icon>
+                  <v-icon>mdi-close-circle</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -471,6 +478,7 @@
                                 : [onmonth_RUL]
                             "
                             :disabled="create_provider.threemonth == true"
+                            @change="OnMOnth()"
                           ></v-switch>
                         </v-sheet>
                       </v-col>
@@ -567,11 +575,7 @@
               </v-card>
             </v-col>
             <v-col cols="12" sm="6" md="6" xs="12">
-              <v-card
-                class="mx-auto"
-                outlined
-                :disabled="create_provider.no_change_amount == true"
-              >
+              <v-card class="mx-auto" outlined>
                 <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-title class="text-h6 mb-1">
@@ -585,7 +589,10 @@
                             inset
                             color="success"
                             label="ບໍ່ຕັດຄືນ"
-                            :disabled="create_provider.onmonths == true"
+                            :disabled="
+                              create_provider.onmonths == true ||
+                              create_provider.endofmonth == true
+                            "
                           ></v-switch>
                         </v-sheet>
                       </v-col>
@@ -655,7 +662,11 @@
               </v-card>
             </v-col>
             <v-col cols="12" sm="6" md="6" xs="12">
-              <v-card class="mx-auto" outlined>
+              <v-card
+                class="mx-auto"
+                outlined
+                :disabled="create_provider.charge_fee_customer == true"
+              >
                 <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-title class="text-h6 mb-1">
@@ -671,7 +682,8 @@
                             label="ຕັດຈາກບັນຊີອື່ນ"
                             :disabled="create_provider.provider_acc_fix == true"
                             :rules="
-                              create_provider.provider_acc_fix == true
+                              create_provider.provider_acc_fix == true ||
+                              create_provider.charge_fee_customer == true
                                 ? []
                                 : [provider_acc_fix_RUL]
                             "
@@ -689,7 +701,8 @@
                               create_provider.provider_acc_no_fix == true
                             "
                             :rules="
-                              create_provider.provider_acc_no_fix == true
+                              create_provider.provider_acc_no_fix == true ||
+                              create_provider.charge_fee_customer == true
                                 ? []
                                 : [provider_acc_fix_RUL]
                             "
@@ -824,15 +837,26 @@
         </v-data-table>
       </v-card>
     </v-dialog>
+    <v-snackbar v-model="btn_edit_provider" :timeout="timeout" color="success">
+      {{ text }}
+    </v-snackbar>
+    <v-snackbar v-model="error" :timeout="timeout_error" color="error">
+      {{ text_error }}
+    </v-snackbar>
   </v-container>
 </template>
-
 <script>
 import api from "@/services/api";
 export default {
   name: "ManageProviderCreate",
   data() {
     return {
+      btn_edit_provider: false,
+      text: "ແ້ກໄຂຂໍ້ມູນສຳເລັດ.",
+      timeout: 2000,
+      error: false,
+      text_error: "ເກິດຂໍ້ຜິດພາດ.",
+      timeout_error: 2000,
       search: "",
       viewFee: [],
       Fee_dialog: false,
@@ -1073,13 +1097,16 @@ export default {
     }
     if (
       this.create_provider.charge_day == "DAILY" &&
-      this.create_provider.charge_fee_provider == "Y"
+      this.create_provider.charge_fee_provider == true
     ) {
       this.create_provider.charge_day = true;
     } else {
       this.create_provider.charge_day = false;
     }
-    if (this.create_provider.charge_transaction == "DAILY") {
+    if (
+      this.create_provider.charge_transaction == "DAILY" &&
+      this.create_provider.charge_fee_customer == true
+    ) {
       this.create_provider.charge_transaction = true;
     } else {
       this.create_provider.charge_transaction = false;
@@ -1146,9 +1173,9 @@ export default {
       this.create_provider.change_amount = false;
     }
     if (this.create_provider.provider_acc_fix == "N") {
-      this.create_provider.provider_acc_fix = true;
-    } else {
       this.create_provider.provider_acc_fix = false;
+    } else {
+      this.create_provider.provider_acc_fix = true;
     }
     if (this.create_provider.provider_acc_no_fix == "Y") {
       this.create_provider.provider_acc_no_fix = true;
@@ -1160,8 +1187,16 @@ export default {
     CheckOnday() {
       if (this.create_provider.onday == true) {
         this.create_provider.notcutback = true;
+        this.create_provider.endofmonth = false;
       } else {
         this.create_provider.notcutback = false;
+        this.create_provider.endofmonth = false;
+      }
+    },
+    OnMOnth() {
+      if ((this.create_provider.onmonth = true)) {
+        this.create_provider.endofmonth = true;
+      } else {
         this.create_provider.endofmonth = false;
       }
     },
@@ -1180,7 +1215,7 @@ export default {
         this.create_provider.onday = false;
         this.create_provider.onmonths = false;
         this.create_provider.notcutback = false;
-        this.create_provider.endofmonth = false;
+        this.create_provider.endofmonth = true;
       }
     },
     CheckNoChangeMonth() {
@@ -1202,6 +1237,7 @@ export default {
         this.create_provider.charge_day = false;
         this.create_provider.charge_week = false;
         this.create_provider.charge_month = false;
+        this.create_provider.provider_acc_fix = false;
       }
     },
     formatNumber(num) {
@@ -1215,26 +1251,16 @@ export default {
       this.viewFee = results.data.body;
     },
     //get account for check
-    async getAccounts() {
-      let txnAcc;
-      let txnCcy;
+    async getAccounts(item, index) {
       let formData = new FormData();
-      this.create_provider.account.forEach((value, index) => {
-        txnAcc = value.provider_acc;
-        txnCcy = value.provider_ccy;
-      });
-      formData.append("txnAcc", txnAcc);
-      formData.append("txnCcy", txnCcy);
+        formData.append("txnAcc", item.provider_acc);
+        formData.append("txnCcy", item.provider_ccy);
       let result = await api.getAccounts(formData);
       if (result.data.body.respCode == "00") {
-        this.create_provider.account.forEach((value, index) => {
-          value.provider_acc_name = result.data.body.accountName;
-        });
+        this.updateAutoAccounts[index].provider_acc_name=result.data.body.accountName;
       } else {
         this.errorAccount = true;
-        this.create_provider.account.forEach((value, index) => {
-          value.provider_acc_name = "";
-        });
+        this.updateAutoAccounts[index].provider_acc_name="";
       }
     },
     //CheckAccounts fee
@@ -1292,10 +1318,10 @@ export default {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
     deleteRow(index) {
-      this.create_provider.account.splice([index], 1);
+      this.updateAutoAccounts.splice([index], 1);
     },
     addRow() {
-      this.create_provider.account.push({
+      this.updateAutoAccounts.push({
         provider_acc: "",
         provider_acc_name: "",
         provider_ccy: "",
@@ -1417,10 +1443,11 @@ export default {
         formData.append("username", this.$store.getters["username"]);
         formData.append("provider_acc", JSON.stringify(arr));
         let result = await api.UpdateProvider(formData);
-        if ((result.data.body.responseMsg = true)) {
-          this.$router.back();
+        if (result.data.body.responseMsg == "true") {
+          this.btn_edit_provider = true;
+          setTimeout(() => this.$router.push("/ManageProvider"), 2000);
         } else {
-          console.log(result.status);
+          this.error = true;
         }
       } else {
         this.steps[n].valid = true;

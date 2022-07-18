@@ -3,7 +3,15 @@
     <v-row dense>
       <v-col lg="3" md="6" sm="12" cols="12">
         <Dashboard
-          title="ບໍລິສັດນຳໃຊ້ທັງໝົດ"
+          title="ບໍລິສັດນຳໃຊ້ Auto debit"
+          subtitle="1,800"
+          avatar_bg="#F77E21"
+          avatar_ic="mdi-domain"
+        />
+      </v-col>
+      <v-col lg="3" md="6" sm="12" cols="12">
+        <Dashboard
+          title="ບໍລິສັດນຳໃຊ້ Bill payment"
           subtitle="1,800"
           avatar_bg="#00a65a"
           avatar_ic="mdi-domain"
@@ -30,7 +38,7 @@
 
       <v-col lg="3" md="6" sm="12" cols="12">
         <Dashboard
-          title="ຕັດເງິນນຳເລັດໃນມື້"
+          title="ຕັດເງິນສຳເລັດໃນມື້"
           avatar_ic="mdi-check-underline-circle-outline"
           avatar_bg="#00c0ef"
           subtitle="101"
@@ -46,7 +54,6 @@
         />
       </v-col>
     </v-row>
-    
   </v-container>
 </template>
 

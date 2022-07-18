@@ -160,7 +160,7 @@
             </v-col>
           </v-row>
           <div v-if="n == 1">
-            <v-btn @click="addRow" small text color="danger" class="ml-2 mt-5">
+            <v-btn @click="addRow" small text color="danger" class="ml-2 mt-5" :disabled="Object.keys(create_provider.account).length === 3">
               <v-icon>mdi-briefcase-plus</v-icon>
               <span>ເພິ່ມບັນຊີ</span>
             </v-btn>
@@ -190,7 +190,7 @@
                   label="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                   placeholder="ເລືອກສະກຸນເງິນທີ່ຮັບຊຳລະ"
                   outlined
-                  @change="getAccounts()"
+                  @change="getAccounts(item, index)"
                 ></v-select>
               </v-col>
               <v-col cols="12" sm="3" md="3" xs="12">
@@ -241,10 +241,10 @@
                   icon
                   small
                   color="danger"
-                  :disabled="Object.keys(updateAutoAccounts).length === 1"
+                  :disabled="Object.keys(create_provider.account).length === 1"
                   @click="deleteRow(index)"
                 >
-                  <v-icon>mdi-close</v-icon>
+                  <v-icon>mdi-close-circle</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -482,6 +482,7 @@
                                 : [onmonth_RUL]
                             "
                             :disabled="create_provider.threemonth == true"
+                            @change="OnMOnth()"
                           ></v-switch>
                         </v-sheet>
                       </v-col>
@@ -578,11 +579,7 @@
               </v-card>
             </v-col>
             <v-col cols="12" sm="6" md="6" xs="12">
-              <v-card
-                class="mx-auto"
-                outlined
-                :disabled="create_provider.no_change_amount == true"
-              >
+              <v-card class="mx-auto" outlined>
                 <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-title class="text-h6 mb-1">
@@ -639,8 +636,14 @@
                       <v-col cols="12" sm="12" md="12" xs="12">
                         <v-text-field
                           v-model="create_provider.day_amount"
-                          :rules="create_provider.cutback == true ? [day_amount_Rul]: []"
-                          :disabled="create_provider.notcutback == true || create_provider.cutback == false
+                          :rules="
+                            create_provider.cutback == true
+                              ? [day_amount_Rul]
+                              : []
+                          "
+                          :disabled="
+                            create_provider.notcutback == true ||
+                            create_provider.cutback == false
                           "
                           label="ຈຳນວນວັນວົນລູບ"
                           placeholder="ຈຳນວນວັນວົນລູບ"
@@ -653,7 +656,11 @@
               </v-card>
             </v-col>
             <v-col cols="12" sm="6" md="6" xs="12">
-              <v-card class="mx-auto" outlined>
+              <v-card
+                class="mx-auto"
+                outlined
+                :disabled="create_provider.charge_fee_customer == true"
+              >
                 <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-title class="text-h6 mb-1">
@@ -669,7 +676,7 @@
                             label="ຕັດຈາກບັນຊີອື່ນ"
                             :disabled="create_provider.provider_acc_fix == true"
                             :rules="
-                              create_provider.provider_acc_fix == true
+                              create_provider.provider_acc_fix == true||create_provider.charge_fee_customer == true
                                 ? []
                                 : [provider_acc_fix_RUL]
                             "
@@ -687,7 +694,8 @@
                               create_provider.provider_acc_no_fix == true
                             "
                             :rules="
-                              create_provider.provider_acc_no_fix == true
+                              create_provider.provider_acc_no_fix == true ||
+                              create_provider.charge_fee_customer == true
                                 ? []
                                 : [provider_acc_fix_RUL]
                             "
@@ -822,6 +830,12 @@
         </v-data-table>
       </v-card>
     </v-dialog>
+    <v-snackbar v-model="btn_add_provider" :timeout="timeout" color="success">
+      {{ text }}
+    </v-snackbar>
+    <v-snackbar v-model="error" :timeout="timeout_error" color="error">
+      {{ text_error }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -831,6 +845,12 @@ export default {
   name: "ManageProviderCreate",
   data() {
     return {
+      btn_add_provider: false,
+      text: "ບັນທືກຂໍ້ມູນສຳເລັດ.",
+      timeout: 2000,
+      error: false,
+      text_error: "ມີຂໍ້ຜິດພາດໃນການບັນທຶກຂໍ້ມູນ.",
+      timeout_error: 2000,
       search: "",
       viewFee: [],
       Fee_dialog: false,
@@ -1051,6 +1071,13 @@ export default {
         this.create_provider.endofmonth = false;
       }
     },
+    OnMOnth() {
+      if ((this.create_provider.onmonth = true)) {
+        this.create_provider.endofmonth = true;
+      } else {
+        this.create_provider.endofmonth = false;
+      }
+    },
     CheckOMonth() {
       if (this.create_provider.onmonths == true) {
         this.create_provider.notcutback = false;
@@ -1100,26 +1127,16 @@ export default {
       this.viewFee = results.data.body;
     },
     //get account for check
-    async getAccounts() {
-      let txnAcc;
-      let txnCcy;
+    async getAccounts(item, index) {
       let formData = new FormData();
-      this.create_provider.account.forEach((value, index) => {
-        txnAcc = value.provider_acc;
-        txnCcy = value.provider_ccy;
-      });
-      formData.append("txnAcc", txnAcc);
-      formData.append("txnCcy", txnCcy);
+      formData.append("txnAcc", item.provider_acc);
+      formData.append("txnCcy", item.provider_ccy);
       let result = await api.getAccounts(formData);
       if (result.data.body.respCode == "00") {
-        this.create_provider.account.forEach((value, index) => {
-          value.provider_acc_name = result.data.body.accountName;
-        });
+        this.create_provider.account[index].provider_acc_name = result.data.body.accountName;
       } else {
         this.errorAccount = true;
-        this.create_provider.account.forEach((value, index) => {
-          value.provider_acc_name = "";
-        });
+        this.create_provider.account[index].provider_acc_name = "";
       }
     },
     //CheckAccounts fee
@@ -1293,10 +1310,11 @@ export default {
         formData.append("username", this.$store.getters["username"]);
         formData.append("provider_acc", JSON.stringify(account));
         let result = await api.addProvider(formData);
-        if ((result.data.body.responseMsg = true)) {
-          this.$router.back();
+        if (result.data.body.responseMsg == "true") {
+          this.btn_add_provider = true;
+          setTimeout(() => this.$router.push("/ManageProviderCrate"), 2000);
         } else {
-          console.log(result.status);
+          this.error = true;
         }
       } else {
         this.steps[n].valid = true;

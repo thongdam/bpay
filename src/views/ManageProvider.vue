@@ -16,7 +16,7 @@
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-text-field
                 v-model="search"
-                append-icon="search"
+                append-icon="mdi-magnify"
                 label="ຄົ້ນຫາ"
                 single-line
                 hide-details
@@ -52,33 +52,12 @@
                 x-small
                   v-if="item.provider_auto_status != null"
                   class="white--text"
-                  :color="item.provider_auto_status == 'A' ? 'success' : 'danger'"
+                  :color="item.provider_auto_status == 'A' ? 'success':'error'"
                   outlined
                   dense
-                  >{{ item.provider_auto_status == "A" ? "ນຳໃຊ້ AUTO" : "ປິດນຳໃຊ້ AUTO" }}</v-chip
-                >
-                <v-chip
-                x-small
-                  v-if="item.provider_bill_status != null"
-                  class="white--text"
-                  :color="item.provider_bill_status == 'A' ? 'success' : 'danger'"
-                  outlined
-                  dense
-                  >{{ item.provider_bill_status == "A" ? "ນຳໃຊ້ BILL" : "ປິດນຳໃຊ້ BILL" }}</v-chip
+                  >{{ item.provider_auto_status == "A" ? "ນຳໃຊ້" : 'ປິດ' }}</v-chip
                 >
               </td>
-              <!-- <td>
-                <v-chip
-                  small
-                  class="ml-0 mr-2 white--text"
-                  :color="item.provider_status == 'C' && item.provider_auto_status == 'A'? 'success': (item.provider_status == 'C' && item.provider_bill_status == 'A' ?'success':item.provider_status == 'A' && item.provider_bill_status == 'A' ?'success':item.provider_status == 'A' && item.provider_auto_status == 'A' ?'success':'danger')"
-                  outlined
-                >
-                  {{
-                    item.provider_status == 'C' && item.provider_auto_status == 'A'? 'ເປິດນຳໃຊ້': (item.provider_status == 'C' && item.provider_bill_status == 'A' ?'ເປິດນຳໃຊ້':item.provider_status == 'A' && item.provider_bill_status == 'A' ?'ເປິດນຳໃຊ້':item.provider_status == 'A' && item.provider_auto_status == 'A' ?'ເປິດນຳໃຊ້':'ປິດນຳໃຊ້')
-                  }}
-                </v-chip>
-              </td> -->
               <td>
                 <v-chip small dense class="white--text" color="primary" outlined>
                   {{
@@ -93,7 +72,7 @@
                 </v-chip>
               </td>
               <td>
-                <v-chip small dense class="white--text" color="info" outlined>
+                <v-chip small dense class="white--text" :color="item.fee_company == 'Y' ? 'success':'primary'" outlined>
                   <span
                     v-html="
                       item.fee_company == 'Y' ? 'ຈາກບໍລິສັດ' : 'ຈາກລູກຄ້າ'
@@ -104,7 +83,7 @@
               <td>{{ item.create_date }}</td>
               <td>
                 <v-chip x-small class="ma-2" color="primary" dense outlined>{{
-                  item.contract_stopdate
+                  item.contract_startdate
                 }}</v-chip>
                 <v-chip x-small class="ma-2" color="error" dense outlined>{{
                   item.contract_stopdate
@@ -117,7 +96,7 @@
                   color="warning"
                   fab
                   dark
-                  small
+                  x-small
                 >
                   <v-icon dark> mdi-pencil</v-icon>
                 </v-btn>
@@ -127,7 +106,7 @@
                   @click="deleteItem(item)"
                   color="danger"
                   fab
-                  small
+                  x-small
                   dark
                 >
                   <v-icon dark> mdi-delete-empty</v-icon>
@@ -183,8 +162,7 @@ export default {
         { text: "ຊື່ຫຍໍ້ແລະຊື່ເຕັມ", value: "provider_code" },
         { text: "ເບີໂທ", value: "phone_no" },
         { text: "ສະຖານະ", value: "provider_auto" },
-        // { text: "ສະຖານະ", value: "provider_status" },
-        { text: "ເງື່ອນໄຂການຕັດຄ່າທຳນຽມ", value: "cut_condition" },
+        { text: "ຮູບແບບການຕັດເງິນ", value: "cut_condition" },
         { text: "ຮູບແບບການເກັບຄ່າທຳນຽມ", value: "fee" },
         { text: "ເປິດນຳໃຊ້", value: "create_date" },
         { text: "ມື້ເລິ່ມຕົ້ນແລະສິ້ນສຸດສັນຍາ", value: "contract" },
