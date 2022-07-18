@@ -4,7 +4,7 @@
     <v-card>
       <v-card-title
         ><h1 class="font-weight-bold text-h3">
-          <v-icon>mdi-desktop-classic</v-icon> ປິດລະບົບ
+          <v-icon>mdi-desktop-classic</v-icon> ປິດລະບົບ ບິວເພເມັ້ນ
         </h1></v-card-title
       >
       <v-container>
